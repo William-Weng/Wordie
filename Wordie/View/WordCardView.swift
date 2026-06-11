@@ -1,0 +1,90 @@
+//
+//  WordCardView.swift
+//  Wordie
+//
+//  Created by William.Weng on 2026/6/10.
+//
+
+import SwiftUI
+
+/// Word 卡片視圖 => 根據 `isFlipped` 決定顯示正面（英文 + 音標）或背面（中文翻譯）
+struct WordCardView: View {
+    
+    let word: Word          // 當前單字資料
+    let isFlipped: Bool     // 是否顯示翻面狀態
+    
+    var body: some View {
+        background
+            .overlay(face)                                                          // 疊加正面或背面內容
+            .contentShape(RoundedRectangle(cornerRadius: 28, style: .continuous))   // 讓整張卡片都可被點擊，不只文字區域
+    }
+}
+
+// MARK: - 私用屬性
+private extension WordCardView {
+    
+    /// 卡片背景 => 使用 RoundedRectangle 建立卡片外觀與陰影
+    var background: some View {
+        
+        RoundedRectangle(cornerRadius: 28, style: .continuous)
+            .fill(.white)
+            .shadow(color: .orange.opacity(isFlipped ? 0.16 : 0.12), radius: isFlipped ? 16 : 10, x: 0, y: 8)
+    }
+    
+    /// 卡片內容 => 正面顯示英文與音標，背面顯示中文翻譯
+    var face: some View {
+        
+        Group {
+            if !isFlipped {
+                frontView
+                    .padding(.horizontal, 20)
+            } else {
+                backView
+                    .padding(.horizontal, 20)
+            }
+        }
+    }
+    
+    /// 正面：英文 + 音標
+    var frontView: some View {
+        
+        VStack(spacing: 18) {
+            
+            Spacer(minLength: 0)
+            
+            Text(word.english)
+                .font(.system(size: 48, weight: .bold, design: .rounded))
+                .foregroundStyle(.black)
+                .multilineTextAlignment(.center)
+
+            Text(word.phonetic)
+                .font(.system(size: 28, weight: .medium, design: .monospaced))
+                .foregroundStyle(.orange)
+                .multilineTextAlignment(.center)
+
+            Spacer(minLength: 0)
+        }
+    }
+    
+    /// 背面：中文翻譯
+    var backView: some View {
+        
+        VStack(spacing: 18) {
+            
+            Spacer(minLength: 0)
+            
+            Text("中文翻譯")
+                .font(.system(size: 18, weight: .semibold, design: .rounded))
+                .foregroundStyle(.orange.opacity(0.9))
+
+            Text(word.chinese)
+                .font(.system(size: 32, weight: .bold, design: .rounded))
+                .foregroundStyle(.black)
+                .multilineTextAlignment(.center)
+                .lineLimit(3)
+                .minimumScaleFactor(0.75)
+
+            Spacer(minLength: 0)
+        }
+    }
+}
