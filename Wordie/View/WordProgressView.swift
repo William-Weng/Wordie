@@ -52,6 +52,7 @@ private extension WordProgressView {
     func progressView(_ progress: Double) -> some View {
         
         GeometryReader { geometry in
+            
             ZStack(alignment: .leading) {
                 Capsule()
                     .fill(Color.gray.opacity(0.18))

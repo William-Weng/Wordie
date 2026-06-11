@@ -10,12 +10,13 @@ import SwiftUI
 /// Wordie 主畫面 => 負責顯示單字卡片、翻牌、左右切換與發音按鈕
 struct WordieContentView: View {
     
+    let words: [Word]                               // 單字資料來源
+    
     @State private var currentIndex = 0             // 目前顯示的單字索引
     @State private var dragOffset: CGFloat = 0      // 拖曳偏移量 => 用來做滑動切頁動畫
     @State private var isAnimatingPage = false      // 是否正在執行翻頁動畫
     @State private var isFlipped = false            // 目前卡片是否翻面
-    
-    private let words: [Word] = Word.samples        // 單字資料來源
+    @State private var isPresentingAddWord = false
     
     var body: some View {
         
@@ -28,21 +29,30 @@ struct WordieContentView: View {
                 
                 WordieMascotView(image: Image(systemName: "bird.fill"))
                 
-                cardStack
-                    .frame(height: 320)
-                    .padding(.horizontal, 28)
+                if words.isEmpty {
+                    emptyStateView
+                        .frame(height: 320)
+                        .padding(.horizontal, 28)
+
+                } else {
+                    cardStack
+                        .frame(height: 320)
+                        .padding(.horizontal, 28)
+                }
                 
                 WordProgressView(currentIndex: currentIndex, totalCount: words.count)
                 
                 functionKeyView
                 
                 WordPlayButton(image: Image(systemName: "play.fill")) {
+                    guard words.indices.contains(currentIndex) else { return }
                     playWord(words[currentIndex].english)
                 }
                 
                 Spacer(minLength: 0)
             }
             .padding(.bottom, 18)
+                        
         }
     }
 }
@@ -97,6 +107,29 @@ private extension WordieContentView {
             .font(.system(size: 40, weight: .bold, design: .rounded))
             .foregroundStyle(.orange)
             .padding(.top, 24)
+    }
+    
+    /// 空狀態內容
+    var emptyStateView: some View {
+        
+        VStack(spacing: 12) {
+            Image(systemName: "book.closed")
+                .font(.system(size: 40))
+                .foregroundStyle(.secondary)
+
+            Text("目前沒有單字")
+                .font(.headline)
+
+            Text("先新增一些 Wordie 單字，再開始學習吧。")
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+                .multilineTextAlignment(.center)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(
+            RoundedRectangle(cornerRadius: 24)
+                .fill(.white.opacity(0.12))
+        )
     }
     
     /// 三層卡片堆疊

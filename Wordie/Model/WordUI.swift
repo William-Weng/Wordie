@@ -1,23 +1,22 @@
 //
-//  Word.swift
+//  WordUI.swift
 //  Wordie
 //
-//  Created by William.Weng on 2026/6/10.
+//  Created by William.Weng on 2026/6/11.
 //
 
 import Foundation
 
-/// 單字模型 => 用來儲存一個單字的英文、音標與中文翻譯
-struct Word: Identifiable {
+/// 暫停單字模型
+struct WordUI {
     
-    let id = UUID()         // 每個 Word 都需要一個唯一識別碼 (SwiftUI 會用它來區分不同資料項目)
     let english: String     // 英文單字
     let phonetic: String    // 音標
     let chinese: String     // 中文翻譯
 }
 
 // MARK: - 公開屬性
-extension Word {
+extension WordUI {
     
     /// 預設單字資料
     /// 可以直接用 `Word.samples` 取得範例資料陣列。
@@ -31,3 +30,5 @@ extension Word {
         ]
     }
 }
+
+

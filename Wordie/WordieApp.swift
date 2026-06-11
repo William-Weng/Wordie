@@ -12,7 +12,7 @@ struct WordieApp: App {
     
     var body: some Scene {
         WindowGroup {
-            WordieContentView()
+            WordieHomeView()
         }
     }
 }
