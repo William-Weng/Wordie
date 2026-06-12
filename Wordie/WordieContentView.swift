@@ -349,20 +349,15 @@ private extension WordieContentView {
         SpeechService.shared.speak(text, language: "en-US")
     }
     
+    /// 將目前索引限制在有效範圍內
+    ///
+    /// 當單字陣列是空的時，直接把 `currentIndex` 設為 0，如果索引超出陣列範圍，則修正到最後一筆或第一筆，避免發生越界
     func clampCurrentIndex() {
         
-        guard !words.isEmpty else {
-            currentIndex = 0
-            return
-        }
+        guard !words.isEmpty else { currentIndex = 0; return }
         
-        if currentIndex >= words.count {
-            currentIndex = words.count - 1
-        }
-        
-        if currentIndex < 0 {
-            currentIndex = 0
-        }
+        if currentIndex >= words.count { currentIndex = words.count - 1 }
+        if currentIndex < 0 { currentIndex = 0 }
     }
 }
 
