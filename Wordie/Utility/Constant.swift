@@ -7,13 +7,16 @@
 
 import Foundation
 
+/// 新增 / 編輯單字時使用的 sheet 狀態
 enum WordSheet: Identifiable {
-    case add
-    case edit(Word)
+    case add            // 新增單字
+    case edit(Word)     // 編輯指定單字
 }
 
+// MARK: - 公開屬性
 extension WordSheet {
     
+    /// sheet(item:) 用的唯一 id
     var id: String {
         switch self {
         case .add: return "add"
@@ -21,6 +24,7 @@ extension WordSheet {
         }
     }
     
+    /// 畫面標題
     var title: String {
         switch self {
         case .add: return "新增單字"
@@ -28,10 +32,11 @@ extension WordSheet {
         }
     }
     
+    /// 確認按鈕使用的 SF Symbol
     var buttonIcon: String {
         switch self {
         case .add: return "plus"
-        case .edit: return "checkmark"
+        case .edit: return "arrow.triangle.2.circlepath"
         }
     }
 }

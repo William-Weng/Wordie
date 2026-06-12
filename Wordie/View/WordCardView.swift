@@ -7,7 +7,9 @@
 
 import SwiftUI
 
-/// Word 卡片視圖 => 根據 `isFlipped` 決定顯示正面（英文 + 音標）或背面（中文翻譯）
+/// Word 卡片視圖
+///
+/// 根據 `isFlipped` 決定顯示正面（英文 + 音標）或背面（中文翻譯）
 struct WordCardView: View {
     
     let word: Word          // 當前單字資料
@@ -23,7 +25,9 @@ struct WordCardView: View {
 // MARK: - 私用屬性
 private extension WordCardView {
     
-    /// 卡片背景 => 使用 RoundedRectangle 建立卡片外觀與陰影
+    /// 卡片背景
+    ///
+    /// 使用 RoundedRectangle 建立卡片外觀與陰影
     var background: some View {
         
         RoundedRectangle(cornerRadius: 28, style: .continuous)
@@ -31,7 +35,9 @@ private extension WordCardView {
             .shadow(color: .orange.opacity(isFlipped ? 0.16 : 0.12), radius: isFlipped ? 16 : 10, x: 0, y: 8)
     }
     
-    /// 卡片內容 => 正面顯示英文與音標，背面顯示中文翻譯
+    /// 卡片內容
+    ///
+    /// 正面顯示英文與音標，背面顯示中文翻譯
     var face: some View {
         
         Group {

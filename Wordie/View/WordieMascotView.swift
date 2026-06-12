@@ -7,7 +7,9 @@
 
 import SwiftUI
 
-/// Wordie 的吉祥物圖示元件 => 由外部傳入 `Image`，方便之後替換成不同的 system icon 或 asset 圖片
+/// Wordie 的吉祥物圖示元件
+///
+/// 由外部傳入 `Image`，方便之後替換成不同的 system icon 或 asset 圖片
 struct WordieMascotView: View {
     
     let image: Image                    // 外部傳入的圖示 => 可以是 `Image(systemName:)`，也可以是資產圖 `Image("xxx")`

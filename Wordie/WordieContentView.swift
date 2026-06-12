@@ -7,12 +7,15 @@
 
 import SwiftUI
 
-/// Wordie 主畫面 => 負責顯示單字卡片、翻牌、左右切換與發音按鈕
+/// Wordie 主畫面
+///
+/// 負責顯示單字卡片、翻牌、左右切換與發音按鈕
 struct WordieContentView: View {
     
     let words: [Word]                               // 單字資料來源
     
-    @State private var currentIndex = 0             // 目前顯示的單字索引
+    @Binding var currentIndex: Int                  // 目前顯示綁定的單字索引
+    
     @State private var dragOffset: CGFloat = 0      // 拖曳偏移量 => 用來做滑動切頁動畫
     @State private var isAnimatingPage = false      // 是否正在執行翻頁動畫
     @State private var isFlipped = false            // 目前卡片是否翻面

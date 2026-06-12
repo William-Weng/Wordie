@@ -8,7 +8,9 @@
 import Foundation
 import AVFoundation
 
-/// 單字發音服務 => 負責將英文單字轉成語音播放
+/// 單字發音服務
+///
+/// 負責將英文單字轉成語音播放
 final class SpeechService: NSObject, ObservableObject {
     
     static let shared = SpeechService()                 // 全域共用實例

@@ -7,7 +7,9 @@
 
 import SwiftUI
 
-/// 單字頁面的上一張 / 下一張導覽按鈕 => 圖示與動作都由外部傳入，方便重用與更換樣式
+/// 單字頁面的上一張 / 下一張導覽按鈕
+///
+/// 圖示與動作都由外部傳入，方便重用與更換樣式
 struct WordNavigationView: View {
     
     let canGoPrevious: Bool             // 是否可以切到上一張

@@ -35,4 +35,10 @@ extension WordListViewModel {
         try API.shared.update(id: word.id, english: word.english, phonetic: word.phonetic, chinese: word.chinese)
         loadWords()
     }
+    
+    func delete(_ index: Int) throws {
+        let word = words[index]
+        try API.shared.delete(id: word.id)
+        loadWords()
+    }
 }

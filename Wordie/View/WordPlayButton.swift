@@ -7,7 +7,9 @@
 
 import SwiftUI
 
-/// 播放單字發音的按鈕 => 使用橘色圓形背景與播放圖示，點擊後執行外部傳入的 action
+/// 播放單字發音的按鈕
+///
+/// 使用橘色圓形背景與播放圖示，點擊後執行外部傳入的 action
 struct WordPlayButton: View {
     
     let image: Image                                            // 外部傳入的圖示
