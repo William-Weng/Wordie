@@ -1,0 +1,14 @@
+{
+  "Font": {
+    "english": {
+      "name": "Bradley Hand",
+      "size": 48.0
+    },
+    "phonetic": {},
+    "chinese": 
+    {
+      "ttf": "jf-openhuninn-2.1.ttf",
+      "size": 32.0
+    }
+  }
+}

@@ -49,6 +49,7 @@ struct WordieHomeView: View {
                 }
         }
         .task {
+            loadFonts(url: .documentsDirectory, filename: "config.json")
             viewModel.loadWords()
         }
     }
@@ -106,6 +107,48 @@ private extension WordieHomeView {
             }
             .tint(.red)
             .disabled(viewModel.words.isEmpty)
+        }
+    }
+}
+
+// MARK: - Toolbar
+private extension WordieHomeView {
+    
+    /// 載入外部字型
+    ///
+    /// 從指定的 URL 讀取 config.json，解析字型配置並初始化全域 Font
+    ///
+    /// - Parameters:
+    ///   - url: 字型檔案所在的基礎路徑（例如：`Bundle.main.resourceURL`）
+    ///   - filename: JSON 檔案名稱（例如：`"config.json"`）
+    /// 執行流程：
+    /// 1. 拼湊 config.json 的完整路徑
+    /// 2. 讀取 JSON 檔案數據
+    /// 3. 解碼為 FontConfig 模型
+    /// 4. 解析字型配置並儲存到 FontResolver.shared
+    /// 5. 成功或失敗時打印對應訊息
+    ///
+    /// - Note: 如果解析失敗，字型會保持預設值（系統字型）
+    ///
+    /// Example:
+    /// ```swift
+    /// if let resourceURL = Bundle.main.resourceURL {
+    ///     loadFonts(url: resourceURL)
+    /// }
+    /// ```
+    func loadFonts(url: URL, filename: String) {
+        
+        let jsonURL = url.appendingPathComponent(filename)
+        print("🚗 \(jsonURL)")
+        
+        do {
+            let jsonData = try Data(contentsOf: jsonURL)
+            let config = try JSONDecoder().decode(FontConfig.self, from: jsonData)
+            
+            try FontResolver.shared.resolveFonts(from: config)
+            print("✅ 全域字型初始化成功")
+        } catch {
+            print("❌ JSON 解析失敗: \(error)")
         }
     }
 }

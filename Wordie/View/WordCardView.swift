@@ -59,12 +59,12 @@ private extension WordCardView {
             Spacer(minLength: 0)
             
             Text(word.english)
-                .font(.system(size: 48, weight: .bold, design: .rounded))
+                .font(FontResolver.shared.english)
                 .foregroundStyle(.black)
                 .multilineTextAlignment(.center)
 
             Text(word.phonetic)
-                .font(.system(size: 28, weight: .medium, design: .monospaced))
+                .font(FontResolver.shared.phonetic)
                 .foregroundStyle(.orange)
                 .multilineTextAlignment(.center)
 
@@ -82,9 +82,9 @@ private extension WordCardView {
             Text("中文翻譯")
                 .font(.system(size: 18, weight: .semibold, design: .rounded))
                 .foregroundStyle(.orange.opacity(0.9))
-
+            
             Text(word.chinese)
-                .font(.system(size: 32, weight: .bold, design: .rounded))
+                .font(FontResolver.shared.chinese)
                 .foregroundStyle(.black)
                 .multilineTextAlignment(.center)
                 .lineLimit(3)
