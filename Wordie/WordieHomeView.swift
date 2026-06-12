@@ -41,7 +41,8 @@ struct WordieHomeView: View {
                     titleVisibility: .visible
                 ) {
                     Button("刪除", role: .destructive) {
-                        try? viewModel.delete(currentIndex)
+                        let currentWord = viewModel.words[currentIndex]
+                        try? viewModel.deleteWord(currentWord)
                     }
                 } message: {
                     Text("這個動作無法復原。")
