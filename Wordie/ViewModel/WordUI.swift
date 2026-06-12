@@ -7,7 +7,7 @@
 
 import Foundation
 
-/// 暫停單字模型
+/// 單字模型 (暫存)
 struct WordUI {
     
     let english: String     // 英文單字

@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8147319A2FDA8076001DAF0F /* WWSQLite3Manager in Frameworks */ = {isa = PBXBuildFile; productRef = 814731992FDA8076001DAF0F /* WWSQLite3Manager */; };
+		811C060F2FDABC2D006D0DC4 /* WWSQLite3Manager in Frameworks */ = {isa = PBXBuildFile; productRef = 811C060E2FDABC2D006D0DC4 /* WWSQLite3Manager */; };
+		81E453272FDABDBD002F26EE /* WWSQLite3Manager in Frameworks */ = {isa = PBXBuildFile; productRef = 81E453262FDABDBD002F26EE /* WWSQLite3Manager */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,7 +28,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8147319A2FDA8076001DAF0F /* WWSQLite3Manager in Frameworks */,
+				81E453272FDABDBD002F26EE /* WWSQLite3Manager in Frameworks */,
+				811C060F2FDABC2D006D0DC4 /* WWSQLite3Manager in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -70,7 +72,8 @@
 			);
 			name = Wordie;
 			packageProductDependencies = (
-				814731992FDA8076001DAF0F /* WWSQLite3Manager */,
+				811C060E2FDABC2D006D0DC4 /* WWSQLite3Manager */,
+				81E453262FDABDBD002F26EE /* WWSQLite3Manager */,
 			);
 			productName = Wordie;
 			productReference = 817B7C602FD94C0900BBDABC /* Wordie.app */;
@@ -101,7 +104,7 @@
 			mainGroup = 817B7C572FD94C0900BBDABC;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				814731982FDA8076001DAF0F /* XCRemoteSwiftPackageReference "WWSQLite3Manager" */,
+				81E453252FDABDBD002F26EE /* XCRemoteSwiftPackageReference "WWSQLite3Manager" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 817B7C612FD94C0900BBDABC /* Products */;
@@ -347,20 +350,24 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		814731982FDA8076001DAF0F /* XCRemoteSwiftPackageReference "WWSQLite3Manager" */ = {
+		81E453252FDABDBD002F26EE /* XCRemoteSwiftPackageReference "WWSQLite3Manager" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/William-Weng/WWSQLite3Manager";
 			requirement = {
 				kind = upToNextMinorVersion;
-				minimumVersion = 2.3.1;
+				minimumVersion = 2.4.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		814731992FDA8076001DAF0F /* WWSQLite3Manager */ = {
+		811C060E2FDABC2D006D0DC4 /* WWSQLite3Manager */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 814731982FDA8076001DAF0F /* XCRemoteSwiftPackageReference "WWSQLite3Manager" */;
+			productName = WWSQLite3Manager;
+		};
+		81E453262FDABDBD002F26EE /* WWSQLite3Manager */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 81E453252FDABDBD002F26EE /* XCRemoteSwiftPackageReference "WWSQLite3Manager" */;
 			productName = WWSQLite3Manager;
 		};
 /* End XCSwiftPackageProductDependency section */

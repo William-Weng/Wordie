@@ -37,7 +37,7 @@ final class API {
 
 extension API {
     
-    func insert(english: String, phonetic: String, chinese: String) {
+    func insert(english: String, phonetic: String, chinese: String) throws {
         
         let items: [WWSQLite3Manager.InsertItem] = [
             (key: "english", value: .string(english)),
@@ -45,7 +45,7 @@ extension API {
             (key: "chinese", value: .string(chinese)),
         ]
         
-        _ = try? database.insert(tableName: tableName, itemsArray: [items])
+        _ = try database.insert(tableName: tableName, itemsArray: [items])
     }
     
     func select() -> [Word] {
@@ -54,7 +54,7 @@ extension API {
         return words
     }
     
-    func update(id: Int, english: String, phonetic: String, chinese: String) {
+    func update(id: Int, english: String, phonetic: String, chinese: String) throws {
         
         let items: [WWSQLite3Manager.InsertItem] = [
             (key: "english", value: .string(english)),
@@ -62,8 +62,13 @@ extension API {
             (key: "chinese", value: .string(chinese)),
         ]
         
-        let `where`: WWSQLite3Manager.Where = .init().and("id", .equal, .int(id))
-        _ = try? database.update(tableName: tableName, items: items, where: `where`)
+        let `where`: WWSQLite3Manager.Where = .init().compare("id", .equal, .int(id))
+        _ = try database.update(tableName: tableName, items: items, where: `where`)
+    }
+    
+    func delete(id: Int) throws {
+        let `where`: WWSQLite3Manager.Where = .init().compare("id", .equal, .int(id))
+        try database.delete(tableName: tableName, where: `where`)
     }
 }
 

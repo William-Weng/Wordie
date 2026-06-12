@@ -22,8 +22,8 @@ extension WordListViewModel {
     
     /// 新增一筆單字資料到資料庫，並重新載入清單
     /// - Parameter wordUI: 要新增的單字資料
-    func addWord(_ wordUI: WordUI) {
-        API.shared.insert(english: wordUI.english, phonetic: wordUI.phonetic, chinese: wordUI.chinese)
+    func addWord(_ wordUI: WordUI) throws {
+        try API.shared.insert(english: wordUI.english, phonetic: wordUI.phonetic, chinese: wordUI.chinese)
         loadWords()
     }
     
@@ -31,8 +31,8 @@ extension WordListViewModel {
     /// - Parameters:
     ///   - id: 單字資料的識別編號
     ///   - wordUI: 更新後的單字資料
-    func updateWord(_ word: Word) {
-        API.shared.update(id: word.id, english: word.english, phonetic: word.phonetic, chinese: word.chinese)
+    func updateWord(_ word: Word) throws {
+        try API.shared.update(id: word.id, english: word.english, phonetic: word.phonetic, chinese: word.chinese)
         loadWords()
     }
 }

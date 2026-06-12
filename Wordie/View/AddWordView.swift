@@ -9,6 +9,8 @@ import SwiftUI
 
 struct AddWordView: View {
     
+    let sheet: WordSheet
+    
     @Environment(\.dismiss) private var dismiss
     @ObservedObject var viewModel: WordListViewModel
     
@@ -16,11 +18,32 @@ struct AddWordView: View {
     @State private var phonetic = ""
     @State private var chinese = ""
     
+    @State private var showAlert = false
+    @State private var alertMessage = ""
+    
+    init(sheet: WordSheet, viewModel: WordListViewModel) {
+        
+        self.sheet = sheet
+        self.viewModel = viewModel
+        
+        switch sheet {
+        case .add:
+            _english = State(initialValue: "")
+            _phonetic = State(initialValue: "")
+            _chinese = State(initialValue: "")
+            
+        case .edit(let word):
+            _english = State(initialValue: word.english)
+            _phonetic = State(initialValue: word.phonetic)
+            _chinese = State(initialValue: word.chinese)
+        }
+    }
+    
     var body: some View {
         
         NavigationStack {
             inputForm
-                .navigationTitle("新增單字")
+                .navigationTitle(sheet.title)
                 .toolbar {
                     cancelItem
                     confirmItem
@@ -32,7 +55,6 @@ struct AddWordView: View {
 // MARK: - 畫面內容
 private extension AddWordView {
     
-    /// 單字新增表單，包含英文、音標與中文欄位
     var inputForm: some View {
         
         Form {
@@ -43,23 +65,14 @@ private extension AddWordView {
             }
         }
     }
-}
-
-// MARK: - 畫面內容
-private extension AddWordView {
-        
-    /// 建立帶有圖示的輸入列
-    /// - Parameters:
-    ///   - systemName: SF Symbol 圖示名稱。
-    ///   - placeholder: 欄位提示文字。
-    ///   - text: 綁定的輸入內容。
+    
     func inputRow(systemName: String, placeholder: String, text: Binding<String>) -> some View {
         
         HStack(spacing: 12) {
             Image(systemName: systemName)
                 .foregroundStyle(.secondary)
                 .frame(width: 22)
-
+            
             TextField(placeholder, text: text)
                 .textInputAutocapitalization(.never)
                 .autocorrectionDisabled()
@@ -70,23 +83,41 @@ private extension AddWordView {
 // MARK: - 工具列按鈕
 private extension AddWordView {
     
-    /// 儲存按鈕，將輸入內容寫入資料庫後關閉畫面。
     @ToolbarContentBuilder
     var confirmItem: some ToolbarContent {
         
         ToolbarItem(placement: .confirmationAction) {
-            Button("儲存") {
-                viewModel.addWord(.init(english: english, phonetic: phonetic, chinese: chinese))
-                dismiss()
+            
+            Button {
+                let wordUI = WordUI(english: english, phonetic: phonetic, chinese: chinese)
+                
+                do {
+                    switch sheet {
+                    case .add: try viewModel.addWord(wordUI)
+                    case .edit(let word):
+                        let updatedWord = Word(id: word.id, english: wordUI.english, phonetic: wordUI.phonetic, chinese: wordUI.chinese)
+                        try viewModel.updateWord(updatedWord)
+                    }
+                    
+                    dismiss()
+                } catch {
+                    alertMessage = error.localizedDescription
+                    showAlert = true
+                }
+            } label: {
+                Image(systemName: sheet.buttonIcon)
             }
             .disabled(!isFormValid)
+            .alert("錯誤", isPresented: $showAlert) {
+                Button("OK", role: .cancel) { }
+            } message: {
+                Text(alertMessage)
+            }
         }
     }
     
-    /// 取消按鈕，直接關閉新增畫面
     @ToolbarContentBuilder
     var cancelItem: some ToolbarContent {
-        
         ToolbarItem(placement: .cancellationAction) {
             Button {
                 dismiss()
@@ -101,7 +132,6 @@ private extension AddWordView {
 // MARK: - 驗證
 private extension AddWordView {
     
-    /// 檢查表單是否可儲存
     var isFormValid: Bool {
         !english.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty &&
         !chinese.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
