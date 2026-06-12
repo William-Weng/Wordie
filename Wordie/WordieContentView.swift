@@ -55,7 +55,8 @@ struct WordieContentView: View {
                 Spacer(minLength: 0)
             }
             .padding(.bottom, 18)
-                        
+        }.onChange(of: words.count) {
+            clampCurrentIndex()
         }
     }
 }
@@ -141,35 +142,41 @@ private extension WordieContentView {
         ZStack {
             
             /// 最後方卡片
-            WordCardView(word: words[farBackIndex], isFlipped: false)
-                .offset(x: farBackOffsetX, y: farBackOffsetY)
-                .scaleEffect(farBackScale)
-                .rotationEffect(.degrees(farBackRotation))
-                .opacity(farBackOpacity)
-                .zIndex(0)
-                .animation(.interactiveSpring(response: 0.28, dampingFraction: 0.9), value: currentIndex)
-                .animation(.interactiveSpring(response: 0.28, dampingFraction: 0.9), value: dragOffset)
+            if let farBackWord {
+                WordCardView(word: farBackWord, isFlipped: false)
+                    .offset(x: farBackOffsetX, y: farBackOffsetY)
+                    .scaleEffect(farBackScale)
+                    .rotationEffect(.degrees(farBackRotation))
+                    .opacity(farBackOpacity)
+                    .zIndex(0)
+                    .animation(.interactiveSpring(response: 0.28, dampingFraction: 0.9), value: currentIndex)
+                    .animation(.interactiveSpring(response: 0.28, dampingFraction: 0.9), value: dragOffset)
+            }
             
             /// 中間卡片
-            WordCardView(word: words[backIndex], isFlipped: false)
-                .offset(x: backOffsetX, y: backOffsetY)
-                .scaleEffect(backScale)
-                .rotationEffect(.degrees(backRotation))
-                .opacity(backOpacity)
-                .zIndex(1)
-                .animation(.interactiveSpring(response: 0.28, dampingFraction: 0.9), value: currentIndex)
-                .animation(.interactiveSpring(response: 0.28, dampingFraction: 0.9), value: dragOffset)
+            if let backWord {
+                WordCardView(word: backWord, isFlipped: false)
+                    .offset(x: backOffsetX, y: backOffsetY)
+                    .scaleEffect(backScale)
+                    .rotationEffect(.degrees(backRotation))
+                    .opacity(backOpacity)
+                    .zIndex(1)
+                    .animation(.interactiveSpring(response: 0.28, dampingFraction: 0.9), value: currentIndex)
+                    .animation(.interactiveSpring(response: 0.28, dampingFraction: 0.9), value: dragOffset)
+            }
             
             /// 前景卡片
-            WordCardView(word: words[currentIndex], isFlipped: isFlipped)
-                .offset(x: dragOffset, y: frontLift)
-                .scaleEffect(frontScale)
-                .rotationEffect(.degrees(frontRotation))
-                .shadow(color: .black.opacity(frontShadowOpacity), radius: 18, x: frontShadowX, y: 8)
-                .contentShape(RoundedRectangle(cornerRadius: 28, style: .continuous))
-                .highPriorityGesture(deckDragGesture)
-                .onTapGesture { flipCard() }
-                .zIndex(2)
+            if let currentWord {
+                WordCardView(word: currentWord, isFlipped: isFlipped)
+                    .offset(x: dragOffset, y: frontLift)
+                    .scaleEffect(frontScale)
+                    .rotationEffect(.degrees(frontRotation))
+                    .shadow(color: .black.opacity(frontShadowOpacity), radius: 18, x: frontShadowX, y: 8)
+                    .contentShape(RoundedRectangle(cornerRadius: 28, style: .continuous))
+                    .highPriorityGesture(deckDragGesture)
+                    .onTapGesture { flipCard() }
+                    .zIndex(2)
+            }
         }
     }
 }
@@ -189,17 +196,36 @@ private extension WordieContentView {
 // MARK: - 私有屬性
 private extension WordieContentView {
     
+    /// 目前正在顯示的單字
+    ///
+    /// 使用 `currentIndex` 搭配 `[safe:]` 取值，避免索引超出範圍時發生 crash
+    var currentWord: Word? {
+        words[safe: currentIndex]
+    }
+    
+    /// 前一層預覽卡片要顯示的單字
+    ///
+    /// 依照拖曳方向決定要取上一筆或下一筆，讓卡片堆疊在滑動時能自然更新，同樣使用 `[safe:]` 保護索引，避免資料不足時越界
+    var backWord: Word? {
+        words[safe: loopIndex(currentIndex + (dragOffset < 0 ? -1 : 1))]
+    }
+    
+    /// 最後一層預覽卡片要顯示的單字
+    ///
+    /// 依照拖曳方向再往外推一筆，作為三層卡片堆疊中的最底層預覽，透過 `[safe:]` 讓這層卡片也能在資料變動時維持安全
+    var farBackWord: Word? {
+        words[safe: loopIndex(currentIndex + (dragOffset < 0 ? -2 : 2))]
+    }
+}
+
+// MARK: - 私有屬性
+private extension WordieContentView {
+            
     /// 上一張索引 => 會依照目前索引往前一筆，並支援循環
     var previousIndex: Int { loopIndex(currentIndex - 1) }
     
     /// 下一張索引 => 會依照目前索引往後一筆，並支援循環
     var nextIndex: Int { loopIndex(currentIndex + 1) }
-    
-    /// 中間後方那張卡片的索引 => 會根據滑動方向決定要顯示上一張或下一張的預覽
-    var backIndex: Int { loopIndex(currentIndex + (dragOffset < 0 ? 1 : -1)) }
-    
-    /// 最後方那張卡片的索引 => 同樣會根據滑動方向決定顯示哪一張
-    var farBackIndex: Int { loopIndex(currentIndex + (dragOffset < 0 ? 2 : -2)) }
     
     /// 拖曳進度值，範圍為 0 到 1 => 用來控制後方卡片的位移、縮放與旋轉動畫
     var dragProgress: CGFloat {
@@ -321,6 +347,22 @@ private extension WordieContentView {
     /// 播放當前單字發音
     func playWord(_ text: String) {
         SpeechService.shared.speak(text, language: "en-US")
+    }
+    
+    func clampCurrentIndex() {
+        
+        guard !words.isEmpty else {
+            currentIndex = 0
+            return
+        }
+        
+        if currentIndex >= words.count {
+            currentIndex = words.count - 1
+        }
+        
+        if currentIndex < 0 {
+            currentIndex = 0
+        }
     }
 }
 
