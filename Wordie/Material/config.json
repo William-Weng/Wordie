@@ -1,11 +1,14 @@
 {
   "Font": {
     "english": {
-      "name": "Bradley Hand",
+      "ttf": "PlaypenSans-VariableFont_wght.ttf",
       "size": 48.0
     },
-    "phonetic": {},
-    "chinese": 
+    "phonetic": {
+      "ttf": "PlaypenSans-VariableFont_wght.ttf",
+      "size": 28.0
+    },
+    "chinese":
     {
       "ttf": "jf-openhuninn-2.1.ttf",
       "size": 32.0

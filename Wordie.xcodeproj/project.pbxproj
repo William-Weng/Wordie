@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		811C060F2FDABC2D006D0DC4 /* WWSQLite3Manager in Frameworks */ = {isa = PBXBuildFile; productRef = 811C060E2FDABC2D006D0DC4 /* WWSQLite3Manager */; };
 		81E453272FDABDBD002F26EE /* WWSQLite3Manager in Frameworks */ = {isa = PBXBuildFile; productRef = 81E453262FDABDBD002F26EE /* WWSQLite3Manager */; };
+		81FD4D6A2FDC0540009DA448 /* WWFontLoader in Frameworks */ = {isa = PBXBuildFile; productRef = 81FD4D692FDC0540009DA448 /* WWFontLoader */; };
+		81FD4D6D2FDC089D009DA448 /* WWFontLoader in Frameworks */ = {isa = PBXBuildFile; productRef = 81FD4D6C2FDC089D009DA448 /* WWFontLoader */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,7 +43,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				81FD4D6D2FDC089D009DA448 /* WWFontLoader in Frameworks */,
 				81E453272FDABDBD002F26EE /* WWSQLite3Manager in Frameworks */,
+				81FD4D6A2FDC0540009DA448 /* WWFontLoader in Frameworks */,
 				811C060F2FDABC2D006D0DC4 /* WWSQLite3Manager in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -87,6 +91,8 @@
 			packageProductDependencies = (
 				811C060E2FDABC2D006D0DC4 /* WWSQLite3Manager */,
 				81E453262FDABDBD002F26EE /* WWSQLite3Manager */,
+				81FD4D692FDC0540009DA448 /* WWFontLoader */,
+				81FD4D6C2FDC089D009DA448 /* WWFontLoader */,
 			);
 			productName = Wordie;
 			productReference = 817B7C602FD94C0900BBDABC /* Wordie.app */;
@@ -118,6 +124,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				81E453252FDABDBD002F26EE /* XCRemoteSwiftPackageReference "WWSQLite3Manager" */,
+				81FD4D6B2FDC089D009DA448 /* XCRemoteSwiftPackageReference "WWFontLoader" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 817B7C612FD94C0900BBDABC /* Products */;
@@ -377,6 +384,14 @@
 				minimumVersion = 2.4.0;
 			};
 		};
+		81FD4D6B2FDC089D009DA448 /* XCRemoteSwiftPackageReference "WWFontLoader" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/William-Weng/WWFontLoader";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -388,6 +403,15 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 81E453252FDABDBD002F26EE /* XCRemoteSwiftPackageReference "WWSQLite3Manager" */;
 			productName = WWSQLite3Manager;
+		};
+		81FD4D692FDC0540009DA448 /* WWFontLoader */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = WWFontLoader;
+		};
+		81FD4D6C2FDC089D009DA448 /* WWFontLoader */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 81FD4D6B2FDC089D009DA448 /* XCRemoteSwiftPackageReference "WWFontLoader" */;
+			productName = WWFontLoader;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
