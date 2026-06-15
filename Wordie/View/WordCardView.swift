@@ -62,11 +62,15 @@ private extension WordCardView {
                 .font(FontResolver.shared.english)
                 .foregroundStyle(.black)
                 .multilineTextAlignment(.center)
+                .lineLimit(1)
+                .minimumScaleFactor(0.5)
 
             Text(word.phonetic)
                 .font(FontResolver.shared.phonetic)
                 .foregroundStyle(.orange)
                 .multilineTextAlignment(.center)
+                .lineLimit(1)
+                .minimumScaleFactor(0.6)
 
             Spacer(minLength: 0)
         }
