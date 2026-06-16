@@ -5,10 +5,12 @@
 //  Created by William.Weng on 2026/6/16.
 //
 
+#if canImport(WWIntelligentAgent)
 import SwiftUI
 import WWIntelligentAgent
 
 /// 使用iOS本地AI解說單字
+@available(iOS 26.0, *)
 struct IntelliSenseWordView: View {
     
     let sheet: WordSheet
@@ -75,6 +77,7 @@ struct IntelliSenseWordView: View {
 }
 
 // MARK: - AI顯示
+@available(iOS 26.0, *)
 private extension IntelliSenseWordView {
     
     /// AI 載入中時顯示的畫面
@@ -95,6 +98,7 @@ private extension IntelliSenseWordView {
 }
 
 // MARK: - 工具列按鈕
+@available(iOS 26.0, *)
 private extension IntelliSenseWordView {
     
     /// 左上角取消按鈕，關閉目前表單畫面
@@ -111,3 +115,5 @@ private extension IntelliSenseWordView {
         }
     }
 }
+
+#endif

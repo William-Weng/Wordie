@@ -33,7 +33,7 @@ struct WordieHomeView: View {
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
                     deleteItem
-                    intellisenseItem
+                    if #available(iOS 26.0, *) { intellisenseItem }
                     editItem
                     addItem
                 }
@@ -41,7 +41,7 @@ struct WordieHomeView: View {
 
                     switch sheet {
                     case .add, .edit: AddWordView(sheet: sheet, viewModel: viewModel)
-                    case .intellisense: IntelliSenseWordView(sheet: sheet, viewModel: viewModel, instructions: configure.instructions)
+                    case .intellisense: if #available(iOS 26.0, *) { IntelliSenseWordView(sheet: sheet, viewModel: viewModel, instructions: configure.instructions)  }
                     }
                     
                 }.confirmationDialog(
