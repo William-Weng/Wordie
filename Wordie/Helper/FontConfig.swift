@@ -42,8 +42,8 @@ struct FontConfig: Codable {
 /// 包含英語、音標和中文三種字型的具体設定
 struct FontDetails: Codable {
     
-    let english: FontDetail     // 英語字型設定
-    let phonetic: FontDetail    // 音標字型設定
+    let word: FontDetail        // 英語字型設定
+    let reading: FontDetail     // 音標字型設定
     let chinese: FontDetail     // 中文字型設定
 }
 

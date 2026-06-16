@@ -14,6 +14,7 @@ struct WordCardView: View {
     
     let wordCard: WordCard          // 當前單字資料
     let isFlipped: Bool             // 是否顯示翻面狀態
+    let isAscending: Bool           // 英文與音標的順序 (英日文顯示不同)
     
     var body: some View {
         background
@@ -50,28 +51,45 @@ private extension WordCardView {
             }
         }
     }
-    
+        
     /// 正面：英文 + 音標
     var frontView: some View {
         
-        VStack(spacing: 18) {
+        VStack(spacing: 8) {
             
             Spacer(minLength: 0)
             
-            Text(wordCard.word)
-                .font(FontResolver.shared.word)
-                .foregroundStyle(.black)
-                .multilineTextAlignment(.center)
-                .lineLimit(1)
-                .minimumScaleFactor(0.5)
+            if isAscending {
+                Text(wordCard.word)
+                    .font(FontResolver.shared.word)
+                    .foregroundStyle(.black)
+                    .multilineTextAlignment(.center)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.5)
 
-            Text(wordCard.reading)
-                .font(FontResolver.shared.reading)
-                .foregroundStyle(.orange)
-                .multilineTextAlignment(.center)
-                .lineLimit(1)
-                .minimumScaleFactor(0.6)
-
+                Text(wordCard.reading)
+                    .font(FontResolver.shared.reading)
+                    .foregroundStyle(.orange)
+                    .multilineTextAlignment(.center)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.6)
+            } else {
+                
+                Text(wordCard.reading)
+                    .font(FontResolver.shared.reading)
+                    .foregroundStyle(.orange)
+                    .multilineTextAlignment(.center)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.6)
+                
+                Text(wordCard.word)
+                    .font(FontResolver.shared.word)
+                    .foregroundStyle(.black)
+                    .multilineTextAlignment(.center)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.5)
+            }
+            
             Spacer(minLength: 0)
         }
     }

@@ -26,7 +26,9 @@ struct WordieApp: App {
                     colors: [
                         Color(red: 0.98, green: 0.92, blue: 0.76),
                         Color(red: 0.95, green: 0.88, blue: 0.70)
-                    ])
+                    ],
+                    isAscending: true
+                )
             )
         }
     }

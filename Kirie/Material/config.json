@@ -1,11 +1,11 @@
 {
   "Font": {
-    "english": {
-      "ttf": "PlaypenSans-VariableFont_wght.ttf",
+    "word": {
+      "ttf": "KleeOne-Regular.ttf",
       "size": 48.0
     },
-    "phonetic": {
-      "ttf": "PlaypenSans-VariableFont_wght.ttf",
+    "reading": {
+      "ttf": "KleeOne-Regular.ttf",
       "size": 28.0
     },
     "chinese":

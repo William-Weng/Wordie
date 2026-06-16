@@ -39,8 +39,8 @@ extension FontResolver {
     /// - Throws: `WWFontLoader.CustomError` 如果載入失敗
     func resolveFonts(from config: FontConfig) throws {
         
-        if let word = try resolveFont(detail: config.font.english, size: 48) { self.word = word }
-        if let reading = try resolveFont(detail: config.font.phonetic, size: 28) { self.reading = reading }
+        if let word = try resolveFont(detail: config.font.word, size: 48) { self.word = word }
+        if let reading = try resolveFont(detail: config.font.reading, size: 28) { self.reading = reading }
         if let chinese = try resolveFont(detail: config.font.chinese, size: 32) { self.chinese = chinese }
     }
 }

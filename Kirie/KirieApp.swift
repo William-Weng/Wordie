@@ -26,7 +26,9 @@ struct KirieApp: App {
                     colors: [
                         Color(red: 0.99, green: 0.94, blue: 0.95),
                         Color(red: 0.98, green: 0.90, blue: 0.92)
-                    ])
+                    ],
+                    isAscending: false
+                )
             )
         }
     }

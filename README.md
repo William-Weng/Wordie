@@ -41,6 +41,18 @@ https://github.com/user-attachments/assets/5e4edc30-650f-445d-b329-641c28c4e7b1
 | 資料庫工具 | `WWSQLite3Manager` |
 | 語言 | `Swift` |
 
+## 引用字型
+
+| 名稱 | 說明 |
+|------|------|
+| [`PlaypenSans-VariableFont_wght.ttf`](https://fonts.google.com/specimen/Playpen+Sans) | 英文字型 |
+| [`jf-openhuninn-2.1.ttf`](https://justfont.com/huninn/) | 中文字型 |
+| [`KleeOne-Regular.ttf`](https://fonts.google.com/specimen/Klee+One) | 日文字型 |
+
+- 如果要引用字型，記得在 `.documentsDirectory` 上加上 	`config.json` 設定檔	
+
+![documentsDirectory](https://github.com/user-attachments/assets/55e66e0c-6262-4459-bd1b-deae5dd92d74)
+
 ## 執行方式
 
 1. 使用 Xcode 開啟專案。

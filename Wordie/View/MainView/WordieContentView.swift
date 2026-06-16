@@ -141,7 +141,7 @@ private extension WordieContentView {
             
             /// 最後方卡片
             if let farBackWord {
-                WordCardView(wordCard: farBackWord, isFlipped: false)
+                WordCardView(wordCard: farBackWord, isFlipped: false, isAscending: configure.isAscending)
                     .offset(x: farBackOffsetX, y: farBackOffsetY)
                     .scaleEffect(farBackScale)
                     .rotationEffect(.degrees(farBackRotation))
@@ -153,7 +153,7 @@ private extension WordieContentView {
             
             /// 中間卡片
             if let backWord {
-                WordCardView(wordCard: backWord, isFlipped: false)
+                WordCardView(wordCard: backWord, isFlipped: false, isAscending: configure.isAscending)
                     .offset(x: backOffsetX, y: backOffsetY)
                     .scaleEffect(backScale)
                     .rotationEffect(.degrees(backRotation))
@@ -165,7 +165,7 @@ private extension WordieContentView {
             
             /// 前景卡片
             if let currentWord {
-                WordCardView(wordCard: currentWord, isFlipped: isFlipped)
+                WordCardView(wordCard: currentWord, isFlipped: isFlipped, isAscending: configure.isAscending)
                     .offset(x: dragOffset, y: frontLift)
                     .scaleEffect(frontScale)
                     .rotationEffect(.degrees(frontRotation))

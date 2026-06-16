@@ -11,7 +11,7 @@ import WWSQLite3Manager
 struct JapaneseWord: Codable, Identifiable {
     
     let id: Int             // 流水號
-    let japanese: String    // 英文單字
+    let japanese: String    // 日文單字
     let phonetic: String    // 音標
     let chinese: String     // 中文翻譯
 }
