@@ -12,9 +12,10 @@ import SwiftUI
 
 struct Configure {
     
-    let title: String       // 主題文字
-    let icon: String        // 主題圖示
-    let language: String    // 發音語系
-    let colors: [Color]     // 背景顏色
-    let isAscending: Bool   // 字義順序
+    let title: String           // 主題文字
+    let icon: String            // 主題圖示
+    let language: String        // 發音語系
+    let colors: [Color]         // 背景顏色
+    let isAscending: Bool       // 字義順序
+    let instructions: String    // 設定AI對話規則
 }

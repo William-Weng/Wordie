@@ -60,6 +60,38 @@ https://github.com/user-attachments/assets/5e4edc30-650f-445d-b329-641c28c4e7b1
 3. 編譯並執行 App。
 4. 進入首頁後，即可新增、編輯、刪除單字資料。
 
+```swift
+import SwiftUI
+
+@main
+struct WordieApp: App {
+    
+    var body: some Scene {
+        
+        WindowGroup {
+            WordieHomeView(
+                api: .init(
+                    filename: "Wordie.db",
+                    tableName: "english",
+                    type: EnglishWord.self
+                ),
+                configure: .init(
+                    title: "Wordie",
+                    icon: "bird.fill",
+                    language: "en-US",
+                    colors: [
+                        Color(red: 0.98, green: 0.92, blue: 0.76),
+                        Color(red: 0.95, green: 0.88, blue: 0.70)
+                    ],
+                    isAscending: true,
+                    instructions: "你是位英文老師，會幫人解說英文單字"
+                )
+            )
+        }
+    }
+}
+```
+
 ## 核心流程
 
 ### 讀取資料

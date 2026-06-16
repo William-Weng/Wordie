@@ -33,11 +33,17 @@ struct WordieHomeView: View {
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
                     deleteItem
-                    addItem
+                    intellisenseItem
                     editItem
+                    addItem
                 }
                 .sheet(item: $activeSheet) { sheet in
-                    AddWordView(sheet: sheet, viewModel: viewModel)
+
+                    switch sheet {
+                    case .add, .edit: AddWordView(sheet: sheet, viewModel: viewModel)
+                    case .intellisense: IntelliSenseWordView(sheet: sheet, viewModel: viewModel, instructions: configure.instructions)
+                    }
+                    
                 }.confirmationDialog(
                     "確定要刪除這個單字嗎？",
                     isPresented: $isShowingDeleteConfirm,
@@ -76,7 +82,7 @@ private extension WordieHomeView {
             }
         }
     }
-    
+        
     /// 右上角新增按鈕
     ///
     /// 點擊後開啟新增單字表單
@@ -108,6 +114,23 @@ private extension WordieHomeView {
                 isShowingDeleteConfirm = true
             } label: {
                 Image(systemName: "trash")
+            }
+            .tint(.red)
+            .disabled(viewModel.words.isEmpty)
+        }
+    }
+    
+    @ToolbarContentBuilder
+    var intellisenseItem: some ToolbarContent {
+        
+        ToolbarItem(placement: .topBarLeading) {
+            Button {
+                guard viewModel.words.indices.contains(currentIndex) else { return }
+                let currentWord = viewModel.words[currentIndex]
+                activeSheet = .intellisense(currentWord)
+            } label: {
+                Image(systemName: "apple.intelligence")
+                    .renderingMode(.template)
             }
             .tint(.red)
             .disabled(viewModel.words.isEmpty)

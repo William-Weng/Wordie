@@ -22,7 +22,7 @@ struct AddWordView: View {
     
     @State private var showAlert = false                // 是否顯示錯誤提示視窗
     @State private var alertMessage = ""                // 錯誤提示內容
-        
+    
     /// 建立新增 / 編輯單字畫面
     ///
     /// 會根據 `sheet` 狀態設定表單初始值：
@@ -47,6 +47,8 @@ struct AddWordView: View {
             _word = State(initialValue: wordCard.word)
             _reading = State(initialValue: wordCard.reading)
             _chinese = State(initialValue: wordCard.chinese)
+        case .intellisense(_):
+            break
         }
     }
     
@@ -124,6 +126,7 @@ private extension AddWordView {
                     switch sheet {
                     case .add: try viewModel.addWord(wordUI)
                     case .edit(let source): try viewModel.updateWord(id: source.id, wordUI: wordUI)
+                    case .intellisense(_): break
                     }
                     
                     dismiss()

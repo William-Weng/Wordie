@@ -27,7 +27,8 @@ struct KirieApp: App {
                         Color(red: 0.99, green: 0.94, blue: 0.95),
                         Color(red: 0.98, green: 0.90, blue: 0.92)
                     ],
-                    isAscending: false
+                    isAscending: false,
+                    instructions: "你是位日文老師，會幫人解說日文單字"
                 )
             )
         }

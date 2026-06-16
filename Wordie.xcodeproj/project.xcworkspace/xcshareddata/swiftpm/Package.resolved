@@ -1,5 +1,5 @@
 {
-  "originHash" : "049bc6a83c1d7d793c06cf728e28477a2a2a2978183c5cb4b5f03ba400fa6aaf",
+  "originHash" : "5b5ea5e779e9dc2c3d451a3785bd2703a23ad965e60319712ad5529441436d52",
   "pins" : [
     {
       "identity" : "wwfontloader",
@@ -8,6 +8,15 @@
       "state" : {
         "revision" : "e1005f225ce70948f1ef5fd698a54dfdca5e9bf7",
         "version" : "1.1.0"
+      }
+    },
+    {
+      "identity" : "wwintelligentagent",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/William-Weng/WWIntelligentAgent",
+      "state" : {
+        "revision" : "2abc4dafe946893b7959bc90322b35bfdc0edf91",
+        "version" : "1.3.1"
       }
     },
     {

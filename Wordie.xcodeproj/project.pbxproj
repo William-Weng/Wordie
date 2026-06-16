@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		811C060F2FDABC2D006D0DC4 /* WWSQLite3Manager in Frameworks */ = {isa = PBXBuildFile; productRef = 811C060E2FDABC2D006D0DC4 /* WWSQLite3Manager */; };
+		814E3DED2FE1365A00B4873A /* WWIntelligentAgent in Frameworks */ = {isa = PBXBuildFile; productRef = 814E3DEC2FE1365A00B4873A /* WWIntelligentAgent */; };
+		814E3DEF2FE1366500B4873A /* WWIntelligentAgent in Frameworks */ = {isa = PBXBuildFile; productRef = 814E3DEE2FE1366500B4873A /* WWIntelligentAgent */; };
 		817037712FE0009A00347E24 /* WWSQLite3Manager in Frameworks */ = {isa = PBXBuildFile; productRef = 817037702FE0009A00347E24 /* WWSQLite3Manager */; };
 		817037732FE0009E00347E24 /* WWFontLoader in Frameworks */ = {isa = PBXBuildFile; productRef = 817037722FE0009E00347E24 /* WWFontLoader */; };
 		81E453272FDABDBD002F26EE /* WWSQLite3Manager in Frameworks */ = {isa = PBXBuildFile; productRef = 81E453262FDABDBD002F26EE /* WWSQLite3Manager */; };
@@ -51,6 +53,7 @@
 				View/MainView/WordieContentView.swift,
 				View/MainView/WordieHomeView.swift,
 				View/SubView/AddWordView.swift,
+				View/SubView/IntelliSenseWordView.swift,
 				View/SubView/WordCardView.swift,
 				View/SubView/WordieMascotView.swift,
 				View/SubView/WordNavigationView.swift,
@@ -90,6 +93,7 @@
 			files = (
 				817037732FE0009E00347E24 /* WWFontLoader in Frameworks */,
 				817037712FE0009A00347E24 /* WWSQLite3Manager in Frameworks */,
+				814E3DEF2FE1366500B4873A /* WWIntelligentAgent in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -99,6 +103,7 @@
 			files = (
 				81FD4D6D2FDC089D009DA448 /* WWFontLoader in Frameworks */,
 				81E453272FDABDBD002F26EE /* WWSQLite3Manager in Frameworks */,
+				814E3DED2FE1365A00B4873A /* WWIntelligentAgent in Frameworks */,
 				81FD4D6A2FDC0540009DA448 /* WWFontLoader in Frameworks */,
 				811C060F2FDABC2D006D0DC4 /* WWSQLite3Manager in Frameworks */,
 			);
@@ -155,6 +160,7 @@
 			packageProductDependencies = (
 				817037702FE0009A00347E24 /* WWSQLite3Manager */,
 				817037722FE0009E00347E24 /* WWFontLoader */,
+				814E3DEE2FE1366500B4873A /* WWIntelligentAgent */,
 			);
 			productName = Kirie;
 			productReference = 817037512FDFFF4E00347E24 /* Kirie.app */;
@@ -181,6 +187,7 @@
 				81E453262FDABDBD002F26EE /* WWSQLite3Manager */,
 				81FD4D692FDC0540009DA448 /* WWFontLoader */,
 				81FD4D6C2FDC089D009DA448 /* WWFontLoader */,
+				814E3DEC2FE1365A00B4873A /* WWIntelligentAgent */,
 			);
 			productName = Wordie;
 			productReference = 817B7C602FD94C0900BBDABC /* Wordie.app */;
@@ -216,6 +223,7 @@
 			packageReferences = (
 				81E453252FDABDBD002F26EE /* XCRemoteSwiftPackageReference "WWSQLite3Manager" */,
 				81FD4D6B2FDC089D009DA448 /* XCRemoteSwiftPackageReference "WWFontLoader" */,
+				814E3DEB2FE1365A00B4873A /* XCRemoteSwiftPackageReference "WWIntelligentAgent" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 817B7C612FD94C0900BBDABC /* Products */;
@@ -269,7 +277,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 20260616;
 				DEVELOPMENT_TEAM = 4Q5CYDAG3B;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -281,12 +289,12 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportsDocumentBrowser = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = idv.william.Kirie;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -305,7 +313,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 20260616;
 				DEVELOPMENT_TEAM = 4Q5CYDAG3B;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -317,12 +325,12 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportsDocumentBrowser = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = idv.william.Kirie;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -464,7 +472,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 20260616;
 				DEVELOPMENT_TEAM = 4Q5CYDAG3B;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -476,12 +484,12 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportsDocumentBrowser = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = idv.william.Wordie;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -500,7 +508,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 20260616;
 				DEVELOPMENT_TEAM = 4Q5CYDAG3B;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -512,12 +520,12 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportsDocumentBrowser = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = idv.william.Wordie;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -563,6 +571,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		814E3DEB2FE1365A00B4873A /* XCRemoteSwiftPackageReference "WWIntelligentAgent" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/William-Weng/WWIntelligentAgent";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 1.3.1;
+			};
+		};
 		81E453252FDABDBD002F26EE /* XCRemoteSwiftPackageReference "WWSQLite3Manager" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/William-Weng/WWSQLite3Manager";
@@ -585,6 +601,16 @@
 		811C060E2FDABC2D006D0DC4 /* WWSQLite3Manager */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = WWSQLite3Manager;
+		};
+		814E3DEC2FE1365A00B4873A /* WWIntelligentAgent */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 814E3DEB2FE1365A00B4873A /* XCRemoteSwiftPackageReference "WWIntelligentAgent" */;
+			productName = WWIntelligentAgent;
+		};
+		814E3DEE2FE1366500B4873A /* WWIntelligentAgent */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 814E3DEB2FE1365A00B4873A /* XCRemoteSwiftPackageReference "WWIntelligentAgent" */;
+			productName = WWIntelligentAgent;
 		};
 		817037702FE0009A00347E24 /* WWSQLite3Manager */ = {
 			isa = XCSwiftPackageProductDependency;
