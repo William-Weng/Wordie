@@ -2,14 +2,14 @@
 
 ![SwiftUI](https://img.shields.io/badge/SwiftUI-524520?logo=swift)
 [![Swift-5.7](https://img.shields.io/badge/Swift-5.7-orange.svg?style=flat)](https://developer.apple.com/swift/)
-[![iOS-17.0](https://img.shields.io/badge/iOS-17.0-pink.svg?style=flat)](https://developer.apple.com/swift/)
+[![iOS-26.0](https://img.shields.io/badge/iOS-26.0-pink.svg?style=flat)](https://developer.apple.com/swift/)
 ![TAG](https://img.shields.io/github/v/tag/William-Weng/Wordie)
 [![Swift Package Manager-SUCCESS](https://img.shields.io/badge/Swift_Package_Manager-SUCCESS-blue.svg?style=flat)](https://developer.apple.com/swift/)
 [![LICENSE](https://img.shields.io/badge/LICENSE-MIT-yellow.svg?style=flat)](https://developer.apple.com/swift/)
 
 Wordie 是一款使用 SwiftUI 製作的英文單字學習 App，提供單字的新增、編輯、刪除與瀏覽功能，並透過 SQLite 在本機保存資料，適合作為 SwiftUI + MVVM + 本地資料庫練習專案。
 
-https://github.com/user-attachments/assets/5e4edc30-650f-445d-b329-641c28c4e7b1
+https://github.com/user-attachments/assets/4b8dd22c-915a-4ab2-b16d-8edc02e68832
 
 ## 專案特色
 
