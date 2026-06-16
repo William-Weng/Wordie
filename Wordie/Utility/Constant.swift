@@ -9,8 +9,8 @@ import Foundation
 
 /// 新增 / 編輯單字時使用的 sheet 狀態
 enum WordSheet: Identifiable {
-    case add            // 新增單字
-    case edit(Word)     // 編輯指定單字
+    case add                // 新增單字
+    case edit(WordCard)     // 編輯指定單字
 }
 
 // MARK: - 公開屬性

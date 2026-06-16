@@ -1,13 +1,13 @@
 {
-  "originHash" : "608d59abcbeb4ad9beab2e0f2829231eed86ce6775acca4be760066389919b60",
+  "originHash" : "049bc6a83c1d7d793c06cf728e28477a2a2a2978183c5cb4b5f03ba400fa6aaf",
   "pins" : [
     {
       "identity" : "wwfontloader",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/William-Weng/WWFontLoader",
       "state" : {
-        "revision" : "e8934100dccf0730da675b37df67b0b76482ec3b",
-        "version" : "1.0.0"
+        "revision" : "e1005f225ce70948f1ef5fd698a54dfdca5e9bf7",
+        "version" : "1.1.0"
       }
     },
     {

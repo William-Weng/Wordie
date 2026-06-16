@@ -1,5 +1,5 @@
 //
-//  Word.swift
+//  EnglishWord.swift
 //  Wordie
 //
 //  Created by William.Weng on 2026/6/10.
@@ -9,7 +9,7 @@ import Foundation
 import WWSQLite3Manager
 
 /// 單字模型 => 用來儲存一個單字的英文、音標與中文翻譯
-struct Word: Codable, Identifiable {
+struct EnglishWord: Codable, Identifiable {
     
     let id: Int             // 流水號
     let english: String     // 英文單字
@@ -18,7 +18,7 @@ struct Word: Codable, Identifiable {
 }
 
 // MARK: - WWSQLite3Manager.SchemeDelegate
-extension Word: WWSQLite3Manager.SchemeDelegate {
+extension EnglishWord: WWSQLite3Manager.SchemeDelegate {
     
     /// 用來初始化SQL的表結構
     /// - Returns: WWSQLite3Manager.SchemeColumn
@@ -32,5 +32,13 @@ extension Word: WWSQLite3Manager.SchemeDelegate {
             (key: "translation", type: .TEXT(attribute: (isNotNull: false, isNoCase: true, isUnique: false), defaultValue: nil)),
             (key: "time", type: .TIMESTAMP()),
         ]
+    }
+}
+
+// MARK: - WordCardDataSource
+extension EnglishWord: WordCardDataSource {
+    
+    func toWordCard() -> WordCard {
+        WordCard(id: id, word: english, reading: phonetic, chinese: chinese)
     }
 }

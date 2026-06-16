@@ -10,14 +10,14 @@ import SwiftUI
 /// 單字新增 / 編輯表單畫面
 struct AddWordView: View {
     
-    let sheet: WordSheet    // 目前表單顯示的模式與內容來源
+    let sheet: WordSheet                                // 目前表單顯示的模式與內容來源
     
     @ObservedObject var viewModel: WordListViewModel    // 單字列表的 ViewModel，負責新增與更新資料
     
     @Environment(\.dismiss) private var dismiss         // 關閉目前 sheet 畫面的環境方法
     
-    @State private var english = ""                     // 英文單字輸入欄位
-    @State private var phonetic = ""                    // 音標輸入欄位
+    @State private var word = ""                        // 英文單字輸入欄位
+    @State private var reading = ""                     // 音標輸入欄位
     @State private var chinese = ""                     // 中文解釋輸入欄位
     
     @State private var showAlert = false                // 是否顯示錯誤提示視窗
@@ -39,14 +39,14 @@ struct AddWordView: View {
         
         switch sheet {
         case .add:
-            _english = State(initialValue: "")
-            _phonetic = State(initialValue: "")
+            _word = State(initialValue: "")
+            _reading = State(initialValue: "")
             _chinese = State(initialValue: "")
             
-        case .edit(let word):
-            _english = State(initialValue: word.english)
-            _phonetic = State(initialValue: word.phonetic)
-            _chinese = State(initialValue: word.chinese)
+        case .edit(let wordCard):
+            _word = State(initialValue: wordCard.word)
+            _reading = State(initialValue: wordCard.reading)
+            _chinese = State(initialValue: wordCard.chinese)
         }
     }
     
@@ -73,8 +73,8 @@ private extension AddWordView {
         
         Form {
             Section("單字資訊") {
-                inputRow(systemName: "textformat", placeholder: "English", text: $english)
-                inputRow(systemName: "quote.opening", placeholder: "Phonetic", text: $phonetic)
+                inputRow(systemName: "textformat", placeholder: "Word", text: $word)
+                inputRow(systemName: "quote.opening", placeholder: "Reading", text: $reading)
                 inputRow(systemName: "translate", placeholder: "Chinese", text: $chinese)
             }
         }
@@ -117,14 +117,13 @@ private extension AddWordView {
         ToolbarItem(placement: .confirmationAction) {
             
             Button {
-                let wordUI = WordUI(english: english, phonetic: phonetic, chinese: chinese)
+                
+                let wordUI = WordUI(word: word, reading: reading, chinese: chinese)
                 
                 do {
                     switch sheet {
                     case .add: try viewModel.addWord(wordUI)
-                    case .edit(let word):
-                        let updatedWord = Word(id: word.id, english: wordUI.english, phonetic: wordUI.phonetic, chinese: wordUI.chinese)
-                        try viewModel.updateWord(updatedWord)
+                    case .edit(let source): try viewModel.updateWord(id: source.id, wordUI: wordUI)
                     }
                     
                     dismiss()
@@ -168,7 +167,7 @@ private extension AddWordView {
     /// - 英文不可為空
     /// - 中文不可為空
     var isFormValid: Bool {
-        !english.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty &&
+        !word.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty &&
         !chinese.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
     }
 }

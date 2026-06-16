@@ -1,0 +1,33 @@
+//
+//  APIDelegate.swift
+//  Wordie
+//
+//  Created by William.Weng on 2026/6/16.
+//
+
+import Foundation
+import WWSQLite3Manager
+
+/// API 共有規範
+protocol ApiDelegate {
+    
+    var database: WWSQLite3Manager.Database { get }         // SQLite 資料庫連線物件
+    var tableName: String { get }                           // 單字資料表名稱
+    var type: WWSQLite3Manager.SchemeDelegate.Type { get }  // 資料表對應的模型型別
+    var filename: String { get }                            // 資料庫檔案名稱
+    
+    /// 建立資料庫操作物件，並初始化資料表
+    init(filename: String, tableName: String, type: WWSQLite3Manager.SchemeDelegate.Type)
+    
+    /// 新增一筆單字資料
+    func insert(_ wordUI: WordUI) throws
+    
+    /// 讀取所有單字資料
+    func select() -> [WordCard]
+    
+    /// 更新指定的單字資料
+    func update(_ wordCard: WordCard) throws
+    
+    /// 刪除指定 id 的單字資料
+    func delete(id: Int) throws
+}

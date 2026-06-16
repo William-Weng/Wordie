@@ -16,6 +16,9 @@ import SwiftUI
 /// - 追蹤目前顯示中的單字索引，讓編輯與刪除能正確作用在當前項目
 struct WordieHomeView: View {
     
+    let api: API                                                // API功能
+    let configure: Configure                                    // 一般初始化設定
+
     @StateObject private var viewModel = WordListViewModel()    // 主畫面使用的 ViewModel，負責管理單字資料
     
     @State private var activeSheet: WordSheet?                  // 目前正在顯示的 sheet 狀態
@@ -26,7 +29,7 @@ struct WordieHomeView: View {
         
         NavigationStack {
             
-            WordieContentView(words: viewModel.words, currentIndex: $currentIndex)
+            WordieContentView(words: viewModel.words, configure: configure, currentIndex: $currentIndex)
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
                     deleteItem
@@ -50,6 +53,7 @@ struct WordieHomeView: View {
         }
         .task {
             loadFonts(url: .documentsDirectory, filename: "config.json")
+            viewModel.api = api
             viewModel.loadWords()
         }
     }

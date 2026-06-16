@@ -1,8 +1,8 @@
 //
 //  API.swift
-//  Wordie
+//  Kirie
 //
-//  Created by William.Weng on 2026/6/11.
+//  Created by William.Weng on 2026/6/16.
 //
 
 import WWSQLite3Manager
@@ -43,7 +43,7 @@ extension API: ApiDelegate {
     func insert(_ wordUI: WordUI) throws {
         
         let items: [WWSQLite3Manager.InsertItem] = [
-            (key: "english", value: .string(wordUI.word)),
+            (key: "japanese", value: .string(wordUI.word)),
             (key: "phonetic", value: .string(wordUI.reading)),
             (key: "chinese", value: .string(wordUI.chinese)),
         ]
@@ -58,7 +58,7 @@ extension API: ApiDelegate {
     /// - Returns: 目前資料庫中的所有單字
     func select() -> [WordCard] {
         
-        let words = selectWord().array.compactMap { $0.jsonClass(for: EnglishWord.self)?.toWordCard() }
+        let words = selectWord().array.compactMap { $0.jsonClass(for: JapaneseWord.self)?.toWordCard() }
         return words
     }
     
@@ -71,7 +71,7 @@ extension API: ApiDelegate {
     func update(_ wordCard: WordCard) throws {
         
         let items: [WWSQLite3Manager.InsertItem] = [
-            (key: "english", value: .string(wordCard.word)),
+            (key: "japanese", value: .string(wordCard.word)),
             (key: "phonetic", value: .string(wordCard.reading)),
             (key: "chinese", value: .string(wordCard.chinese)),
         ]

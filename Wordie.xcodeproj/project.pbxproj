@@ -8,12 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		811C060F2FDABC2D006D0DC4 /* WWSQLite3Manager in Frameworks */ = {isa = PBXBuildFile; productRef = 811C060E2FDABC2D006D0DC4 /* WWSQLite3Manager */; };
+		817037712FE0009A00347E24 /* WWSQLite3Manager in Frameworks */ = {isa = PBXBuildFile; productRef = 817037702FE0009A00347E24 /* WWSQLite3Manager */; };
+		817037732FE0009E00347E24 /* WWFontLoader in Frameworks */ = {isa = PBXBuildFile; productRef = 817037722FE0009E00347E24 /* WWFontLoader */; };
 		81E453272FDABDBD002F26EE /* WWSQLite3Manager in Frameworks */ = {isa = PBXBuildFile; productRef = 81E453262FDABDBD002F26EE /* WWSQLite3Manager */; };
 		81FD4D6A2FDC0540009DA448 /* WWFontLoader in Frameworks */ = {isa = PBXBuildFile; productRef = 81FD4D692FDC0540009DA448 /* WWFontLoader */; };
 		81FD4D6D2FDC089D009DA448 /* WWFontLoader in Frameworks */ = {isa = PBXBuildFile; productRef = 81FD4D6C2FDC089D009DA448 /* WWFontLoader */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		817037512FDFFF4E00347E24 /* Kirie.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kirie.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		817B7C602FD94C0900BBDABC /* Wordie.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Wordie.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -25,13 +28,45 @@
 			);
 			target = 817B7C5F2FD94C0900BBDABC /* Wordie */;
 		};
+		8170375E2FE0000A00347E24 /* Exceptions for "Wordie" folder in "Kirie" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Common/ApiDelegate.swift,
+				Common/Configure.swift,
+				Common/WordCard.swift,
+				Common/WordCardDataSource.swift,
+				Common/WordUI.swift,
+				Helper/FontConfig.swift,
+				Helper/FontResolver.swift,
+				Utility/Constant.swift,
+				Utility/Extension.swift,
+				Utility/SpeechService.swift,
+				View/MainView/WordieContentView.swift,
+				View/MainView/WordieHomeView.swift,
+				View/SubView/AddWordView.swift,
+				View/SubView/WordCardView.swift,
+				View/SubView/WordieMascotView.swift,
+				View/SubView/WordNavigationView.swift,
+				View/SubView/WordPlayButton.swift,
+				View/SubView/WordProgressView.swift,
+				ViewModel/EnglishWord.swift,
+				ViewModel/WordListViewModel.swift,
+			);
+			target = 817037502FDFFF4E00347E24 /* Kirie */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		817037522FDFFF4E00347E24 /* Kirie */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Kirie;
+			sourceTree = "<group>";
+		};
 		817B7C622FD94C0900BBDABC /* Wordie */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				81318C142FDBDF1B004055C3 /* Exceptions for "Wordie" folder in "Wordie" target */,
+				8170375E2FE0000A00347E24 /* Exceptions for "Wordie" folder in "Kirie" target */,
 			);
 			path = Wordie;
 			sourceTree = "<group>";
@@ -39,6 +74,15 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		8170374E2FDFFF4E00347E24 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				817037732FE0009E00347E24 /* WWFontLoader in Frameworks */,
+				817037712FE0009A00347E24 /* WWSQLite3Manager in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		817B7C5D2FD94C0900BBDABC /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -53,10 +97,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8170376F2FE0009A00347E24 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		817B7C572FD94C0900BBDABC = {
 			isa = PBXGroup;
 			children = (
 				817B7C622FD94C0900BBDABC /* Wordie */,
+				817037522FDFFF4E00347E24 /* Kirie */,
+				8170376F2FE0009A00347E24 /* Frameworks */,
 				817B7C612FD94C0900BBDABC /* Products */,
 			);
 			sourceTree = "<group>";
@@ -65,6 +118,7 @@
 			isa = PBXGroup;
 			children = (
 				817B7C602FD94C0900BBDABC /* Wordie.app */,
+				817037512FDFFF4E00347E24 /* Kirie.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -72,6 +126,30 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		817037502FDFFF4E00347E24 /* Kirie */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 817037592FDFFF4F00347E24 /* Build configuration list for PBXNativeTarget "Kirie" */;
+			buildPhases = (
+				8170374D2FDFFF4E00347E24 /* Sources */,
+				8170374E2FDFFF4E00347E24 /* Frameworks */,
+				8170374F2FDFFF4E00347E24 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				817037522FDFFF4E00347E24 /* Kirie */,
+			);
+			name = Kirie;
+			packageProductDependencies = (
+				817037702FE0009A00347E24 /* WWSQLite3Manager */,
+				817037722FE0009E00347E24 /* WWFontLoader */,
+			);
+			productName = Kirie;
+			productReference = 817037512FDFFF4E00347E24 /* Kirie.app */;
+			productType = "com.apple.product-type.application";
+		};
 		817B7C5F2FD94C0900BBDABC /* Wordie */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 817B7C6B2FD94C0A00BBDABC /* Build configuration list for PBXNativeTarget "Wordie" */;
@@ -108,6 +186,9 @@
 				LastSwiftUpdateCheck = 1640;
 				LastUpgradeCheck = 2630;
 				TargetAttributes = {
+					817037502FDFFF4E00347E24 = {
+						CreatedOnToolsVersion = 16.4;
+					};
 					817B7C5F2FD94C0900BBDABC = {
 						CreatedOnToolsVersion = 16.4;
 					};
@@ -132,11 +213,19 @@
 			projectRoot = "";
 			targets = (
 				817B7C5F2FD94C0900BBDABC /* Wordie */,
+				817037502FDFFF4E00347E24 /* Kirie */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		8170374F2FDFFF4E00347E24 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		817B7C5E2FD94C0900BBDABC /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -147,6 +236,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		8170374D2FDFFF4E00347E24 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		817B7C5C2FD94C0900BBDABC /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -157,6 +253,72 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
+		8170375A2FDFFF4F00347E24 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 4Q5CYDAG3B;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = idv.william.Kirie;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		8170375B2FDFFF4F00347E24 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 4Q5CYDAG3B;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = idv.william.Kirie;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
 		817B7C692FD94C0A00BBDABC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -355,6 +517,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		817037592FDFFF4F00347E24 /* Build configuration list for PBXNativeTarget "Kirie" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8170375A2FDFFF4F00347E24 /* Debug */,
+				8170375B2FDFFF4F00347E24 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		817B7C5B2FD94C0900BBDABC /* Build configuration list for PBXProject "Wordie" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -389,7 +560,7 @@
 			repositoryURL = "https://github.com/William-Weng/WWFontLoader";
 			requirement = {
 				kind = upToNextMinorVersion;
-				minimumVersion = 1.0.0;
+				minimumVersion = 1.1.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -398,6 +569,16 @@
 		811C060E2FDABC2D006D0DC4 /* WWSQLite3Manager */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = WWSQLite3Manager;
+		};
+		817037702FE0009A00347E24 /* WWSQLite3Manager */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 81E453252FDABDBD002F26EE /* XCRemoteSwiftPackageReference "WWSQLite3Manager" */;
+			productName = WWSQLite3Manager;
+		};
+		817037722FE0009E00347E24 /* WWFontLoader */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 81FD4D6B2FDC089D009DA448 /* XCRemoteSwiftPackageReference "WWFontLoader" */;
+			productName = WWFontLoader;
 		};
 		81E453262FDABDBD002F26EE /* WWSQLite3Manager */ = {
 			isa = XCSwiftPackageProductDependency;

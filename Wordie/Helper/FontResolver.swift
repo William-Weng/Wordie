@@ -21,8 +21,8 @@ class FontResolver {
     
     static let shared = FontResolver()
     
-    var english: Font = .system(size: 48, weight: .bold, design: .rounded)
-    var phonetic: Font = .system(size: 28, weight: .medium, design: .monospaced)
+    var word: Font = .system(size: 48, weight: .bold, design: .rounded)
+    var reading: Font = .system(size: 28, weight: .medium, design: .monospaced)
     var chinese: Font = .system(size: 32, weight: .bold, design: .rounded)
     
     private let loader = WWFontLoader.shared
@@ -39,8 +39,8 @@ extension FontResolver {
     /// - Throws: `WWFontLoader.CustomError` 如果載入失敗
     func resolveFonts(from config: FontConfig) throws {
         
-        if let english = try resolveFont(detail: config.font.english, size: 48) { self.english = english }
-        if let phonetic = try resolveFont(detail: config.font.phonetic, size: 28) { self.phonetic = phonetic }
+        if let word = try resolveFont(detail: config.font.english, size: 48) { self.word = word }
+        if let reading = try resolveFont(detail: config.font.phonetic, size: 28) { self.reading = reading }
         if let chinese = try resolveFont(detail: config.font.chinese, size: 32) { self.chinese = chinese }
     }
 }

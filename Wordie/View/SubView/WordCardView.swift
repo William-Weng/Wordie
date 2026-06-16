@@ -12,8 +12,8 @@ import SwiftUI
 /// 根據 `isFlipped` 決定顯示正面（英文 + 音標）或背面（中文翻譯）
 struct WordCardView: View {
     
-    let word: Word          // 當前單字資料
-    let isFlipped: Bool     // 是否顯示翻面狀態
+    let wordCard: WordCard          // 當前單字資料
+    let isFlipped: Bool             // 是否顯示翻面狀態
     
     var body: some View {
         background
@@ -58,15 +58,15 @@ private extension WordCardView {
             
             Spacer(minLength: 0)
             
-            Text(word.english)
-                .font(FontResolver.shared.english)
+            Text(wordCard.word)
+                .font(FontResolver.shared.word)
                 .foregroundStyle(.black)
                 .multilineTextAlignment(.center)
                 .lineLimit(1)
                 .minimumScaleFactor(0.5)
 
-            Text(word.phonetic)
-                .font(FontResolver.shared.phonetic)
+            Text(wordCard.reading)
+                .font(FontResolver.shared.reading)
                 .foregroundStyle(.orange)
                 .multilineTextAlignment(.center)
                 .lineLimit(1)
@@ -87,7 +87,7 @@ private extension WordCardView {
                 .font(.system(size: 18, weight: .semibold, design: .rounded))
                 .foregroundStyle(.orange.opacity(0.9))
             
-            Text(word.chinese)
+            Text(wordCard.chinese)
                 .font(FontResolver.shared.chinese)
                 .foregroundStyle(.black)
                 .multilineTextAlignment(.center)

@@ -12,8 +12,9 @@ import SwiftUI
 /// 負責顯示單字卡片、翻牌、左右切換與發音按鈕
 struct WordieContentView: View {
     
-    let words: [Word]                               // 單字資料來源
-    
+    let words: [WordCard]                           // 單字資料來源
+    let configure: Configure                        // 一般初始化設定
+
     @Binding var currentIndex: Int                  // 目前顯示綁定的單字索引
     
     @State private var dragOffset: CGFloat = 0      // 拖曳偏移量 => 用來做滑動切頁動畫
@@ -30,7 +31,7 @@ struct WordieContentView: View {
                 
                 titleView
                 
-                WordieMascotView(image: Image(systemName: "bird.fill"))
+                WordieMascotView(image: Image(systemName: configure.icon))
                 
                 if words.isEmpty {
                     emptyStateView
@@ -49,7 +50,7 @@ struct WordieContentView: View {
                 
                 WordPlayButton(image: Image(systemName: "play.fill")) {
                     guard words.indices.contains(currentIndex) else { return }
-                    playWord(words[currentIndex].english)
+                    playWord(words[currentIndex].word)
                 }
                 
                 Spacer(minLength: 0)
@@ -94,10 +95,7 @@ private extension WordieContentView {
     var background: some View {
         
         LinearGradient(
-            colors: [
-                Color(red: 0.98, green: 0.92, blue: 0.76),
-                Color(red: 0.95, green: 0.88, blue: 0.70)
-            ],
+            colors: configure.colors,
             startPoint: .topLeading,
             endPoint: .bottomTrailing
         )
@@ -107,7 +105,7 @@ private extension WordieContentView {
     /// 標題文字
     var titleView: some View {
         
-        Text("Wordie")
+        Text(configure.title)
             .font(.system(size: 40, weight: .bold, design: .rounded))
             .foregroundStyle(.orange)
             .padding(.top, 24)
@@ -143,7 +141,7 @@ private extension WordieContentView {
             
             /// 最後方卡片
             if let farBackWord {
-                WordCardView(word: farBackWord, isFlipped: false)
+                WordCardView(wordCard: farBackWord, isFlipped: false)
                     .offset(x: farBackOffsetX, y: farBackOffsetY)
                     .scaleEffect(farBackScale)
                     .rotationEffect(.degrees(farBackRotation))
@@ -155,7 +153,7 @@ private extension WordieContentView {
             
             /// 中間卡片
             if let backWord {
-                WordCardView(word: backWord, isFlipped: false)
+                WordCardView(wordCard: backWord, isFlipped: false)
                     .offset(x: backOffsetX, y: backOffsetY)
                     .scaleEffect(backScale)
                     .rotationEffect(.degrees(backRotation))
@@ -167,7 +165,7 @@ private extension WordieContentView {
             
             /// 前景卡片
             if let currentWord {
-                WordCardView(word: currentWord, isFlipped: isFlipped)
+                WordCardView(wordCard: currentWord, isFlipped: isFlipped)
                     .offset(x: dragOffset, y: frontLift)
                     .scaleEffect(frontScale)
                     .rotationEffect(.degrees(frontRotation))
@@ -199,21 +197,21 @@ private extension WordieContentView {
     /// 目前正在顯示的單字
     ///
     /// 使用 `currentIndex` 搭配 `[safe:]` 取值，避免索引超出範圍時發生 crash
-    var currentWord: Word? {
+    var currentWord: WordCard? {
         words[safe: currentIndex]
     }
     
     /// 前一層預覽卡片要顯示的單字
     ///
     /// 依照拖曳方向決定要取上一筆或下一筆，讓卡片堆疊在滑動時能自然更新，同樣使用 `[safe:]` 保護索引，避免資料不足時越界
-    var backWord: Word? {
+    var backWord: WordCard? {
         words[safe: loopIndex(currentIndex + (dragOffset < 0 ? -1 : 1))]
     }
     
     /// 最後一層預覽卡片要顯示的單字
     ///
     /// 依照拖曳方向再往外推一筆，作為三層卡片堆疊中的最底層預覽，透過 `[safe:]` 讓這層卡片也能在資料變動時維持安全
-    var farBackWord: Word? {
+    var farBackWord: WordCard? {
         words[safe: loopIndex(currentIndex + (dragOffset < 0 ? -2 : 2))]
     }
 }
@@ -285,7 +283,6 @@ private extension WordieContentView {
     var farBackOpacity: Double { 0.68 + 0.10 * Double(dragProgress) }
 }
 
-
 // MARK: - 小工具
 private extension WordieContentView {
     
@@ -346,7 +343,7 @@ private extension WordieContentView {
     
     /// 播放當前單字發音
     func playWord(_ text: String) {
-        SpeechService.shared.speak(text, language: "en-US")
+        SpeechService.shared.speak(text, language: configure.language)
     }
     
     /// 將目前索引限制在有效範圍內
