@@ -8,10 +8,13 @@
 #if canImport(WWIntelligentAgent)
 import SwiftUI
 import WWIntelligentAgent
+import WWMarkdownWebViewUI
 
 /// 使用iOS本地AI解說單字
 @available(iOS 26.0, *)
 struct IntelliSenseWordView: View {
+    
+    static private let agent = WWIntelligentAgent()     // AI 對話代理
     
     let sheet: WordSheet
     let instructions: String
@@ -20,12 +23,11 @@ struct IntelliSenseWordView: View {
     
     @ObservedObject var viewModel: WordListViewModel
 
-    @State private var word: String             // 目前要讓 AI 解說的單字
-    @State private var explain: String          // AI 回傳的解說內容
-    @State private var isLoading = true         // 是否正在等待 AI 回應
-    
-    private let agent = WWIntelligentAgent()    // AI 對話代理
-    
+    @State private var word: String                     // 目前要讓 AI 解說的單字
+    @State private var markdown: String                 // AI 回傳的解說內容
+    @State private var isLoading = true                 // 是否正在等待 AI 回應
+    @State private var webHeight: CGFloat = 1           // WebView高度
+        
     init(sheet: WordSheet, viewModel: WordListViewModel, instructions: String) {
         
         self.sheet = sheet
@@ -35,10 +37,10 @@ struct IntelliSenseWordView: View {
         switch sheet {
         case .add, .edit:
             _word = State(initialValue: "")
-            _explain = State(initialValue: "")
+            _markdown = State(initialValue: "")
         case .intellisense(let wordCard):
             _word = State(initialValue: wordCard.word)
-            _explain = State(initialValue: "")
+            _markdown = State(initialValue: "")
         }
     }
     
@@ -62,14 +64,14 @@ struct IntelliSenseWordView: View {
             
             defer { isLoading = false }
             
-            let prompt = "請解說\(word)"
-            agent.configure(with: instructions)
+            let prompt = "這是使用者說的：請解說\(word)"
+            Self.agent.configure(with: instructions, optionType: .bot)
             
             do {
-                let result = try await agent.chat(to: prompt)
-                self.explain = result
+                let result = try await Self.agent.chat(to: prompt)
+                self.markdown = result
             } catch {
-                self.explain = error.localizedDescription
+                self.markdown = error.localizedDescription
             }
             
         }
@@ -88,13 +90,12 @@ private extension IntelliSenseWordView {
 
     /// AI 完成後顯示的解說內容
     var explainView: some View {
-        ScrollView {
-            Text(explain)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .multilineTextAlignment(.leading)
-                .padding()
+            ScrollView {
+                WWMarkdownWebViewUI(markdown: markdown, dynamicHeight: $webHeight, textStyle: .constant(.dark))
+                    .frame(height: webHeight)
+                    .padding(20)
+            }
         }
-    }
 }
 
 // MARK: - 工具列按鈕

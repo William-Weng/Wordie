@@ -1,5 +1,5 @@
 {
-  "originHash" : "5b5ea5e779e9dc2c3d451a3785bd2703a23ad965e60319712ad5529441436d52",
+  "originHash" : "9232b6f900d8723361f70aa8349ce600a19a73bd8977df2bb84d18463bfd4cfd",
   "pins" : [
     {
       "identity" : "wwfontloader",
@@ -17,6 +17,15 @@
       "state" : {
         "revision" : "7d44a298d7ffbf3a95faca8bfc299635b61bf5d2",
         "version" : "1.4.0"
+      }
+    },
+    {
+      "identity" : "wwmarkdownwebviewui",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/William-Weng/WWMarkdownWebViewUI",
+      "state" : {
+        "revision" : "630424fb44037e09aed48d83f808258598762ff5",
+        "version" : "0.2.0"
       }
     },
     {

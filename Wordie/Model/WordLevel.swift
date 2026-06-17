@@ -7,7 +7,7 @@
 
 import Foundation
 
-/// 歐洲共同語言參考標準（CEFR）分為 6 大級別
+/// 歐洲共同語言參考標準（CEFR）分為 6 大級別（A1最簡單、C2最難）
 enum WordLevel: Int {
     case A1, A2, B1, B2, C1, C2
 }
