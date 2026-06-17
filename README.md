@@ -11,7 +11,7 @@ Wordie 是一款使用 SwiftUI 製作的英文單字學習 App，提供單字的
 
 https://github.com/user-attachments/assets/4b8dd22c-915a-4ab2-b16d-8edc02e68832
 
-## 專案特色
+## [專案特色](https://medium.com/在程式與旅行的路上/widget-extension-等到-ios-14-才姍姍來遲的-widget-小工具-7b269d9b2253)
 
 - 使用 **SwiftUI** 建立畫面與互動流程，讓 UI 結構更清楚。
 - 採用 **MVVM** 架構，將畫面、狀態與資料操作分層管理，方便維護與擴充。

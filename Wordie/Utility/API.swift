@@ -58,8 +58,10 @@ extension API: ApiDelegate {
     /// - Returns: 目前資料庫中的所有單字
     func select() -> [WordCard] {
         
-        let words = selectWord().array.compactMap { $0.jsonClass(for: EnglishWord.self)?.toWordCard() }
-        return words
+        let words = selectWord().array
+        let wordCards = words.compactMap { $0.jsonClass(for: Word.self)?.toWordCard() }
+        
+        return wordCards
     }
     
     /// 更新指定的單字資料

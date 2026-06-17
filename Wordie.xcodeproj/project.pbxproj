@@ -47,6 +47,7 @@
 				Common/WordUI.swift,
 				Helper/FontConfig.swift,
 				Helper/FontResolver.swift,
+				Model/WordListViewModel.swift,
 				Utility/Constant.swift,
 				Utility/Extension.swift,
 				Utility/SpeechService.swift,
@@ -59,8 +60,6 @@
 				View/SubView/WordNavigationView.swift,
 				View/SubView/WordPlayButton.swift,
 				View/SubView/WordProgressView.swift,
-				ViewModel/EnglishWord.swift,
-				ViewModel/WordListViewModel.swift,
 			);
 			target = 817037502FDFFF4E00347E24 /* Kirie */;
 		};

@@ -58,7 +58,7 @@ extension API: ApiDelegate {
     /// - Returns: 目前資料庫中的所有單字
     func select() -> [WordCard] {
         
-        let words = selectWord().array.compactMap { $0.jsonClass(for: JapaneseWord.self)?.toWordCard() }
+        let words = selectWord().array.compactMap { $0.jsonClass(for: Word.self)?.toWordCard() }
         return words
     }
     

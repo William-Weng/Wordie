@@ -17,7 +17,7 @@ struct WordieApp: App {
                 api: .init(
                     filename: "Wordie.db",
                     tableName: "english",
-                    type: EnglishWord.self
+                    type: Word.self
                 ),
                 configure: .init(
                     title: "Wordie",

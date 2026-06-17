@@ -17,7 +17,7 @@ struct KirieApp: App {
                 api: .init(
                     filename: "Kirie.db",
                     tableName: "japanese",
-                    type: JapaneseWord.self
+                    type: Word.self
                 ),
                 configure: .init(
                     title: "Kirie",
