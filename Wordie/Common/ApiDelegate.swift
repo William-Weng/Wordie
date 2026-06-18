@@ -30,4 +30,7 @@ protocol ApiDelegate {
     
     /// 刪除指定 id 的單字資料
     func delete(id: Int) throws
+    
+    /// 取得目前資料庫中所有資料表的 schema 資訊
+    func tableSchemas() -> [SqliteMaster]
 }

@@ -46,11 +46,9 @@ struct WordieContentView: View {
                 
                 WordProgressView(currentIndex: currentIndex, totalCount: words.count)
                 
-                functionKeyView
-                
                 WordPlayButton(image: Image(systemName: "play.fill")) {
                     guard words.indices.contains(currentIndex) else { return }
-                    playWord(words[currentIndex].word)
+                    words[currentIndex].speakWord(by: configure.language)
                 }
                 
                 Spacer(minLength: 0)
@@ -64,32 +62,6 @@ struct WordieContentView: View {
 
 // MARK: - 私有View
 private extension WordieContentView {
-    
-    /// 顯示功能按鈕區 => 包含上一張 / 下一張導覽按鈕，以及翻牌按鈕
-    var functionKeyView: some View {
-        
-        HStack(spacing: 14) {
-            
-            WordNavigationView(
-                canGoPrevious: true,
-                canGoNext: true,
-                previousImage: Image(systemName: "chevron.left"),
-                nextImage: Image(systemName: "chevron.right"),
-                previousAction: previousWord,
-                nextAction: nextWord
-            )
-            
-            Button(action: flipCard) {
-                Text(isFlipped ? "看正面" : "翻牌")
-                    .font(.system(size: 16, weight: .bold, design: .rounded))
-                    .foregroundStyle(.white)
-                    .padding(.horizontal, 18)
-                    .padding(.vertical, 12)
-                    .background(Color.orange)
-                    .clipShape(Capsule())
-            }
-        }
-    }
     
     /// 背景漸層
     var background: some View {
@@ -322,28 +294,11 @@ private extension WordieContentView {
         let remainder = index % words.count
         return remainder >= 0 ? remainder : remainder + words.count
     }
-    
-    /// 切到上一張
-    func previousWord() {
-        guard !isFlipped else { return }
-        try? animateCardAway(direction: 1) { currentIndex = previousIndex }
-    }
-    
-    /// 切到下一張
-    func nextWord() {
-        guard !isFlipped else { return }
-        try? animateCardAway(direction: -1) { currentIndex = nextIndex }
-    }
-    
+        
     /// 翻牌
     func flipCard() {
         guard !isAnimatingPage else { return }
         withAnimation(.spring(response: 0.45, dampingFraction: 0.82)) { isFlipped.toggle() }
-    }
-    
-    /// 播放當前單字發音
-    func playWord(_ text: String) {
-        SpeechService.shared.speak(text, language: configure.language)
     }
     
     /// 將目前索引限制在有效範圍內

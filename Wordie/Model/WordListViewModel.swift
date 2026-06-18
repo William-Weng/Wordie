@@ -59,4 +59,10 @@ extension WordListViewModel {
         try api.delete(id: wordCard.id)
         loadWords()
     }
+    
+    /// 取得當前全資料表名稱
+    /// - Returns: [資料表名稱]
+    func tablenames() -> [String]{
+        api.tableSchemas().map { $0.name }.sorted()
+    }
 }

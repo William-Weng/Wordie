@@ -13,8 +13,6 @@ import AVFoundation
 /// 負責將英文單字轉成語音播放
 final class SpeechService: NSObject, ObservableObject {
     
-    static let shared = SpeechService()                 // 全域共用實例
-    
     private let synthesizer = AVSpeechSynthesizer()     // 系統語音合成器
     
     override init() {
@@ -33,7 +31,7 @@ extension SpeechService {
 // MARK: - 公開函式
 extension SpeechService {
 
-    /// 播放指定文字的語音
+    /// [播放指定文字的語音](https://mdn.club.tw/en-US/docs/Glossary/BCP_47_language_tag)
     /// - Parameters:
     ///   - text: 要念出的文字內容
     ///   - language: 語音語言代碼，例如 "en-US"、"en-GB"

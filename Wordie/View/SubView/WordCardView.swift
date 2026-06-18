@@ -107,7 +107,7 @@ private extension WordCardView {
     /// 顯示單字等級的標籤視圖
     ///
     /// 例如 `A1`、`B1` 這類等級文字，以圓角底色 badge 的方式呈現
-    func levelBadge(_ level: WordLevelDatabase) -> some View {
+    func levelBadge(_ level: any WordLevelDatabase) -> some View {
         
         Text(level.value)
             .font(.system(size: 18, weight: .heavy, design: .rounded))

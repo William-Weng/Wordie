@@ -19,10 +19,13 @@ struct IntelliSenseWordView: View {
     let sheet: WordSheet
     let instructions: String
     
+    private let speechService: SpeechService = .init()
+    
     @Environment(\.dismiss) private var dismiss
     
     @ObservedObject var viewModel: WordListViewModel
-
+    @ObservedObject var manager = WWMarkdownWebViewUI.Manager()
+    
     @State private var word: String                     // 目前要讓 AI 解說的單字
     @State private var markdown: String                 // AI 回傳的解說內容
     @State private var isLoading = true                 // 是否正在等待 AI 回應
@@ -59,21 +62,11 @@ struct IntelliSenseWordView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 cancelItem
+                readContentItem
+                analyzeItem
             }
         }.task {
-            
-            defer { isLoading = false }
-            
-            let prompt = "這是使用者說的：請解說\(word)"
-            Self.agent.configure(with: instructions, optionType: .bot)
-            
-            do {
-                let result = try await Self.agent.chat(to: prompt)
-                self.markdown = result
-            } catch {
-                self.markdown = error.localizedDescription
-            }
-            
+            await analyzeWord(word)
         }
     }
 }
@@ -91,7 +84,7 @@ private extension IntelliSenseWordView {
     /// AI 完成後顯示的解說內容
     var explainView: some View {
             ScrollView {
-                WWMarkdownWebViewUI(markdown: markdown, dynamicHeight: $webHeight, textStyle: .constant(.dark))
+                WWMarkdownWebViewUI(markdown: markdown, height: $webHeight, textStyle: .constant(.dark), manager: manager)
                     .frame(height: webHeight)
                     .padding(20)
             }
@@ -114,6 +107,73 @@ private extension IntelliSenseWordView {
                     .labelStyle(.iconOnly)
             }
         }
+    }
+    
+    /// 再由 AI 分析單字一次的按鈕
+    @ToolbarContentBuilder
+    var analyzeItem: some ToolbarContent {
+        
+        ToolbarItem(placement: .confirmationAction) {
+            Button {
+                Task { await analyzeWord(word) }
+            } label: {
+                Label("分析單字", systemImage: "brain.head.profile")
+                    .labelStyle(.iconOnly)
+            }
+            .disabled(isLoading)
+        }
+    }
+    
+    /// 讀出 AI 分析完的內容
+    @ToolbarContentBuilder
+    var readContentItem: some ToolbarContent {
+        
+        ToolbarItem(placement: .confirmationAction) {
+            Button {
+                Task { try await speakTextContent() }
+            } label: {
+                Label("讀出分析內容", systemImage: "speaker.wave.3")
+                    .labelStyle(.iconOnly)
+            }
+            .disabled(isLoading)
+        }
+    }
+}
+
+// MARK: - AI工具
+@available(iOS 26.0, *)
+private extension IntelliSenseWordView {
+    
+    /// 由AI分析單字
+    /// - Parameter word: 要分析的單字
+    func analyzeWord(_ word: String) async {
+        
+        defer { isLoading = false }
+        
+        let prompt = "這是使用者說的：請解說\(word)"
+        Self.agent.configure(with: instructions, optionType: .bot)
+        isLoading = true
+        
+        do {
+            let result = try await Self.agent.chat(to: prompt)
+            self.markdown = result
+        } catch {
+            self.markdown = error.localizedDescription
+        }
+    }
+}
+
+// MARK: - AI工具
+@available(iOS 26.0, *)
+private extension IntelliSenseWordView {
+    
+    /// 讀出分析的純文字內容
+    func speakTextContent() async throws {
+        
+        let textContent = try await manager.getTextContent() ?? ""
+        let content = textContent.replacingOccurrences(of: "\n", with: ". ")
+        
+        speechService.speak(content, language: "zh-TW")
     }
 }
 
