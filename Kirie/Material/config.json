@@ -1,11 +1,11 @@
 {
   "Font": {
     "word": {
-      "ttf": "KleeOne-Regular.ttf",
+      "ttf": "KleeOne-SemiBold.ttf",
       "size": 48.0
     },
     "reading": {
-      "ttf": "KleeOne-Regular.ttf",
+      "ttf": "KleeOne-SemiBold.ttf",
       "size": 28.0
     },
     "chinese":

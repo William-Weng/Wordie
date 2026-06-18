@@ -38,7 +38,6 @@ https://github.com/user-attachments/assets/4b8dd22c-915a-4ab2-b16d-8edc02e68832
 | UI Framework | `SwiftUI`  |
 | 架構模式 | `MVVM` |
 | 資料儲存 | `SQLite` |
-| 資料庫工具 | `WWSQLite3Manager` |
 | 語言 | `Swift` |
 
 ## 引用字型

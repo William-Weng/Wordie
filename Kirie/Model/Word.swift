@@ -43,6 +43,7 @@ extension Word: WordCardDataSource {
     
     /// 轉成共用型WordCard
     func toWordCard() -> WordCard {
-        WordCard(id: id, word: japanese, reading: kana, chinese: chinese)
+        let level = WordLevel(rawValue: level) ?? .N5
+        return WordCard(id: id, word: japanese, reading: kana, chinese: chinese, level: level)
     }
 }

@@ -43,8 +43,15 @@ private extension WordCardView {
         
         Group {
             if !isFlipped {
-                frontView
-                    .padding(.horizontal, 20)
+                
+                ZStack(alignment: .bottomTrailing) {
+                    frontView
+                        .padding(.horizontal, 20)
+                    levelBadge(wordCard.level)
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 12)
+                }
+                
             } else {
                 backView
                     .padding(.horizontal, 20)
@@ -54,44 +61,61 @@ private extension WordCardView {
         
     /// 正面：英文 + 音標
     var frontView: some View {
-        
-        VStack(spacing: 8) {
+        ZStack(alignment: .bottomTrailing) {
             
-            Spacer(minLength: 0)
-            
-            if isAscending {
-                Text(wordCard.word)
-                    .font(FontResolver.shared.word)
-                    .foregroundStyle(.black)
-                    .multilineTextAlignment(.center)
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.5)
-
-                Text(wordCard.reading)
-                    .font(FontResolver.shared.reading)
-                    .foregroundStyle(.orange)
-                    .multilineTextAlignment(.center)
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.6)
-            } else {
+            VStack(spacing: 8) {
                 
-                Text(wordCard.reading)
-                    .font(FontResolver.shared.reading)
-                    .foregroundStyle(.orange)
-                    .multilineTextAlignment(.center)
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.6)
+                Spacer(minLength: 0)
                 
-                Text(wordCard.word)
-                    .font(FontResolver.shared.word)
-                    .foregroundStyle(.black)
-                    .multilineTextAlignment(.center)
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.5)
+                if isAscending {
+                    Text(wordCard.word)
+                        .font(FontResolver.shared.word)
+                        .foregroundStyle(.black)
+                        .multilineTextAlignment(.center)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.5)
+                    
+                    Text(wordCard.reading)
+                        .font(FontResolver.shared.reading)
+                        .foregroundStyle(.orange)
+                        .multilineTextAlignment(.center)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.6)
+                } else {
+                    
+                    Text(wordCard.reading)
+                        .font(FontResolver.shared.reading)
+                        .foregroundStyle(.orange)
+                        .multilineTextAlignment(.center)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.6)
+                    
+                    Text(wordCard.word)
+                        .font(FontResolver.shared.word)
+                        .foregroundStyle(.black)
+                        .multilineTextAlignment(.center)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.5)
+                }
+                
+                Spacer(minLength: 0)
             }
-            
-            Spacer(minLength: 0)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
+    }
+    
+    /// 顯示單字等級的標籤視圖
+    ///
+    /// 例如 `A1`、`B1` 這類等級文字，以圓角底色 badge 的方式呈現
+    func levelBadge(_ level: WordLevelDatabase) -> some View {
+        
+        Text(level.value)
+            .font(.system(size: 18, weight: .heavy, design: .rounded))
+            .foregroundStyle(.white)
+            .padding(.horizontal, 14)
+            .padding(.vertical, 10)
+            .background(level.backgroundColor)
+            .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
     }
     
     /// 背面：中文翻譯
