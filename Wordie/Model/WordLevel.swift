@@ -15,7 +15,7 @@ enum WordLevel: Int {
 // MARK: - WordLevelDatabase
 extension WordLevel: WordLevelDatabase {
     
-    func toString() -> String {
+    var value: String {
         
         switch self {
         case .A1: "A1"
@@ -27,7 +27,8 @@ extension WordLevel: WordLevelDatabase {
         }
     }
     
-    func backgroundColor() -> Color {
+    var backgroundColor: Color {
+        
         switch self {
         case .A1: .blue
         case .A2: .green
@@ -36,7 +37,5 @@ extension WordLevel: WordLevelDatabase {
         case .C1: .red
         case .C2: .pink
         }
-
     }
-
 }

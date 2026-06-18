@@ -8,7 +8,7 @@
 import SwiftUI
 
 /// 將各語系等級取得文字 / 底色 => 多專案共用
-protocol WordLevelDatabase {
+protocol WordLevelDatabase: CaseIterable {
     
     var value: String { get }
     var backgroundColor: Color { get }

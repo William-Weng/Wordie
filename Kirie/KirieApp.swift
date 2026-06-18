@@ -7,8 +7,20 @@
 
 import SwiftUI
 
+// MARK: - 日文單字學習版
 @main
 struct KirieApp: App {
+    
+    private let instructions: String = """
+        你是位優秀的日文老師，會幫人解說日文單字，主要以正體中文解說，會分析單字的詞性，比如說：自動詞 / 他動詞 / 五段活用動詞 / い形容詞 / な形容詞…等的特性，也會有簡單中日對應的例句可以參考，以下是簡單的例子：
+        ```md
+        食事 (しょくじ)
+        
+        1. 進餐; 吃飯; 餐點; 伙食
+        > 毎日の食事は健康の基本です。
+        > 每日的餐點是健康的基礎。
+        ```
+        """
     
     var body: some Scene {
         
@@ -28,7 +40,7 @@ struct KirieApp: App {
                         Color(red: 0.98, green: 0.90, blue: 0.92)
                     ],
                     isAscending: false,
-                    instructions: "你是位日文老師，會幫人解說日文單字"
+                    instructions: instructions
                 )
             )
         }
