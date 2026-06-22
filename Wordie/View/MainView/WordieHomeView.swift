@@ -23,43 +23,48 @@ struct WordieHomeView: View {
     
     @State private var activeSheet: WordSheet?                  // 目前正在顯示的 sheet 狀態
     @State private var currentIndex = 0                         // 目前正在顯示的單字索引
+    @State private var tablenames: [String] = []                // 資料庫的列表名稱
     @State private var isShowingDeleteConfirm = false           // 是否顯示刪除確認對話框
     
     var body: some View {
         
         NavigationStack {
             
-            WordieContentView(words: viewModel.words, configure: configure, currentIndex: $currentIndex)
-                .navigationBarTitleDisplayMode(.inline)
-                .toolbar {
-                    deleteItem
-                    if #available(iOS 26.0, *) { intellisenseItem }
-                    editItem
-                    addItem
+            WordieContentView(words: viewModel.words, configure: configure, currentIndex: $currentIndex, tablenames: $tablenames) { tableName in
+                viewModel.api.tableName = tableName
+                viewModel.loadWords()
+            }
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                deleteItem
+                if #available(iOS 26.0, *) { intellisenseItem }
+                editItem
+                addItem
+            }
+            .sheet(item: $activeSheet) { sheet in
+                
+                switch sheet {
+                case .add, .edit: AddWordView(sheet: sheet, viewModel: viewModel)
+                case .intellisense: if #available(iOS 26.0, *) { IntelliSenseWordView(sheet: sheet, viewModel: viewModel, instructions: configure.instructions)  }
                 }
-                .sheet(item: $activeSheet) { sheet in
-
-                    switch sheet {
-                    case .add, .edit: AddWordView(sheet: sheet, viewModel: viewModel)
-                    case .intellisense: if #available(iOS 26.0, *) { IntelliSenseWordView(sheet: sheet, viewModel: viewModel, instructions: configure.instructions)  }
-                    }
-                    
-                }.confirmationDialog(
-                    "確定要刪除這個單字嗎？",
-                    isPresented: $isShowingDeleteConfirm,
-                    titleVisibility: .visible
-                ) {
-                    Button("刪除", role: .destructive) {
-                        let currentWord = viewModel.words[currentIndex]
-                        try? viewModel.deleteWord(currentWord)
-                    }
-                } message: {
-                    Text("這個動作無法復原。")
+                
+            }.confirmationDialog(
+                "確定要刪除這個單字嗎？",
+                isPresented: $isShowingDeleteConfirm,
+                titleVisibility: .visible
+            ) {
+                Button("刪除", role: .destructive) {
+                    let currentWord = viewModel.words[currentIndex]
+                    try? viewModel.deleteWord(currentWord)
                 }
+            } message: {
+                Text("這個動作無法復原。")
+            }
         }
         .task {
             loadFonts(url: .documentsDirectory, filename: "config.json")
             viewModel.api = api
+            tablenames = api.tableSchemas().map { $0.name }
             viewModel.loadWords()
         }
     }

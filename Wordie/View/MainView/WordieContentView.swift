@@ -14,13 +14,16 @@ struct WordieContentView: View {
     
     let words: [WordCard]                           // 單字資料來源
     let configure: Configure                        // 一般初始化設定
-
+    
     @Binding var currentIndex: Int                  // 目前顯示綁定的單字索引
+    @Binding var tablenames: [String]               // 資料表名稱
+    
+    let onMenuTap: (String) -> Void                 // 選擇資料表名稱後的動作
     
     @State private var dragOffset: CGFloat = 0      // 拖曳偏移量 => 用來做滑動切頁動畫
     @State private var isAnimatingPage = false      // 是否正在執行翻頁動畫
     @State private var isFlipped = false            // 目前卡片是否翻面
-    @State private var isPresentingAddWord = false
+    @State private var selectedName: String = ""    // 選到的資料表名稱
     
     var body: some View {
         
@@ -37,7 +40,7 @@ struct WordieContentView: View {
                     emptyStateView
                         .frame(height: 320)
                         .padding(.horizontal, 28)
-
+                    
                 } else {
                     cardStack
                         .frame(height: 320)
@@ -46,16 +49,33 @@ struct WordieContentView: View {
                 
                 WordProgressView(currentIndex: currentIndex, totalCount: words.count)
                 
-                WordPlayButton(image: Image(systemName: "play.fill")) {
-                    guard words.indices.contains(currentIndex) else { return }
-                    words[currentIndex].speakWord(by: configure.language)
+                HStack {
+                    
+                    Color.clear.frame(width: 54, height: 54)
+                    
+                    Spacer()
+                    
+                    WordPlayButton(image: Image(systemName: "play.fill")) {
+                        guard words.indices.contains(currentIndex) else { return }
+                        words[currentIndex].speakWord(by: configure.language)
+                    }
+                    
+                    Spacer(minLength: 16)
+                    
+                    menuItems
+                        .frame(width: 54, height: 54, alignment: .trailing)
                 }
-                
-                Spacer(minLength: 0)
+                .frame(maxWidth: .infinity)
+                .padding(.horizontal, 28)
             }
-            .padding(.bottom, 18)
+            .padding(.bottom, 8)
+        }
+        .task {
+            selectedName = tablenames.last ?? ""
         }.onChange(of: words.count) {
             clampCurrentIndex()
+        }.onChange(of: selectedName) {
+            onMenuTap(selectedName)
         }
     }
 }
@@ -104,6 +124,27 @@ private extension WordieContentView {
             RoundedRectangle(cornerRadius: 24)
                 .fill(.white.opacity(0.12))
         )
+    }
+    
+    /// [資料表選項](https://levelup.gitconnected.com/swiftui-menu-a-little-more-than-just-a-list-of-buttons-dd143ba9f6cf)
+    var menuItems: some View {
+        
+        Menu {
+            
+            Picker("", selection: $selectedName) {
+                ForEach(tablenames, id: \.self) { name in
+                    ZStack {
+                        Text(name)
+                        Image(systemName: "leaf.fill")
+                    }
+                    .tag(name)
+                }
+            }
+        } label: {
+            Image(systemName: "line.3.horizontal")
+                .font(.system(size: 26, weight: .semibold))
+                .frame(width: 54, height: 54)
+        }
     }
     
     /// 三層卡片堆疊

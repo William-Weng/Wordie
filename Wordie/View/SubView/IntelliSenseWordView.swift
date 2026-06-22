@@ -30,7 +30,7 @@ struct IntelliSenseWordView: View {
     @State private var markdown: String                 // AI 回傳的解說內容
     @State private var isLoading = true                 // 是否正在等待 AI 回應
     @State private var webHeight: CGFloat = 1           // WebView高度
-        
+    
     init(sheet: WordSheet, viewModel: WordListViewModel, instructions: String) {
         
         self.sheet = sheet

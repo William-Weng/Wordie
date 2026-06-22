@@ -10,11 +10,11 @@
 		811C060F2FDABC2D006D0DC4 /* WWSQLite3Manager in Frameworks */ = {isa = PBXBuildFile; productRef = 811C060E2FDABC2D006D0DC4 /* WWSQLite3Manager */; };
 		8153B4AC2FE14D38007AFC8D /* WWIntelligentAgent in Frameworks */ = {isa = PBXBuildFile; productRef = 8153B4AB2FE14D38007AFC8D /* WWIntelligentAgent */; };
 		8153B4AE2FE14D3C007AFC8D /* WWIntelligentAgent in Frameworks */ = {isa = PBXBuildFile; productRef = 8153B4AD2FE14D3C007AFC8D /* WWIntelligentAgent */; };
-		817037712FE0009A00347E24 /* WWSQLite3Manager in Frameworks */ = {isa = PBXBuildFile; productRef = 817037702FE0009A00347E24 /* WWSQLite3Manager */; };
 		817037732FE0009E00347E24 /* WWFontLoader in Frameworks */ = {isa = PBXBuildFile; productRef = 817037722FE0009E00347E24 /* WWFontLoader */; };
+		819988DB2FE8D183001923FE /* WWSQLite3Manager in Frameworks */ = {isa = PBXBuildFile; productRef = 819988DA2FE8D183001923FE /* WWSQLite3Manager */; };
+		819988DD2FE8D18C001923FE /* WWSQLite3Manager in Frameworks */ = {isa = PBXBuildFile; productRef = 819988DC2FE8D18C001923FE /* WWSQLite3Manager */; };
 		81CAB2B12FE3DDD500F32AC9 /* WWMarkdownWebViewUI in Frameworks */ = {isa = PBXBuildFile; productRef = 81CAB2B02FE3DDD500F32AC9 /* WWMarkdownWebViewUI */; };
 		81CAB2B32FE3DDDA00F32AC9 /* WWMarkdownWebViewUI in Frameworks */ = {isa = PBXBuildFile; productRef = 81CAB2B22FE3DDDA00F32AC9 /* WWMarkdownWebViewUI */; };
-		81E453272FDABDBD002F26EE /* WWSQLite3Manager in Frameworks */ = {isa = PBXBuildFile; productRef = 81E453262FDABDBD002F26EE /* WWSQLite3Manager */; };
 		81FD4D6A2FDC0540009DA448 /* WWFontLoader in Frameworks */ = {isa = PBXBuildFile; productRef = 81FD4D692FDC0540009DA448 /* WWFontLoader */; };
 		81FD4D6D2FDC089D009DA448 /* WWFontLoader in Frameworks */ = {isa = PBXBuildFile; productRef = 81FD4D6C2FDC089D009DA448 /* WWFontLoader */; };
 /* End PBXBuildFile section */
@@ -96,8 +96,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				817037732FE0009E00347E24 /* WWFontLoader in Frameworks */,
-				817037712FE0009A00347E24 /* WWSQLite3Manager in Frameworks */,
 				8153B4AE2FE14D3C007AFC8D /* WWIntelligentAgent in Frameworks */,
+				819988DD2FE8D18C001923FE /* WWSQLite3Manager in Frameworks */,
 				81CAB2B32FE3DDDA00F32AC9 /* WWMarkdownWebViewUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -107,10 +107,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				81FD4D6D2FDC089D009DA448 /* WWFontLoader in Frameworks */,
-				81E453272FDABDBD002F26EE /* WWSQLite3Manager in Frameworks */,
 				8153B4AC2FE14D38007AFC8D /* WWIntelligentAgent in Frameworks */,
 				81FD4D6A2FDC0540009DA448 /* WWFontLoader in Frameworks */,
 				811C060F2FDABC2D006D0DC4 /* WWSQLite3Manager in Frameworks */,
+				819988DB2FE8D183001923FE /* WWSQLite3Manager in Frameworks */,
 				81CAB2B12FE3DDD500F32AC9 /* WWMarkdownWebViewUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -164,10 +164,10 @@
 			);
 			name = Kirie;
 			packageProductDependencies = (
-				817037702FE0009A00347E24 /* WWSQLite3Manager */,
 				817037722FE0009E00347E24 /* WWFontLoader */,
 				8153B4AD2FE14D3C007AFC8D /* WWIntelligentAgent */,
 				81CAB2B22FE3DDDA00F32AC9 /* WWMarkdownWebViewUI */,
+				819988DC2FE8D18C001923FE /* WWSQLite3Manager */,
 			);
 			productName = Kirie;
 			productReference = 817037512FDFFF4E00347E24 /* Kirie.app */;
@@ -191,11 +191,11 @@
 			name = Wordie;
 			packageProductDependencies = (
 				811C060E2FDABC2D006D0DC4 /* WWSQLite3Manager */,
-				81E453262FDABDBD002F26EE /* WWSQLite3Manager */,
 				81FD4D692FDC0540009DA448 /* WWFontLoader */,
 				81FD4D6C2FDC089D009DA448 /* WWFontLoader */,
 				8153B4AB2FE14D38007AFC8D /* WWIntelligentAgent */,
 				81CAB2B02FE3DDD500F32AC9 /* WWMarkdownWebViewUI */,
+				819988DA2FE8D183001923FE /* WWSQLite3Manager */,
 			);
 			productName = Wordie;
 			productReference = 817B7C602FD94C0900BBDABC /* Wordie.app */;
@@ -229,10 +229,10 @@
 			mainGroup = 817B7C572FD94C0900BBDABC;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				81E453252FDABDBD002F26EE /* XCRemoteSwiftPackageReference "WWSQLite3Manager" */,
 				81FD4D6B2FDC089D009DA448 /* XCRemoteSwiftPackageReference "WWFontLoader" */,
 				810265AB2FE14C8F00CCED5A /* XCRemoteSwiftPackageReference "WWIntelligentAgent" */,
 				81CAB2AF2FE3DDC500F32AC9 /* XCRemoteSwiftPackageReference "WWMarkdownWebViewUI" */,
+				819988D92FE8D183001923FE /* XCRemoteSwiftPackageReference "WWSQLite3Manager" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 817B7C612FD94C0900BBDABC /* Products */;
@@ -588,20 +588,20 @@
 				minimumVersion = 1.4.0;
 			};
 		};
+		819988D92FE8D183001923FE /* XCRemoteSwiftPackageReference "WWSQLite3Manager" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/William-Weng/WWSQLite3Manager";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 2.4.1;
+			};
+		};
 		81CAB2AF2FE3DDC500F32AC9 /* XCRemoteSwiftPackageReference "WWMarkdownWebViewUI" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/William-Weng/WWMarkdownWebViewUI";
 			requirement = {
 				kind = upToNextMinorVersion;
 				minimumVersion = 0.3.0;
-			};
-		};
-		81E453252FDABDBD002F26EE /* XCRemoteSwiftPackageReference "WWSQLite3Manager" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/William-Weng/WWSQLite3Manager";
-			requirement = {
-				kind = upToNextMinorVersion;
-				minimumVersion = 2.4.0;
 			};
 		};
 		81FD4D6B2FDC089D009DA448 /* XCRemoteSwiftPackageReference "WWFontLoader" */ = {
@@ -629,15 +629,20 @@
 			package = 810265AB2FE14C8F00CCED5A /* XCRemoteSwiftPackageReference "WWIntelligentAgent" */;
 			productName = WWIntelligentAgent;
 		};
-		817037702FE0009A00347E24 /* WWSQLite3Manager */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 81E453252FDABDBD002F26EE /* XCRemoteSwiftPackageReference "WWSQLite3Manager" */;
-			productName = WWSQLite3Manager;
-		};
 		817037722FE0009E00347E24 /* WWFontLoader */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 81FD4D6B2FDC089D009DA448 /* XCRemoteSwiftPackageReference "WWFontLoader" */;
 			productName = WWFontLoader;
+		};
+		819988DA2FE8D183001923FE /* WWSQLite3Manager */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 819988D92FE8D183001923FE /* XCRemoteSwiftPackageReference "WWSQLite3Manager" */;
+			productName = WWSQLite3Manager;
+		};
+		819988DC2FE8D18C001923FE /* WWSQLite3Manager */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 819988D92FE8D183001923FE /* XCRemoteSwiftPackageReference "WWSQLite3Manager" */;
+			productName = WWSQLite3Manager;
 		};
 		81CAB2B02FE3DDD500F32AC9 /* WWMarkdownWebViewUI */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -648,11 +653,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 81CAB2AF2FE3DDC500F32AC9 /* XCRemoteSwiftPackageReference "WWMarkdownWebViewUI" */;
 			productName = WWMarkdownWebViewUI;
-		};
-		81E453262FDABDBD002F26EE /* WWSQLite3Manager */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 81E453252FDABDBD002F26EE /* XCRemoteSwiftPackageReference "WWSQLite3Manager" */;
-			productName = WWSQLite3Manager;
 		};
 		81FD4D692FDC0540009DA448 /* WWFontLoader */ = {
 			isa = XCSwiftPackageProductDependency;

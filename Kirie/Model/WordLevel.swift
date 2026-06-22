@@ -18,11 +18,11 @@ extension WordLevel: WordLevelDatabase {
     
     var backgroundColor: Color {
         switch self {
-        case .N5: .accentColor
+        case .N5: .green
         case .N4: .black
         case .N3: .blue
         case .N2: .brown
-        case .N1: .green
+        case .N1: .red
         }
     }
     

@@ -12,7 +12,7 @@ import WWSQLite3Manager
 protocol ApiDelegate {
     
     var database: WWSQLite3Manager.Database { get }         // SQLite 資料庫連線物件
-    var tableName: String { get }                           // 單字資料表名稱
+    var tableName: String { get set }                       // 單字資料表名稱
     var type: WWSQLite3Manager.SchemeDelegate.Type { get }  // 資料表對應的模型型別
     var filename: String { get }                            // 資料庫檔案名稱
     
