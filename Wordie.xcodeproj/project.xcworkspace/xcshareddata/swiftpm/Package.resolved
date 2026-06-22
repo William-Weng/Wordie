@@ -1,5 +1,5 @@
 {
-  "originHash" : "c4d9826eaa4dbfe89775255a28121c36d7920050cc38c270199dd4f203cd4291",
+  "originHash" : "88779a860e7908f1722e36d8305849045e10ff9e273708a3218506e07ccbf33e",
   "pins" : [
     {
       "identity" : "wwfontloader",
@@ -17,6 +17,15 @@
       "state" : {
         "revision" : "7d44a298d7ffbf3a95faca8bfc299635b61bf5d2",
         "version" : "1.4.0"
+      }
+    },
+    {
+      "identity" : "wwloadingoverlaymodifier",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/William-Weng/WWLoadingOverlayModifier",
+      "state" : {
+        "revision" : "cbda73503c886eaf8360401bb14ab24ddd943fdf",
+        "version" : "0.1.0"
       }
     },
     {

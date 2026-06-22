@@ -23,8 +23,9 @@ struct WordieContentView: View {
     @State private var dragOffset: CGFloat = 0      // 拖曳偏移量 => 用來做滑動切頁動畫
     @State private var isAnimatingPage = false      // 是否正在執行翻頁動畫
     @State private var isFlipped = false            // 目前卡片是否翻面
-    @State private var selectedName: String = ""    // 選到的資料表名稱
-    
+    @State private var selectedName = ""            // 選到的資料表名稱
+    @State private var isAutoReading = false        // 翻頁自動跟讀單字
+
     var body: some View {
         
         ZStack {
@@ -50,18 +51,10 @@ struct WordieContentView: View {
                 WordProgressView(currentIndex: currentIndex, totalCount: words.count)
                 
                 HStack {
-                    
                     Color.clear.frame(width: 54, height: 54)
-                    
                     Spacer()
-                    
-                    WordPlayButton(image: Image(systemName: "play.fill")) {
-                        guard words.indices.contains(currentIndex) else { return }
-                        words[currentIndex].speakWord(by: configure.language)
-                    }
-                    
+                    playButton
                     Spacer(minLength: 16)
-                    
                     menuItems
                         .frame(width: 54, height: 54, alignment: .trailing)
                 }
@@ -130,7 +123,6 @@ private extension WordieContentView {
     var menuItems: some View {
         
         Menu {
-            
             Picker("", selection: $selectedName) {
                 ForEach(tablenames, id: \.self) { name in
                     ZStack {
@@ -141,7 +133,7 @@ private extension WordieContentView {
                 }
             }
         } label: {
-            Image(systemName: "line.3.horizontal")
+            Image(systemName: "tablecells.badge.ellipsis")
                 .font(.system(size: 26, weight: .semibold))
                 .frame(width: 54, height: 54)
         }
@@ -188,6 +180,24 @@ private extension WordieContentView {
                     .onTapGesture { flipCard() }
                     .zIndex(2)
             }
+        }
+    }
+    
+    /// 單字跟讀功能
+    var playButton: some View {
+        
+        Menu {
+            Picker("跟讀模式", selection: $isAutoReading) {
+                Label("自動跟讀", systemImage: "speaker.wave.3.fill")
+                    .tag(true) // 當選中此項，isAutoReading 變為 true
+                Label("手動跟讀", systemImage: "hand.tap.fill")
+                    .tag(false) // 當選中此項，isAutoReading 變為 false
+            }
+        } label: {
+            WordPlayButton(image: Image(systemName: "play.fill"), isAutoReading: $isAutoReading) {}
+        } primaryAction: {
+            guard let word = words[safe: currentIndex] else { return }
+            word.speakWord(by: configure.language)
         }
     }
 }
@@ -378,5 +388,20 @@ private extension WordieContentView {
         } else {
             withAnimation(.interactiveSpring(response: 0.34, dampingFraction: 0.9)) { dragOffset = 0 }
         }
+        
+        readingWord(with: currentIndex)
+    }
+    
+    /// 單字自動跟讀功能
+    /// - Parameter index: 單字的序號
+    func readingWord(with index: Int) {
+
+        guard isAutoReading,
+              let word = words[safe: index]
+        else {
+            return
+        }
+        
+        word.speakWord(by: configure.language)
     }
 }

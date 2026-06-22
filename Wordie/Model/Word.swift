@@ -43,7 +43,7 @@ extension Word: WordCardDataSource {
     
     /// 轉成共用型WordCard
     func toWordCard() -> WordCard {
-        let level = WordLevel(rawValue: level) ?? .A1
+        let level = WordLevel(rawValue: level) ?? .A2
         return WordCard(id: id, word: english, reading: phonetic, chinese: chinese, level: level)
     }
 }

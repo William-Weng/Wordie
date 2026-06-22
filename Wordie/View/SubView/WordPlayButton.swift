@@ -13,12 +13,14 @@ import SwiftUI
 struct WordPlayButton: View {
     
     let image: Image                                            // 外部傳入的圖示
+    @Binding var isAutoReading: Bool                            // 翻頁自動跟讀單字
+    
     let action: () -> Void                                      // 按鈕點擊時要執行的動作
     
     var body: some View {
         Button(action: action) {
             Circle()
-                .fill(.orange)                                  // 按鈕背景色
+                .fill(!isAutoReading ? .orange : .red)          // 按鈕背景色
                 .frame(width: 72, height: 72)                   // 固定圓形尺寸
                 .overlay(
                     image                                       // 在圓形中置中顯示播放圖示

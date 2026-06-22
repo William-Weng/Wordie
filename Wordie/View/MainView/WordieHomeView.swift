@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import WWLoadingOverlayModifier
 
 /// Wordie 主畫面
 ///
@@ -25,14 +26,14 @@ struct WordieHomeView: View {
     @State private var currentIndex = 0                         // 目前正在顯示的單字索引
     @State private var tablenames: [String] = []                // 資料庫的列表名稱
     @State private var isShowingDeleteConfirm = false           // 是否顯示刪除確認對話框
-    
+    @State private var isLoading = false                        // 目前正在讀取單字資料
+        
     var body: some View {
         
         NavigationStack {
             
-            WordieContentView(words: viewModel.words, configure: configure, currentIndex: $currentIndex, tablenames: $tablenames) { tableName in
-                viewModel.api.tableName = tableName
-                viewModel.loadWords()
+            WordieContentView(words: viewModel.words, configure: configure, currentIndex: $currentIndex, tablenames: $tablenames) {
+                loadWords(with: $0)
             }
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -67,6 +68,7 @@ struct WordieHomeView: View {
             tablenames = api.tableSchemas().map { $0.name }
             viewModel.loadWords()
         }
+        .loadingOverlay(isPresented: isLoading)
     }
 }
 
@@ -87,7 +89,7 @@ private extension WordieHomeView {
             }
         }
     }
-        
+    
     /// 右上角新增按鈕
     ///
     /// 點擊後開啟新增單字表單
@@ -181,6 +183,21 @@ private extension WordieHomeView {
             print("✅ 全域字型初始化成功")
         } catch {
             print("❌ JSON 解析失敗: \(error)")
+        }
+    }
+    
+    /// 更新單字 (A1 / B1 / C1)
+    /// - Parameter tableName: 資料庫名稱
+    func loadWords(with tableName: String) {
+        
+        isLoading = true
+        currentIndex = 0
+        viewModel.words.removeAll()
+        viewModel.api.tableName = tableName
+        
+        Task {
+            viewModel.loadWords()
+            isLoading = false
         }
     }
 }
