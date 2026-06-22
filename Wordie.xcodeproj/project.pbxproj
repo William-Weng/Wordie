@@ -29,6 +29,8 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
+				"Material/SwiftUI 版本與 iOS 版本對照表.md",
+				Material/Wordie_SwiftUI_State_Guide.md,
 			);
 			target = 817B7C5F2FD94C0900BBDABC /* Wordie */;
 		};

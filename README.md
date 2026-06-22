@@ -9,7 +9,7 @@
 
 Wordie 是一款使用 SwiftUI 製作的英文單字學習 App，提供單字的新增、編輯、刪除與瀏覽功能，並透過 SQLite 在本機保存資料，適合作為 SwiftUI + MVVM + 本地資料庫練習專案。
 
-https://github.com/user-attachments/assets/4b8dd22c-915a-4ab2-b16d-8edc02e68832
+![Wordie](https://github.com/user-attachments/assets/f360a6f6-e46f-46a5-902e-1b9ed939c539) ![Kirie](https://github.com/user-attachments/assets/eb81bbfe-9fb2-4302-847a-c007a87117ba)
 
 ## [專案特色](https://medium.com/在程式與旅行的路上/widget-extension-等到-ios-14-才姍姍來遲的-widget-小工具-7b269d9b2253)
 
@@ -19,7 +19,7 @@ https://github.com/user-attachments/assets/4b8dd22c-915a-4ab2-b16d-8edc02e68832
 - 支援單字 **新增、讀取、更新、刪除**（CRUD）功能，適合當作入門資料流專案。
 - 已加入程式註解，方便在 Xcode 中閱讀與維護。
 
-## 畫面功能
+## [畫面功能](https://peterpanswift.github.io/iphone-bezels/)
 
 ### 首頁
 - 顯示目前單字內容。
