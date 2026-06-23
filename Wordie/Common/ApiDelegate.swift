@@ -26,6 +26,9 @@ protocol ApiDelegate {
     /// 讀取所有單字資料
     func select() -> [WordCard]
     
+    /// 查詢所有歷史單字資料
+    func selectHistory() -> [WordCard]
+    
     /// 更新指定的單字資料
     func update(_ wordCard: WordCard) throws
     

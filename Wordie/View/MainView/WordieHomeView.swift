@@ -32,10 +32,10 @@ struct WordieHomeView: View {
         
         NavigationStack {
             
-            WordieContentView(words: viewModel.words, configure: configure, currentIndex: $currentIndex, tablenames: $tablenames) { tablename in
-                loadWords(with: tablename)
+            WordieContentView(words: viewModel.words, configure: configure, currentIndex: $currentIndex, tablenames: $tablenames) { tablename, isHistory in
+                loadWords(with: tablename, isHistory: isHistory)
             } onDifficultyMenuTap: { wordCard, difficulty in
-                updateWordDifficulty(wordCard?.word, difficulty: difficulty)
+                try? updateWordDifficulty(wordCard?.word, difficulty: difficulty)
             }
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -189,8 +189,10 @@ private extension WordieHomeView {
     }
     
     /// 更新單字 (A1 / B1 / C1)
-    /// - Parameter tableName: 資料庫名稱
-    func loadWords(with tableName: String) {
+    /// - Parameters:
+    ///   - tableName: 資料表名稱
+    ///   - isHistory: 是否看歷史記錄
+    func loadWords(with tableName: String, isHistory: Bool) {
         
         isLoading = true
         currentIndex = 0
@@ -198,7 +200,7 @@ private extension WordieHomeView {
         viewModel.api.tableName = tableName
         
         Task {
-            viewModel.loadWords()
+            !isHistory ? viewModel.loadWords() : viewModel.loadHistory()
             isLoading = false
         }
     }
@@ -208,10 +210,10 @@ private extension WordieHomeView {
     func formatTablenames() -> [String] {
         
         let sqlTablenames = api.tableSchemas().map(\.name).sorted()
-        var tablenames = [api.tableName, api.historyName]
+        var tablenames = [api.tableName]
         
         for name in sqlTablenames {
-            if tablenames.contains(name) { continue }
+            if [api.historyName, api.tableName].contains(name) { continue }
             tablenames.append(name)
         }
         
@@ -222,7 +224,7 @@ private extension WordieHomeView {
     /// - Parameters:
     ///   - word: 單字
     ///   - difficulty: 難易度
-    func updateWordDifficulty(_ word: String?, difficulty: WordDifficulty?) {
+    func updateWordDifficulty(_ word: String?, difficulty: WordDifficulty?) throws {
         
         guard let difficulty = difficulty,
               let word = word
@@ -230,10 +232,6 @@ private extension WordieHomeView {
             return
         }
         
-        do {
-            try api.updateHistory(at: word, difficulty: difficulty)
-        } catch {
-            print(error)
-        }
+        try api.updateHistory(at: word, difficulty: difficulty)
     }
 }

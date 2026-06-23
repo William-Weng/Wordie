@@ -18,13 +18,14 @@ struct WordieContentView: View {
     @Binding var currentIndex: Int                                  // 目前顯示綁定的單字索引
     @Binding var tablenames: [String]                               // 資料表名稱
     
-    let onTableMenuTap: (String) -> Void                            // 選擇資料表名稱後的動作
-    let onDifficultyMenuTap: (WordCard?, WordDifficulty?) -> Void   // 選擇資料表名稱後的動作
+    let onTableMenuTap: (String, Bool) -> Void                      // 選擇資料表名稱後的動作 (單字, 是否看歷史記錄)
+    let onDifficultyMenuTap: (WordCard?, WordDifficulty?) -> Void   // 選擇資料表名稱後的動作 (單字, 單字難度)
     
     @State private var dragOffset: CGFloat = 0                      // 拖曳偏移量 => 用來做滑動切頁動畫
     @State private var isAnimatingPage = false                      // 是否正在執行翻頁動畫
     @State private var isFlipped = false                            // 目前卡片是否翻面
     @State private var selectedName = ""                            // 選到的資料表名稱
+    @State private var isHistory: Bool = false                      // 是否選到的使用歷史資料
     @State private var isAutoReading = false                        // 翻頁自動跟讀單字
     @State private var difficulty: WordDifficulty?                  // 單字記憶難度
     
@@ -71,7 +72,9 @@ struct WordieContentView: View {
         }.onChange(of: words.count) {
             clampCurrentIndex()
         }.onChange(of: selectedName) {
-            onTableMenuTap(selectedName)
+            onTableMenuTap(selectedName, isHistory)
+        }.onChange(of: isHistory) {
+            onTableMenuTap(selectedName, isHistory)
         }.onChange(of: difficulty) {
             onDifficultyMenuTap(words[currentIndex], difficulty)
         }
@@ -128,6 +131,13 @@ private extension WordieContentView {
     var menuItems: some View {
         
         Menu {
+            
+            Button(action: {
+                isHistory.toggle()
+            }, label: {
+                Text("歷史記錄")
+            })
+            
             Picker("單字列表", selection: $selectedName) {
                 ForEach(tablenames, id: \.self) { name in
                     ZStack {
@@ -137,10 +147,12 @@ private extension WordieContentView {
                     .tag(name)
                 }
             }
+                        
         } label: {
             Image(systemName: "tablecells.badge.ellipsis")
                 .font(.system(size: 26, weight: .semibold))
                 .frame(width: 54, height: 54)
+                .foregroundStyle(!isHistory ? .blue : .red)
         }
     }
     
@@ -161,6 +173,7 @@ private extension WordieContentView {
             Image(systemName: "dial.low")
                 .font(.system(size: 26, weight: .semibold))
                 .frame(width: 54, height: 54)
+                .foregroundStyle(difficulty?.color ?? .gray)
         }
     }
     

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 /// 新增 / 編輯單字時使用的 sheet 狀態
 enum WordSheet: Identifiable {
@@ -67,6 +68,14 @@ extension WordDifficulty {
         switch self {
         case .easy: return "leaf.fill"
         case .hard: return "flame.fill"
+        }
+    }
+    
+    /// 系統圖示顏色
+    var color: Color {
+        switch self {
+        case .easy: return .blue
+        case .hard: return .red
         }
     }
 }

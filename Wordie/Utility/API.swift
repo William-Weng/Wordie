@@ -60,11 +60,35 @@ extension API: ApiDelegate {
     ///
     /// - Returns: 目前資料庫中的所有單字
     func select() -> [WordCard] {
-        
+
         let words = selectWord().array
         let wordCards = words.compactMap { $0.jsonClass(for: Word.self)?.toWordCard() }
         
         return wordCards
+    }
+    
+    /// 查詢所有歷史單字資料
+    ///
+    /// 會先從資料表查詢原始資料，再轉換成 `Word` 模型陣列後回傳
+    ///
+    /// - Returns: 目前歷史資料庫中在該資料庫的所有單字
+    func selectHistory() -> [WordCard] {
+        
+        let sql = """
+            SELECT e.*
+            FROM \(tableName) e
+            JOIN History h ON h.word = e.english
+            ORDER BY h.time DESC
+            """
+        
+        do {
+            let dict = try database.query(sql: sql)
+            let words = dict.compactMap { $0.jsonClass(for: Word.self)?.toWordCard() }
+            
+            return words
+        } catch {
+            return []
+        }
     }
     
     /// 更新指定的單字資料

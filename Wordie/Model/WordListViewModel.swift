@@ -23,6 +23,11 @@ extension WordListViewModel {
         words = api.select()
     }
     
+    /// 從資料庫讀取所有單字記錄，並更新目前清單
+    func loadHistory() {
+        words = api.selectHistory()
+    }
+    
     /// 新增一筆單字資料到資料庫，並重新載入清單
     ///
     /// - Parameter wordUI: 要新增的單字資料
