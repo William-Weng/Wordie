@@ -26,6 +26,7 @@ final class API {
         do {
             database = try WWSQLite3Manager.shared.connect(filename: filename)
             try database.create(tableName: tableName, type: type.self, ifNotExists: true)
+            try database.create(tableName: "History", type: History.self, ifNotExists: true)
         } catch {
             fatalError("資料庫連線 / 建立失敗！")
         }

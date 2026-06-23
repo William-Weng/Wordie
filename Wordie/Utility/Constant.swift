@@ -14,6 +14,13 @@ enum WordSheet: Identifiable {
     case intellisense(WordCard)     // AI進階功能
 }
 
+
+/// 單字片滑動方向
+enum CardAwayDirection: CGFloat {
+    case left = -1                  // 向左滑
+    case right = 1                  // 向右滑
+}
+
 // MARK: - 公開屬性
 extension WordSheet {
     

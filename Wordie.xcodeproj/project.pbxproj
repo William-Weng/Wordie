@@ -48,6 +48,7 @@
 			membershipExceptions = (
 				Common/ApiDelegate.swift,
 				Common/Configure.swift,
+				Common/History.swift,
 				Common/WordCard.swift,
 				Common/WordCardDataSource.swift,
 				Common/WordLevelDatabase.swift,

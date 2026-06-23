@@ -308,17 +308,17 @@ private extension WordieContentView {
 
 // MARK: - 小工具
 private extension WordieContentView {
-    
+        
     /// 卡片滑出動畫
     /// - Parameters:
-    ///   - direction: -1 代表往左，1 代表往右
+    ///   - direction: CardAwayDirection
     ///   - update: 動畫結束後要執行的索引更新
-    func animateCardAway(direction: CGFloat, update: @escaping () -> Void) throws {
+    func animateCardAway(direction: CardAwayDirection, update: @escaping () -> Void) throws {
         
         isAnimatingPage = true
         
         let width = UIScreen.main.bounds.width
-        let target = direction * width * 0.95
+        let target = direction.rawValue * width * 0.95
         
         withAnimation(.easeOut(duration: 0.13)) { dragOffset = target }
         
@@ -328,7 +328,7 @@ private extension WordieContentView {
             
             update()
             isFlipped = false
-            dragOffset = -direction * 12
+            dragOffset = -direction.rawValue * 12
             
             withAnimation(.easeOut(duration: 0.09)) { dragOffset = 0 }
             
@@ -382,26 +382,30 @@ private extension WordieContentView {
         let predicted = value.predictedEndTranslation.width
         
         if predicted < -threshold {
-            try animateCardAway(direction: -1) { currentIndex = nextIndex }
+            try animateCardAway(direction: .left) {
+                currentIndex = nextIndex
+                readingWord(words[safe:currentIndex])
+            }
         } else if predicted > threshold {
-            try animateCardAway(direction: 1) { currentIndex = previousIndex }
+            try animateCardAway(direction: .right) {
+                currentIndex = previousIndex
+                readingWord(words[safe: currentIndex])
+            }
         } else {
             withAnimation(.interactiveSpring(response: 0.34, dampingFraction: 0.9)) { dragOffset = 0 }
         }
-        
-        readingWord(with: currentIndex)
     }
     
-    /// 單字自動跟讀功能
-    /// - Parameter index: 單字的序號
-    func readingWord(with index: Int) {
+    /// 單字自動跟讀功能 for isAutoReading
+    /// - Parameter word: 單字片資訊
+    func readingWord(_ word: WordCard?) {
 
         guard isAutoReading,
-              let word = words[safe: index]
+              let word = word
         else {
             return
         }
-        
+                
         word.speakWord(by: configure.language)
     }
 }

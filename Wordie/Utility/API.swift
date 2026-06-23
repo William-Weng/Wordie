@@ -26,6 +26,7 @@ final class API {
         do {
             database = try WWSQLite3Manager.shared.connect(filename: filename)
             try database.create(tableName: tableName, type: type.self, ifNotExists: true)
+            try database.create(tableName: "History", type: History.self, ifNotExists: true)
         } catch {
             fatalError("資料庫連線 / 建立失敗！")
         }
@@ -96,7 +97,7 @@ extension API: ApiDelegate {
     /// 取得目前資料庫中所有資料表的 schema 資訊 => 回傳內容會把 sqlite_master 的查詢結果轉成 SqliteMaster 陣列
     func tableSchemas() -> [SqliteMaster] {
         let result = selectSqliteMaster()
-        return result.array.compactMap { $0.jsonClass(for: SqliteMaster.self) }
+        return result.array.compactMap { $0.jsonClass(for: SqliteMaster.self) }.sorted { $0.name > $1.name  }
     }
 }
 
