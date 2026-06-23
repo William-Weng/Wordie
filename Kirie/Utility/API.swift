@@ -66,31 +66,7 @@ extension API: ApiDelegate {
         
         return wordCards
     }
-    
-    /// 查詢所有歷史單字資料
-    ///
-    /// 會先從資料表查詢原始資料，再轉換成 `Word` 模型陣列後回傳
-    ///
-    /// - Returns: 目前歷史資料庫中在該資料庫的所有單字
-    func selectHistory() -> [WordCard] {
         
-        let sql = """
-            SELECT j.*
-            FROM \(tableName) j
-            JOIN History h ON h.word = j.japanese
-            ORDER BY h.time DESC
-            """
-        
-        do {
-            let dict = try database.query(sql: sql)
-            let words = dict.compactMap { $0.jsonClass(for: Word.self)?.toWordCard() }
-            
-            return words
-        } catch {
-            return []
-        }
-    }
-    
     /// 更新指定的單字資料
     ///
     /// - Parameters:
@@ -124,6 +100,34 @@ extension API: ApiDelegate {
         let result = selectSqliteMaster()
         return result.array.compactMap { $0.jsonClass(for: SqliteMaster.self) }
     }
+}
+
+// MARK: - History
+extension API {
+    
+    /// 查詢所有歷史單字資料
+    ///
+    /// 會先從資料表查詢原始資料，再轉換成 `Word` 模型陣列後回傳
+    ///
+    /// - Returns: 目前歷史資料庫中在該資料庫的所有單字
+    func selectHistory() -> [WordCard] {
+        
+        let sql = """
+            SELECT j.*
+            FROM \(tableName) j
+            JOIN History h ON h.word = j.japanese
+            ORDER BY h.time DESC
+            """
+        
+        do {
+            let dict = try database.query(sql: sql)
+            let words = dict.compactMap { $0.jsonClass(for: Word.self)?.toWordCard() }
+            
+            return words
+        } catch {
+            return []
+        }
+    }
     
     /// 更新指定單字的難度累積值
     ///
@@ -136,6 +140,16 @@ extension API: ApiDelegate {
     func updateHistory(at word: String, difficulty: WordDifficulty) throws {
         guard let history = selectHistoryWord(word) else { try insertHistoryWord(word); return }
         try updateHistory(history, difficulty: difficulty)
+    }
+    
+    /// 刪除指定單字的歷史資料
+    ///
+    /// - Parameter id: 欲刪除的單字識別值
+    ///
+    /// - Throws: 當資料刪除失敗時拋出錯誤
+    func deleteHistory(word: String) throws {
+        let `where`: WWSQLite3Manager.Where = .init().compare("word", .equal, .text(word))
+        try database.delete(tableName: historyName, where: `where`)
     }
 }
 

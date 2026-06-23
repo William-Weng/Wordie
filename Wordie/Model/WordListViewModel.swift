@@ -29,11 +29,6 @@ extension WordListViewModel {
         words = api.select()
     }
     
-    /// 從資料庫讀取所有單字記錄，並更新目前清單
-    func loadHistory() {
-        words = api.selectHistory()
-    }
-    
     /// 新增一筆單字資料到資料庫，並重新載入清單
     ///
     /// - Parameter wordUI: 要新增的單字資料
@@ -67,5 +62,24 @@ extension WordListViewModel {
                 
         try api.delete(id: wordCard.id)
         loadWords()
+    }
+}
+
+// MARK: - History
+extension WordListViewModel {
+    
+    /// 從資料庫讀取所有單字記錄，並更新目前清單
+    func loadHistory() {
+        words = api.selectHistory()
+    }
+    
+    /// 刪除指定單字，並重新載入清單
+    ///
+    /// - Parameter wordCard: 欲刪除的單字資料
+    ///
+    /// - Throws: 當資料刪除失敗時拋出錯誤
+    func deleteHistory(_ wordCard: WordCard) throws {
+        try api.deleteHistory(word: wordCard.word)
+        loadHistory()
     }
 }

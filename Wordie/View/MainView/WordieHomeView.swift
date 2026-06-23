@@ -17,8 +17,8 @@ import WWLoadingOverlayModifier
 /// - 追蹤目前顯示中的單字索引，讓編輯與刪除能正確作用在當前項目
 struct WordieHomeView: View {
     
-    let api: API                                                // API功能
-    let configure: Configure                                    // 一般初始化設定
+    let api: API
+    let configure: Configure
 
     @State private var viewModel: WordListViewModel             // 主畫面使用的 ViewModel，負責管理單字資料
     
@@ -27,7 +27,12 @@ struct WordieHomeView: View {
     @State private var tablenames: [String] = []                // 資料庫的列表名稱
     @State private var isShowingDeleteConfirm = false           // 是否顯示刪除確認對話框
     @State private var isLoading = false                        // 目前正在讀取單字資料
+    @State private var isHistory: Bool = false                  // 是否選到的使用歷史資料
     
+    /// 初始化設定
+    /// - Parameters:
+    ///   - api: API功能
+    ///   - configure: 一般初始化設定
     init(api: API, configure: Configure) {
         
         self.api = api
@@ -41,7 +46,7 @@ struct WordieHomeView: View {
         
         NavigationStack {
             
-            WordieContentView(words: viewModel.words, configure: configure, currentIndex: $currentIndex, tablenames: $tablenames) { tablename, isHistory in
+            WordieContentView(words: viewModel.words, configure: configure, currentIndex: $currentIndex, tablenames: $tablenames, isHistory: $isHistory) { tablename in
                 loadWords(with: tablename, isHistory: isHistory)
             } onDifficultyMenuTap: { wordCard, difficulty in
                 try? updateWordDifficulty(wordCard?.word, difficulty: difficulty)
@@ -51,24 +56,15 @@ struct WordieHomeView: View {
                 deleteItem
                 if #available(iOS 26.0, *) { intellisenseItem }
                 editItem
-                addItem
+                if !isHistory { addItem }
             }
             .sheet(item: $activeSheet) { sheet in
-                
                 switch sheet {
                 case .add, .edit: AddWordView(sheet: sheet, viewModel: viewModel)
                 case .intellisense: if #available(iOS 26.0, *) { IntelliSenseWordView(sheet: sheet, viewModel: viewModel, instructions: configure.instructions)  }
                 }
-                
-            }.confirmationDialog(
-                "確定要刪除這個單字嗎？",
-                isPresented: $isShowingDeleteConfirm,
-                titleVisibility: .visible
-            ) {
-                Button("刪除", role: .destructive) {
-                    let currentWord = viewModel.words[currentIndex]
-                    try? viewModel.deleteWord(currentWord)
-                }
+            }.confirmationDialog("確定要刪除這個單字嗎？", isPresented: $isShowingDeleteConfirm, titleVisibility: .visible) {
+                Button("刪除", role: .destructive) { removeWord(with: currentIndex) }
             } message: {
                 Text("這個動作無法復原。")
             }
@@ -78,6 +74,17 @@ struct WordieHomeView: View {
             viewModel.loadWords()
         }
         .loadingOverlay(isPresented: isLoading)
+    }
+    
+    func removeWord(with index: Int) {
+        
+        let currentWord = viewModel.words[index]
+        isLoading = true
+        
+        Task {
+            !isHistory ? try? viewModel.deleteWord(currentWord) : try? viewModel.deleteHistory(currentWord)
+            isLoading = false
+        }
     }
 }
 

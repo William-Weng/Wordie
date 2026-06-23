@@ -26,9 +26,6 @@ protocol ApiDelegate {
     /// 讀取所有單字資料
     func select() -> [WordCard]
     
-    /// 查詢所有歷史單字資料
-    func selectHistory() -> [WordCard]
-    
     /// 更新指定的單字資料
     func update(_ wordCard: WordCard) throws
     
@@ -38,6 +35,12 @@ protocol ApiDelegate {
     /// 取得目前資料庫中所有資料表的 schema 資訊
     func tableSchemas() -> [SqliteMaster]
     
+    /// 查詢所有歷史單字資料
+    func selectHistory() -> [WordCard]
+    
     /// 更新指定單字的難度累積值
     func updateHistory(at word: String, difficulty: WordDifficulty) throws
+    
+    /// 刪除指定單字的歷史資料
+    func deleteHistory(word: String) throws
 }
