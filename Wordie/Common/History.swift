@@ -11,6 +11,7 @@ import WWSQLite3Manager
 /// 單字歷史 => 用來記憶已背過的單字
 struct History: Codable {
     
+    let id: Int             // 流水號
     let word: String        // 單字
     let difficulty: Int     // 難度 (越大越難)
     let time: Date          // 單字新增時間
@@ -23,6 +24,7 @@ extension History: WWSQLite3Manager.SchemeDelegate {
     /// - Returns: WWSQLite3Manager.SchemeColumn
     static func structure() -> [WWSQLite3Manager.SchemeColumn] {
         [
+            (key: "id", type: .INTEGER()),
             (key: "word", type: .TEXT(attribute: (isNotNull: true, isNoCase: true, isUnique: true), defaultValue: nil)),
             (key: "difficulty", type: .INTEGER(attribute: (isNotNull: true, isNoCase: true, isUnique: false), defaultValue: 0)),
             (key: "time", type: .TIMESTAMP()),

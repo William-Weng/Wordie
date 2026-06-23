@@ -1,5 +1,5 @@
 {
-  "originHash" : "88779a860e7908f1722e36d8305849045e10ff9e273708a3218506e07ccbf33e",
+  "originHash" : "a5cecc3571f24786445fae005a240da75525c9f51ef97152b74a9e345b57a6b4",
   "pins" : [
     {
       "identity" : "wwfontloader",
@@ -42,8 +42,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/William-Weng/WWSQLite3Manager",
       "state" : {
-        "revision" : "6eb2a7c9813c3e8500d87fd5f2dcca3408d1bb69",
-        "version" : "2.4.1"
+        "revision" : "ee891e7daf23c18529cb1e0987d61afd9c421ca3",
+        "version" : "2.4.3"
       }
     }
   ],

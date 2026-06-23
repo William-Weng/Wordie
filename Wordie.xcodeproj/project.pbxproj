@@ -601,7 +601,7 @@
 			repositoryURL = "https://github.com/William-Weng/WWSQLite3Manager";
 			requirement = {
 				kind = upToNextMinorVersion;
-				minimumVersion = 2.4.1;
+				minimumVersion = 2.4.3;
 			};
 		};
 		81BD48432FE92AEA00E1C469 /* XCRemoteSwiftPackageReference "WWLoadingOverlayModifier" */ = {

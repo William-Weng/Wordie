@@ -10,6 +10,8 @@ import Foundation
 // MARK: - JSONSerialization (subscript function)
 extension Collection {
     
+    /// 集合安全取值
+    /// - Returns: Element?
     subscript(safe index: Index) -> Element? {
         indices.contains(index) ? self[index] : nil
     }

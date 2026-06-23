@@ -12,6 +12,7 @@ import WWSQLite3Manager
 protocol ApiDelegate {
     
     var database: WWSQLite3Manager.Database { get }         // SQLite 資料庫連線物件
+    var historyName: String { get }                         // 記憶單字的資料庫名稱
     var tableName: String { get set }                       // 單字資料表名稱
     var type: WWSQLite3Manager.SchemeDelegate.Type { get }  // 資料表對應的模型型別
     var filename: String { get }                            // 資料庫檔案名稱
@@ -33,4 +34,7 @@ protocol ApiDelegate {
     
     /// 取得目前資料庫中所有資料表的 schema 資訊
     func tableSchemas() -> [SqliteMaster]
+    
+    /// 更新指定單字的難度累積值
+    func updateHistory(at word: String, difficulty: WordDifficulty) throws
 }

@@ -27,13 +27,15 @@ struct WordieHomeView: View {
     @State private var tablenames: [String] = []                // 資料庫的列表名稱
     @State private var isShowingDeleteConfirm = false           // 是否顯示刪除確認對話框
     @State private var isLoading = false                        // 目前正在讀取單字資料
-        
+    
     var body: some View {
         
         NavigationStack {
             
-            WordieContentView(words: viewModel.words, configure: configure, currentIndex: $currentIndex, tablenames: $tablenames) {
-                loadWords(with: $0)
+            WordieContentView(words: viewModel.words, configure: configure, currentIndex: $currentIndex, tablenames: $tablenames) { tablename in
+                loadWords(with: tablename)
+            } onDifficultyMenuTap: { wordCard, difficulty in
+                updateWordDifficulty(wordCard?.word, difficulty: difficulty)
             }
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -214,5 +216,24 @@ private extension WordieHomeView {
         }
         
         return tablenames.reversed()
+    }
+    
+    /// 更新單字難易度
+    /// - Parameters:
+    ///   - word: 單字
+    ///   - difficulty: 難易度
+    func updateWordDifficulty(_ word: String?, difficulty: WordDifficulty?) {
+        
+        guard let difficulty = difficulty,
+              let word = word
+        else {
+            return
+        }
+        
+        do {
+            try api.updateHistory(at: word, difficulty: difficulty)
+        } catch {
+            print(error)
+        }
     }
 }

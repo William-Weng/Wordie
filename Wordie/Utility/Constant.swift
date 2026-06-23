@@ -21,6 +21,13 @@ enum CardAwayDirection: CGFloat {
     case right = 1                  // 向右滑
 }
 
+/// 單字記憶難度
+enum WordDifficulty: String, CaseIterable {
+    case easy = "簡單"
+    case hard = "難"
+}
+
+
 // MARK: - 公開屬性
 extension WordSheet {
     
@@ -48,6 +55,18 @@ extension WordSheet {
         case .add: return "plus"
         case .edit: return "arrow.triangle.2.circlepath"
         case .intellisense: return "apple.intelligence"
+        }
+    }
+}
+
+// MARK: - 公開屬性
+extension WordDifficulty {
+    
+    /// 系統圖示名稱
+    var icon: String {
+        switch self {
+        case .easy: return "leaf.fill"
+        case .hard: return "flame.fill"
         }
     }
 }

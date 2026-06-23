@@ -98,6 +98,23 @@ extension API: ApiDelegate {
         let result = selectSqliteMaster()
         return result.array.compactMap { $0.jsonClass(for: SqliteMaster.self) }
     }
+    
+    /// 更新指定單字的難度累積值
+    ///
+    /// 如果單字尚未存在於歷史資料表中，會先建立一筆預設資料，預設難度值為 `0`，建立後便直接返回，不會在同一次呼叫中再套用難度增減
+    ///
+    /// - Parameters:
+    ///   - word: 要更新難度的單字
+    ///   - difficulty: 本次要套用的難度變化
+    /// - Throws: 當資料新增或更新失敗時拋出錯誤
+    func updateHistory(at word: String, difficulty: WordDifficulty) throws {
+        
+        guard let history = selectHistoryWord(word) else { try insertHistoryWord(word); return }
+        
+        
+        
+        try updateHistory(history, difficulty: difficulty)
+    }
 }
 
 // MARK: - Private
@@ -118,3 +135,60 @@ private extension API {
     }
 }
 
+// MARK: - Private (History)
+private extension API {
+        
+    /// 依照單字內容查詢歷史資料
+    ///
+    /// - Parameter word: 要查詢的單字
+    /// - Returns: 如果資料存在，回傳對應的 `History`；否則回傳 `nil`
+    func selectHistoryWord(_ word: String) -> History? {
+        
+        let `where`: WWSQLite3Manager.Where = .init().compare("word", .equal, .text(word))
+        let word = database.select(tableName: historyName, type: History.self, where: `where`).array.first
+        
+        return word?.jsonClass(for: History.self)
+    }
+    
+    /// 新增一筆單字歷史資料
+    ///
+    /// 新建立的資料會將 `difficulty` 初始化為 `0`
+    ///
+    /// - Parameter word: 要新增的單字
+    /// - Throws: 當資料寫入失敗時拋出錯誤
+    func insertHistoryWord(_ word: String) throws {
+        
+        let items: [WWSQLite3Manager.InsertItem] = [
+            (key: "word", value: .string(word)),
+            (key: "difficulty", value: .int(0)),
+        ]
+        
+        _ = try database.insert(tableName: historyName, itemsArray: [items])
+    }
+    
+    /// 依照指定難度調整既有歷史資料的難度值
+    ///
+    /// `easy` 會讓難度值減 `1`，`hard` 會讓難度值加 `1`
+    ///
+    /// - Parameters:
+    ///   - history: 要更新的歷史資料
+    ///   - difficulty: 要套用的難度變化
+    /// - Throws: 當資料更新失敗時拋出錯誤
+    func updateHistory(_ history: History, difficulty: WordDifficulty) throws {
+        
+        var value: Int64 = Int64(history.difficulty)
+        
+        switch difficulty {
+        case .easy: value -= 1
+        case .hard: value += 1
+        }
+        
+        let items: [WWSQLite3Manager.InsertItem] = [
+            (key: "difficulty", value: .int(value)),
+            (key: "time", value: .date(.now)),
+        ]
+        
+        let `where`: WWSQLite3Manager.Where = .init().compare("id", .equal, .int(history.id))
+        _ = try database.update(tableName: historyName, items: items, where: `where`)
+    }
+}

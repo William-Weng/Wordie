@@ -12,20 +12,22 @@ import SwiftUI
 /// 負責顯示單字卡片、翻牌、左右切換與發音按鈕
 struct WordieContentView: View {
     
-    let words: [WordCard]                           // 單字資料來源
-    let configure: Configure                        // 一般初始化設定
+    let words: [WordCard]                                           // 單字資料來源
+    let configure: Configure                                        // 一般初始化設定
     
-    @Binding var currentIndex: Int                  // 目前顯示綁定的單字索引
-    @Binding var tablenames: [String]               // 資料表名稱
+    @Binding var currentIndex: Int                                  // 目前顯示綁定的單字索引
+    @Binding var tablenames: [String]                               // 資料表名稱
     
-    let onMenuTap: (String) -> Void                 // 選擇資料表名稱後的動作
+    let onTableMenuTap: (String) -> Void                            // 選擇資料表名稱後的動作
+    let onDifficultyMenuTap: (WordCard?, WordDifficulty?) -> Void   // 選擇資料表名稱後的動作
     
-    @State private var dragOffset: CGFloat = 0      // 拖曳偏移量 => 用來做滑動切頁動畫
-    @State private var isAnimatingPage = false      // 是否正在執行翻頁動畫
-    @State private var isFlipped = false            // 目前卡片是否翻面
-    @State private var selectedName = ""            // 選到的資料表名稱
-    @State private var isAutoReading = false        // 翻頁自動跟讀單字
-
+    @State private var dragOffset: CGFloat = 0                      // 拖曳偏移量 => 用來做滑動切頁動畫
+    @State private var isAnimatingPage = false                      // 是否正在執行翻頁動畫
+    @State private var isFlipped = false                            // 目前卡片是否翻面
+    @State private var selectedName = ""                            // 選到的資料表名稱
+    @State private var isAutoReading = false                        // 翻頁自動跟讀單字
+    @State private var difficulty: WordDifficulty?                  // 單字記憶難度
+    
     var body: some View {
         
         ZStack {
@@ -51,7 +53,8 @@ struct WordieContentView: View {
                 WordProgressView(currentIndex: currentIndex, totalCount: words.count)
                 
                 HStack {
-                    Color.clear.frame(width: 54, height: 54)
+                    difficultyItems
+                        .frame(width: 54, height: 54, alignment: .leading)
                     Spacer()
                     playButton
                     Spacer(minLength: 16)
@@ -68,7 +71,9 @@ struct WordieContentView: View {
         }.onChange(of: words.count) {
             clampCurrentIndex()
         }.onChange(of: selectedName) {
-            onMenuTap(selectedName)
+            onTableMenuTap(selectedName)
+        }.onChange(of: difficulty) {
+            onDifficultyMenuTap(words[currentIndex], difficulty)
         }
     }
 }
@@ -123,7 +128,7 @@ private extension WordieContentView {
     var menuItems: some View {
         
         Menu {
-            Picker("", selection: $selectedName) {
+            Picker("單字列表", selection: $selectedName) {
                 ForEach(tablenames, id: \.self) { name in
                     ZStack {
                         Text(name)
@@ -134,6 +139,26 @@ private extension WordieContentView {
             }
         } label: {
             Image(systemName: "tablecells.badge.ellipsis")
+                .font(.system(size: 26, weight: .semibold))
+                .frame(width: 54, height: 54)
+        }
+    }
+    
+    /// 單字記憶難度選項
+    var difficultyItems: some View {
+        
+        Menu {
+            Picker("單字難度", selection: $difficulty) {
+                ForEach(WordDifficulty.allCases, id: \.self) { difficulty in
+                    ZStack {
+                        Text(difficulty.rawValue)
+                        Image(systemName: difficulty.icon)
+                    }
+                    .tag(difficulty)
+                }
+            }
+        } label: {
+            Image(systemName: "dial.low")
                 .font(.system(size: 26, weight: .semibold))
                 .frame(width: 54, height: 54)
         }
@@ -394,6 +419,8 @@ private extension WordieContentView {
         } else {
             withAnimation(.interactiveSpring(response: 0.34, dampingFraction: 0.9)) { dragOffset = 0 }
         }
+        
+        difficulty = nil
     }
     
     /// 單字自動跟讀功能 for isAutoReading
