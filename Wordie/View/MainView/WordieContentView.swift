@@ -221,21 +221,17 @@ private extension WordieContentView {
         }
     }
     
-    /// 單字跟讀功能
+    /// 單字跟讀功能 (isAutoReading 變為 true / false)    
     var playButton: some View {
         
-        Menu {
-            Picker("跟讀模式", selection: $isAutoReading) {
-                Label("自動跟讀", systemImage: "speaker.wave.3.fill")
-                    .tag(true) // 當選中此項，isAutoReading 變為 true
-                Label("手動跟讀", systemImage: "hand.tap.fill")
-                    .tag(false) // 當選中此項，isAutoReading 變為 false
-            }
-        } label: {
-            WordPlayButton(image: Image(systemName: "play.fill"), isAutoReading: $isAutoReading) {}
-        } primaryAction: {
+        WordPlayButton(image: Image(systemName: "play.fill"), isAutoReading: $isAutoReading) {
             guard let word = words[safe: currentIndex] else { return }
             word.speakWord(by: configure.language)
+        }.contextMenu {
+            Picker("跟讀模式", selection: $isAutoReading) {
+                Label("自動跟讀", systemImage: "speaker.wave.3.fill").tag(true)
+                Label("手動跟讀", systemImage: "hand.tap.fill").tag(false)
+            }
         }
     }
 }
