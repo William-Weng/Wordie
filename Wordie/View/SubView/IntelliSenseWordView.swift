@@ -23,8 +23,8 @@ struct IntelliSenseWordView: View {
     
     @Environment(\.dismiss) private var dismiss
     
-    @ObservedObject var viewModel: WordListViewModel
-    @ObservedObject var manager = WWMarkdownWebViewUI.Manager()
+    @State var viewModel: WordListViewModel
+    @State var manager = WWMarkdownWebViewUI.Manager()
     
     @State private var word: String                     // 目前要讓 AI 解說的單字
     @State private var markdown: String                 // AI 回傳的解說內容

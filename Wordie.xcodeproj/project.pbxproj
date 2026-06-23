@@ -617,7 +617,7 @@
 			repositoryURL = "https://github.com/William-Weng/WWMarkdownWebViewUI";
 			requirement = {
 				kind = upToNextMinorVersion;
-				minimumVersion = 0.3.0;
+				minimumVersion = 0.3.1;
 			};
 		};
 		81FD4D6B2FDC089D009DA448 /* XCRemoteSwiftPackageReference "WWFontLoader" */ = {

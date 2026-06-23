@@ -12,7 +12,7 @@ struct AddWordView: View {
     
     let sheet: WordSheet                                // 目前表單顯示的模式與內容來源
     
-    @ObservedObject var viewModel: WordListViewModel    // 單字列表的 ViewModel，負責新增與更新資料
+    @State var viewModel: WordListViewModel             // 單字列表的 ViewModel，負責新增與更新資料
     
     @Environment(\.dismiss) private var dismiss         // 關閉目前 sheet 畫面的環境方法
     

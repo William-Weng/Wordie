@@ -20,13 +20,22 @@ struct WordieHomeView: View {
     let api: API                                                // API功能
     let configure: Configure                                    // 一般初始化設定
 
-    @StateObject private var viewModel = WordListViewModel()    // 主畫面使用的 ViewModel，負責管理單字資料
+    @State private var viewModel: WordListViewModel             // 主畫面使用的 ViewModel，負責管理單字資料
     
     @State private var activeSheet: WordSheet?                  // 目前正在顯示的 sheet 狀態
     @State private var currentIndex = 0                         // 目前正在顯示的單字索引
     @State private var tablenames: [String] = []                // 資料庫的列表名稱
     @State private var isShowingDeleteConfirm = false           // 是否顯示刪除確認對話框
     @State private var isLoading = false                        // 目前正在讀取單字資料
+    
+    init(api: API, configure: Configure) {
+        
+        self.api = api
+        self.configure = configure
+        _viewModel = State(wrappedValue: WordListViewModel(api: api))
+        
+        loadFonts(url: .documentsDirectory, filename: "config.json")
+    }
     
     var body: some View {
         
@@ -65,8 +74,6 @@ struct WordieHomeView: View {
             }
         }
         .task {
-            loadFonts(url: .documentsDirectory, filename: "config.json")
-            viewModel.api = api
             tablenames = formatTablenames()
             viewModel.loadWords()
         }

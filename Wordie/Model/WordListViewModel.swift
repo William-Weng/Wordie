@@ -8,11 +8,17 @@
 import SwiftUI
 
 /// 單字列表的 ViewModel
-final class WordListViewModel: ObservableObject {
+@Observable
+final class WordListViewModel {
     
-    @Published var words: [WordCard] = []   // 畫面上顯示的單字列表
+    var words: [WordCard] = []   // 畫面上顯示的單字列表
     
-    var api: ApiDelegate!
+    @ObservationIgnored
+    var api: ApiDelegate
+    
+    init(api: ApiDelegate) {
+        self.api = api
+    }
 }
 
 // MARK: - 公開函式
@@ -58,9 +64,7 @@ extension WordListViewModel {
     ///
     /// - Throws: 當資料刪除失敗時拋出錯誤
     func deleteWord(_ wordCard: WordCard) throws {
-        
-        guard let api = api else { return }
-        
+                
         try api.delete(id: wordCard.id)
         loadWords()
     }
