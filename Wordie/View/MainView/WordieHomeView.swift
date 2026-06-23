@@ -65,7 +65,7 @@ struct WordieHomeView: View {
         .task {
             loadFonts(url: .documentsDirectory, filename: "config.json")
             viewModel.api = api
-            tablenames = api.tableSchemas().map { $0.name }
+            tablenames = formatTablenames()
             viewModel.loadWords()
         }
         .loadingOverlay(isPresented: isLoading)
@@ -199,5 +199,20 @@ private extension WordieHomeView {
             viewModel.loadWords()
             isLoading = false
         }
+    }
+    
+    /// 把預設的資料表排在前面
+    /// - Returns: [String]
+    func formatTablenames() -> [String] {
+        
+        let sqlTablenames = api.tableSchemas().map(\.name).sorted()
+        var tablenames = [api.tableName, api.historyName]
+        
+        for name in sqlTablenames {
+            if tablenames.contains(name) { continue }
+            tablenames.append(name)
+        }
+        
+        return tablenames.reversed()
     }
 }

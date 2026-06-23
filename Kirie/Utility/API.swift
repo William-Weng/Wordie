@@ -13,6 +13,7 @@ final class API {
     let database: WWSQLite3Manager.Database         // SQLite 資料庫連線物件
     let type: WWSQLite3Manager.SchemeDelegate.Type  // 資料表對應的模型型別
     let filename: String                            // 資料庫檔案名稱
+    let historyName: String = "History"             // 記憶單字的資料庫名稱
     
     var tableName: String                           // 單字資料表名稱
     

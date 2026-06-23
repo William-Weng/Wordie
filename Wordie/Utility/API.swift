@@ -13,6 +13,7 @@ final class API {
     let database: WWSQLite3Manager.Database         // SQLite 資料庫連線物件
     let filename: String                            // 資料庫檔案名稱
     let type: WWSQLite3Manager.SchemeDelegate.Type  // 資料表對應的模型型別
+    let historyName: String = "History"             // 記憶單字的資料庫名稱
     
     var tableName: String                           // 單字資料表名稱
     
@@ -26,7 +27,7 @@ final class API {
         do {
             database = try WWSQLite3Manager.shared.connect(filename: filename)
             try database.create(tableName: tableName, type: type.self, ifNotExists: true)
-            try database.create(tableName: "History", type: History.self, ifNotExists: true)
+            try database.create(tableName: historyName, type: History.self, ifNotExists: true)
         } catch {
             fatalError("資料庫連線 / 建立失敗！")
         }
