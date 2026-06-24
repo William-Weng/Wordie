@@ -51,7 +51,7 @@ struct WordieContentView: View {
                         .padding(.horizontal, 28)
                 }
                 
-                WordProgressView(currentIndex: currentIndex, totalCount: words.count)
+                WordProgressView(totalCount: words.count, currentIndex: $currentIndex)
                 
                 HStack {
                     difficultyItems
@@ -229,8 +229,8 @@ private extension WordieContentView {
             word.speakWord(by: configure.language)
         }.contextMenu {
             Picker("跟讀模式", selection: $isAutoReading) {
-                Label("自動跟讀", systemImage: "speaker.wave.3.fill").tag(true)
                 Label("手動跟讀", systemImage: "hand.tap.fill").tag(false)
+                Label("自動跟讀", systemImage: "speaker.wave.3.fill").tag(true)
             }
         }
     }

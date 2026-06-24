@@ -10,56 +10,57 @@ import SwiftUI
 /// 顯示目前單字輪次與進度條的元件
 struct WordProgressView: View {
     
-    let currentIndex: Int   // 目前索引
-    let totalCount: Int     // 單字總數
-    
+    let totalCount: Int
+    let range: ClosedRange<Double>      // Slider數字範圍
+
+    @Binding var currentIndex: Int
+
     var body: some View {
         
         VStack(spacing: 8) {
             Text(progressDescription)
                 .font(.system(size: 14, weight: .medium))
                 .foregroundStyle(.gray)
-            progressView(progress)
+            Slider(value: progressValue, in: range)
                 .frame(height: 8)
                 .padding(.horizontal, 28)
         }
         .padding(.top, 8)
     }
+    
+    /// 初始化
+    /// - Parameters:
+    ///   - totalCount: 單字總數
+    ///   - currentIndex: 目前索引
+    init(totalCount: Int, currentIndex: Binding<Int>) {
+        
+        self.totalCount = totalCount
+        _currentIndex = currentIndex
+        self.range = 0...max(Double(totalCount - 1), 0.0)
+    }
 }
 
 // MARK: - 私有屬性
 private extension WordProgressView {
-    
-    /// 進度值，範圍介於 0 到 1
-    /// 用來計算進度條填滿比例。
-    var progress: Double {
-        guard totalCount > 0 else { return 0 }
-        return Double((currentIndex % totalCount) + 1) / Double(totalCount)
-    }
-    
+        
     /// 顯示目前是第幾輪 / 總共幾輪
     var progressDescription: String {
         guard totalCount > 0 else { return "Round 0 / 0" }
         return "Round \((currentIndex % totalCount) + 1) / \(totalCount)"
     }
-}
-
-// MARK: - 小工具
-private extension WordProgressView {
     
-    /// 進度條視圖
-    /// - Parameter progress: 0 到 1 的進度比例
-    func progressView(_ progress: Double) -> some View {
+    /// 頁數進度值，範圍介於 0 ~ (單字總數 - 1)
+    var progressValue: Binding<Double> {
         
-        GeometryReader { geometry in
-            
-            ZStack(alignment: .leading) {
-                Capsule()
-                    .fill(Color.gray.opacity(0.18))
-                Capsule()
-                    .fill(Color.orange)
-                    .frame(width: geometry.size.width * progress)
+        Binding(
+            get: {
+                Double(currentIndex)
+            },
+            set: { newValue in
+                guard totalCount > 0 else { return }
+                currentIndex = min(max(Int(newValue.rounded()), 0), totalCount - 1)
             }
-        }
+        )
     }
 }
+
