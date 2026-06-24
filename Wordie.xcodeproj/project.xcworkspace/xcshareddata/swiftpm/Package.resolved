@@ -1,6 +1,15 @@
 {
-  "originHash" : "a5cecc3571f24786445fae005a240da75525c9f51ef97152b74a9e345b57a6b4",
+  "originHash" : "27414c6a5db38617d42b21a003d7ab2d5fe1d2ac197397d258666e90cc9c9908",
   "pins" : [
+    {
+      "identity" : "wwcachemanager",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/William-Weng/WWCacheManager",
+      "state" : {
+        "revision" : "f1cb47f9ecf8bd4c323432a1145f4b5628bb7bab",
+        "version" : "1.1.0"
+      }
+    },
     {
       "identity" : "wwfontloader",
       "kind" : "remoteSourceControl",
@@ -44,6 +53,15 @@
       "state" : {
         "revision" : "3692e6158ced08c2b9d7611e9e267ac478d45331",
         "version" : "2.4.4"
+      }
+    },
+    {
+      "identity" : "wwwebimage",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/William-Weng/WWWebImage",
+      "state" : {
+        "revision" : "485d7e592a232647a7646ddd29857a5b5b9f294c",
+        "version" : "1.0.3"
       }
     }
   ],

@@ -21,33 +21,22 @@ struct WordieHomeView: View {
     let configure: Configure
 
     @State private var viewModel: WordListViewModel             // 主畫面使用的 ViewModel，負責管理單字資料
+    @State private var path = NavigationPath()                  // 導航路徑
     
     @State private var activeSheet: WordSheet?                  // 目前正在顯示的 sheet 狀態
     @State private var currentIndex = 0                         // 目前正在顯示的單字索引
-    @State private var tablenames: [String] = []                // 資料庫的列表名稱
+    @State private var tableNames: [String] = []                // 資料庫的列表名稱
     @State private var isShowingDeleteConfirm = false           // 是否顯示刪除確認對話框
     @State private var isLoading = false                        // 目前正在讀取單字資料
-    @State private var isHistory: Bool = false                  // 是否選到的使用歷史資料
-    
-    /// 初始化設定
-    /// - Parameters:
-    ///   - api: API功能
-    ///   - configure: 一般初始化設定
-    init(api: API, configure: Configure) {
-        
-        self.api = api
-        self.configure = configure
-        _viewModel = State(wrappedValue: WordListViewModel(api: api))
-        
-        loadFonts(url: .documentsDirectory, filename: "config.json")
-    }
+    @State private var useHistory: Bool = false                 // 是否選到的使用歷史資料
+    @State private var isBookmarkPresented: Bool = false        // 是否要開啟書籤頁
     
     var body: some View {
         
-        NavigationStack {
+        NavigationStack(path: $path) {
             
-            WordieContentView(words: viewModel.words, configure: configure, currentIndex: $currentIndex, tablenames: $tablenames, isHistory: $isHistory) { tablename in
-                loadWords(with: tablename, isHistory: isHistory)
+            WordieContentView(words: viewModel.words, configure: configure, currentIndex: $currentIndex, tableNames: $tableNames, useHistory: $useHistory, path: $path) { tablename in
+                loadWords(with: tablename, isHistory: useHistory)
             } onDifficultyMenuTap: { wordCard, difficulty in
                 try? updateWordDifficulty(wordCard?.word, difficulty: difficulty)
             }
@@ -56,7 +45,7 @@ struct WordieHomeView: View {
                 deleteItem
                 if #available(iOS 26.0, *) { intellisenseItem }
                 editItem
-                if !isHistory { addItem }
+                if !useHistory { addItem }
             }
             .sheet(item: $activeSheet) { sheet in
                 switch sheet {
@@ -67,24 +56,32 @@ struct WordieHomeView: View {
                 Button("刪除", role: .destructive) { removeWord(with: currentIndex) }
             } message: {
                 Text("這個動作無法復原。")
+            }.navigationDestination(for: Route.self) { route in
+                switch route {
+                case .bookmarks: BookmarkPageView(api: api, configure: configure, path: $path)
+                }
             }
         }
         .task {
-            tablenames = formatTablenames()
+            tableNames = formatTablenames()
             viewModel.loadWords()
+            isBookmarkPresented = true
         }
         .loadingOverlay(isPresented: isLoading)
     }
     
-    func removeWord(with index: Int) {
+    /// 初始化設定
+    /// - Parameters:
+    ///   - api: API功能
+    ///   - configure: 一般初始化設定
+    init(api: API, configure: Configure) {
         
-        let currentWord = viewModel.words[index]
-        isLoading = true
+        self.api = api
+        self.configure = configure
         
-        Task {
-            !isHistory ? try? viewModel.deleteWord(currentWord) : try? viewModel.deleteHistory(currentWord)
-            isLoading = false
-        }
+        _viewModel = State(wrappedValue: WordListViewModel(api: api))
+        
+        loadFonts(url: .documentsDirectory, filename: "config.json")
     }
 }
 
@@ -224,10 +221,12 @@ private extension WordieHomeView {
     func formatTablenames() -> [String] {
         
         let sqlTablenames = api.tableSchemas().map(\.name).sorted()
+        let exceptionName: Set<String> = [History.tableName, Bookmark.tableName, api.tableName]
+        
         var tablenames = [api.tableName]
         
         for name in sqlTablenames {
-            if [api.historyName, api.tableName].contains(name) { continue }
+            if exceptionName.contains(name) { continue }
             tablenames.append(name)
         }
         
@@ -247,5 +246,18 @@ private extension WordieHomeView {
         }
         
         try api.updateHistory(at: word, difficulty: difficulty)
+    }
+    
+    /// 刪除單字
+    /// - Parameter index: 單字序號
+    func removeWord(with index: Int) {
+        
+        let currentWord = viewModel.words[index]
+        isLoading = true
+        
+        Task {
+            !useHistory ? try? viewModel.deleteWord(currentWord) : try? viewModel.deleteHistory(currentWord)
+            isLoading = false
+        }
     }
 }

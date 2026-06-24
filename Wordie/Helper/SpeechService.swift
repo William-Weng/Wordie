@@ -11,7 +11,7 @@ import AVFoundation
 /// 單字發音服務
 ///
 /// 負責將英文單字轉成語音播放
-final class SpeechService: NSObject, ObservableObject {
+final class SpeechService: NSObject {
     
     private let synthesizer = AVSpeechSynthesizer()     // 系統語音合成器
     

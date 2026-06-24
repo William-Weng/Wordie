@@ -11,6 +11,8 @@ import WWSQLite3Manager
 /// 單字歷史 => 用來記憶已背過的單字
 struct History: Codable {
     
+    static let tableName: String = "History"
+    
     let id: Int             // 流水號
     let word: String        // 單字
     let difficulty: Int     // 難度 (越大越難)

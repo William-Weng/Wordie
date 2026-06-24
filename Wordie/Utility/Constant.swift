@@ -28,6 +28,10 @@ enum WordDifficulty: String, CaseIterable {
     case hard = "難"
 }
 
+/// [Navigation路徑](https://www.appcoda.com.tw/swiftui-navigation/)
+enum Route: Hashable {
+    case bookmarks
+}
 
 // MARK: - 公開屬性
 extension WordSheet {

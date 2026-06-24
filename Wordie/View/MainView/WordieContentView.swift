@@ -16,9 +16,10 @@ struct WordieContentView: View {
     let configure: Configure                                        // 一般初始化設定
     
     @Binding var currentIndex: Int                                  // 目前顯示綁定的單字索引
-    @Binding var tablenames: [String]                               // 資料表名稱
-    @Binding var isHistory: Bool                                    // 是否選到的使用歷史資料
-
+    @Binding var tableNames: [String]                               // 資料表名稱
+    @Binding var useHistory: Bool                                   // 是否選到的使用歷史資料
+    @Binding var path: NavigationPath
+    
     let onTableMenuTap: (String) -> Void                            // 選擇資料表名稱後的動作 (單字, 是否看歷史記錄)
     let onDifficultyMenuTap: (WordCard?, WordDifficulty?) -> Void   // 選擇資料表名稱後的動作 (單字, 單字難度)
     
@@ -68,12 +69,12 @@ struct WordieContentView: View {
             .padding(.bottom, 8)
         }
         .task {
-            selectedName = tablenames.last ?? ""
+            selectedName = tableNames.last ?? ""
         }.onChange(of: words.count) {
             clampCurrentIndex()
         }.onChange(of: selectedName) {
             onTableMenuTap(selectedName)
-        }.onChange(of: isHistory) {
+        }.onChange(of: useHistory) {
             onTableMenuTap(selectedName)
         }.onChange(of: difficulty) {
             onDifficultyMenuTap(words[currentIndex], difficulty)
@@ -133,13 +134,19 @@ private extension WordieContentView {
         Menu {
             
             Button(action: {
-                isHistory.toggle()
+                path.append(Route.bookmarks)
+            }, label: {
+                Text("書籤記錄")
+            })
+            
+            Button(action: {
+                useHistory.toggle()
             }, label: {
                 Text("歷史記錄")
             })
             
             Picker("單字列表", selection: $selectedName) {
-                ForEach(tablenames, id: \.self) { name in
+                ForEach(tableNames, id: \.self) { name in
                     ZStack {
                         Text(name)
                         Image(systemName: "leaf.fill")
@@ -152,7 +159,7 @@ private extension WordieContentView {
             Image(systemName: "tablecells.badge.ellipsis")
                 .font(.system(size: 26, weight: .semibold))
                 .frame(width: 54, height: 54)
-                .foregroundStyle(!isHistory ? .blue : .red)
+                .foregroundStyle(!useHistory ? .blue : .red)
         }
     }
     

@@ -18,3 +18,10 @@ struct SqliteMaster: Codable {
     let sql: String
 }
 
+/// 包含`id`的URL
+struct IdentifiableURL: Hashable, Identifiable {
+    
+    let id = UUID()
+    let url: URL
+}
+

@@ -7,6 +7,13 @@
 
 import Foundation
 
+// MARK: - Bool
+extension Bool {
+    
+    /// Bool => Int
+    var intValue: Int { self ? 1 : 0 }
+}
+
 // MARK: - JSONSerialization (subscript function)
 extension Collection {
     
