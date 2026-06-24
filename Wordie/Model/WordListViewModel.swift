@@ -23,7 +23,7 @@ final class WordListViewModel {
 
 // MARK: - 公開函式
 extension WordListViewModel {
-    
+        
     /// 從資料庫讀取所有單字，並更新目前清單
     func loadWords() {
         words = api.select()

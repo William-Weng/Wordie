@@ -58,7 +58,7 @@ struct WordieHomeView: View {
                 Text("這個動作無法復原。")
             }.navigationDestination(for: Route.self) { route in
                 switch route {
-                case .bookmarks: BookmarkPageView(api: api, configure: configure, path: $path)
+                case .bookmarks: BookmarkPageView(api: api, configure: configure)
                 }
             }
         }

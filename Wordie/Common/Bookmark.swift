@@ -9,7 +9,7 @@ import Foundation
 import WWSQLite3Manager
 
 /// 書籤記錄 (記錄一些外語教學網頁)
-struct Bookmark: Codable, Identifiable {
+struct Bookmark: Codable, Identifiable, Hashable {
     
     static let tableName: String = "Bookmark"
     

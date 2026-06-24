@@ -15,19 +15,18 @@ struct BookmarkRow: View {
     let onFavoriteTap: (Bookmark) -> Void
     
     var body: some View {
-        
         HStack(spacing: 20) {
             Button {
                 bookmark.toggleFavorite()
                 onFavoriteTap(bookmark)
             } label: {
-                Image(systemName: (bookmark.isFavorite) ? "heart.fill" : "heart")
+                Image(systemName: bookmark.isFavorite ? "heart.fill" : "heart")
                     .font(.system(size: 24, weight: .semibold))
-                    .foregroundStyle(!bookmark.isFavorite ? .gray : .red)
+                    .foregroundStyle(bookmark.isFavorite ? .red : .gray)
                     .frame(width: 30)
             }
             .buttonStyle(.plain)
-            
+
             Button(action: onItemTap) {
                 HStack(spacing: 20) {
                     coverImage
@@ -47,6 +46,7 @@ struct BookmarkRow: View {
         }
         .padding(.horizontal, 24)
         .padding(.vertical, 22)
+        .contentShape(Rectangle())
     }
 }
 

@@ -1,5 +1,5 @@
 //
-//  AddWordView.swift
+//  AddBookmarkView.swift
 //  Wordie
 //
 //  Created by William.Weng on 2026/6/10.
@@ -8,21 +8,21 @@
 import SwiftUI
 
 /// 單字新增 / 編輯表單畫面
-struct AddWordView: View {
+struct AddBookmarkView: View {
     
-    let sheet: WordSheet                                // 目前表單顯示的模式與內容來源
+    let sheet: BookmarkSheet
     
-    @State var viewModel: WordListViewModel             // 單字列表的 ViewModel，負責新增與更新資料
+    @State var viewModel: BookmarkListViewModel
     
-    @Environment(\.dismiss) private var dismiss         // 關閉目前 sheet 畫面的環境方法
+    @Environment(\.dismiss) private var dismiss
     
-    @State private var word = ""                        // 英文單字輸入欄位
-    @State private var reading = ""                     // 音標輸入欄位
-    @State private var chinese = ""                     // 中文解釋輸入欄位
+    @State private var title = ""
+    @State private var url = ""
+    @State private var icon = ""
     
-    @State private var showAlert = false                // 是否顯示錯誤提示視窗
-    @State private var alertMessage = ""                // 錯誤提示內容
-    
+    @State private var showAlert = false
+    @State private var alertMessage = ""
+        
     var body: some View {
         
         NavigationStack {
@@ -35,38 +35,26 @@ struct AddWordView: View {
         }
     }
     
-    /// 建立新增 / 編輯單字畫面
-    ///
-    /// 會根據 `sheet` 狀態設定表單初始值：
-    /// - 新增模式：欄位清空
-    /// - 編輯模式：帶入既有單字內容
-    ///
-    /// - Parameters:
-    ///   - sheet: 目前 sheet 的狀態
-    ///   - viewModel: 提供新增與更新功能的 ViewModel
-    init(sheet: WordSheet, viewModel: WordListViewModel) {
+    init(sheet: BookmarkSheet, viewModel: BookmarkListViewModel) {
         
         self.sheet = sheet
         self.viewModel = viewModel
         
         switch sheet {
         case .add:
-            _word = State(initialValue: "")
-            _reading = State(initialValue: "")
-            _chinese = State(initialValue: "")
-            
-        case .edit(let wordCard):
-            _word = State(initialValue: wordCard.word)
-            _reading = State(initialValue: wordCard.reading)
-            _chinese = State(initialValue: wordCard.chinese)
-        case .intellisense(_):
-            break
+            _title = State(initialValue: "")
+            _url = State(initialValue: "")
+            _icon = State(initialValue: "")
+        case .edit(let bookmark):
+            _title = State(initialValue: bookmark.title)
+            _url = State(initialValue: bookmark.url)
+            _icon = State(initialValue: bookmark.icon)
         }
     }
 }
 
 // MARK: - 畫面內容
-private extension AddWordView {
+private extension AddBookmarkView {
     
     /// 單字輸入表單
     ///
@@ -74,10 +62,10 @@ private extension AddWordView {
     var inputForm: some View {
         
         Form {
-            Section("單字資訊") {
-                inputRow(systemName: "textformat", placeholder: "Word", text: $word)
-                inputRow(systemName: "quote.opening", placeholder: "Reading", text: $reading)
-                inputRow(systemName: "translate", placeholder: "Chinese", text: $chinese)
+            Section("書籤資訊") {
+                inputRow(systemName: "text.book.closed", placeholder: "Title", text: $title)
+                inputRow(systemName: "link", placeholder: "URL", text: $url)
+                inputRow(systemName: "person.crop.circle", placeholder: "ICON", text: $icon)
             }
         }
     }
@@ -105,7 +93,7 @@ private extension AddWordView {
 }
 
 // MARK: - 工具列按鈕
-private extension AddWordView {
+private extension AddBookmarkView {
     
     /// 右上角確認按鈕
     ///
@@ -120,20 +108,13 @@ private extension AddWordView {
             
             Button {
                 
-                let wordUI = WordUI(word: word, reading: reading, chinese: chinese)
-                
-                do {
-                    switch sheet {
-                    case .add: try viewModel.addWord(wordUI)
-                    case .edit(let source): try viewModel.updateWord(id: source.id, wordUI: wordUI)
-                    case .intellisense(_): break
-                    }
-                    
-                    dismiss()
-                } catch {
-                    alertMessage = error.localizedDescription
-                    showAlert = true
+                switch sheet {
+                case .add: try? viewModel.addBookmark(title, url: url, icon: icon)
+                case .edit(let bookmark): try? viewModel.updateBookmark(id: bookmark.id, title: title, url: url, icon: icon)
                 }
+                
+                dismiss()
+                
             } label: {
                 Image(systemName: sheet.buttonIcon)
             }
@@ -162,7 +143,7 @@ private extension AddWordView {
 }
 
 // MARK: - 驗證
-private extension AddWordView {
+private extension AddBookmarkView {
     
     /// 判斷表單是否符合儲存條件
     ///
@@ -170,7 +151,7 @@ private extension AddWordView {
     /// - 英文不可為空
     /// - 中文不可為空
     var isFormValid: Bool {
-        !word.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty &&
-        !chinese.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        !title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty &&
+        !url.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
     }
 }

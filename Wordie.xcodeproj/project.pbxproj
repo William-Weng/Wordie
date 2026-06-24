@@ -70,6 +70,7 @@
 				View/ItemView/WWWebImageLoader.swift,
 				View/MainView/WordieContentView.swift,
 				View/MainView/WordieHomeView.swift,
+				View/SubView/AddBookmarkView.swift,
 				View/SubView/AddWordView.swift,
 				View/SubView/BookmarkPageView.swift,
 				View/SubView/IntelliSenseWordView.swift,

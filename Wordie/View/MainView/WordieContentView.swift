@@ -116,7 +116,7 @@ private extension WordieContentView {
             Text("目前沒有單字")
                 .font(.headline)
 
-            Text("先新增一些 Wordie 單字，再開始學習吧。")
+            Text("先新增一些單字，再開始學習吧。")
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
@@ -154,7 +154,6 @@ private extension WordieContentView {
                     .tag(name)
                 }
             }
-                        
         } label: {
             Image(systemName: "tablecells.badge.ellipsis")
                 .font(.system(size: 26, weight: .semibold))

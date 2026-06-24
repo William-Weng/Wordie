@@ -15,6 +15,11 @@ enum WordSheet: Identifiable {
     case intellisense(WordCard)     // AI進階功能
 }
 
+/// 新增 / 編輯單字時使用的 sheet 狀態
+enum BookmarkSheet: Identifiable {
+    case add                        // 新增書籤
+    case edit(Bookmark)             // 編輯指定書籤
+}
 
 /// 單字片滑動方向
 enum CardAwayDirection: CGFloat {
@@ -60,6 +65,34 @@ extension WordSheet {
         case .add: return "plus"
         case .edit: return "arrow.triangle.2.circlepath"
         case .intellisense: return "apple.intelligence"
+        }
+    }
+}
+
+// MARK: - 公開屬性
+extension BookmarkSheet {
+    
+    /// sheet(item:) 用的唯一 id
+    var id: String {
+        switch self {
+        case .add: return "add"
+        case .edit(let bookmark): return "edit-\(bookmark.id)"
+        }
+    }
+    
+    /// 畫面標題
+    var title: String {
+        switch self {
+        case .add: return "新增書籤"
+        case .edit: return "編輯書籤"
+        }
+    }
+    
+    /// 確認按鈕使用的 SF Symbol
+    var buttonIcon: String {
+        switch self {
+        case .add: return "plus"
+        case .edit: return "arrow.triangle.2.circlepath"
         }
     }
 }
