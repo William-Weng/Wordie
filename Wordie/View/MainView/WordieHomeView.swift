@@ -36,7 +36,7 @@ struct WordieHomeView: View {
         NavigationStack(path: $path) {
             
             WordieContentView(words: viewModel.words, configure: configure, currentIndex: $currentIndex, tableNames: $tableNames, useHistory: $useHistory, path: $path) { tablename in
-                loadWords(with: tablename, isHistory: useHistory)
+                refreshWords(with: tablename, isHistory: useHistory)
             } onDifficultyMenuTap: { wordCard, difficulty in
                 try? updateWordDifficulty(wordCard?.word, difficulty: difficulty)
             }
@@ -64,7 +64,7 @@ struct WordieHomeView: View {
         }
         .task {
             tableNames = formatTablenames()
-            viewModel.loadWords()
+            viewModel.reloadWords()
             isBookmarkPresented = true
         }
         .loadingOverlay(isPresented: isLoading)
@@ -203,7 +203,7 @@ private extension WordieHomeView {
     /// - Parameters:
     ///   - tableName: 資料表名稱
     ///   - isHistory: 是否看歷史記錄
-    func loadWords(with tableName: String, isHistory: Bool) {
+    func refreshWords(with tableName: String, isHistory: Bool) {
         
         isLoading = true
         currentIndex = 0
@@ -211,7 +211,7 @@ private extension WordieHomeView {
         viewModel.api.tableName = tableName
         
         Task {
-            !isHistory ? viewModel.loadWords() : viewModel.loadHistory()
+            !isHistory ? viewModel.reloadWords() : viewModel.reloadHistory()
             isLoading = false
         }
     }

@@ -11,7 +11,7 @@ import SwiftUI
 struct WordProgressView: View {
     
     let totalCount: Int
-    let range: ClosedRange<Double>      // Slider數字範圍
+    let range: ClosedRange<Double>
 
     @Binding var currentIndex: Int
 

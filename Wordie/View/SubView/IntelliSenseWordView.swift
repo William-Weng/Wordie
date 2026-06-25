@@ -10,27 +10,41 @@ import SwiftUI
 import WWIntelligentAgent
 import WWMarkdownWebViewUI
 
-/// 使用iOS本地AI解說單字
+/// 使用 iOS 本地 AI 解說單字的畫面
+///
+/// 此視圖會根據指定單字產生 AI 解說內容，並提供：
+/// - 顯示 AI 回傳的 Markdown 說明
+/// - 重新分析單字
+/// - 朗讀解說內容
 @available(iOS 26.0, *)
 struct IntelliSenseWordView: View {
     
-    static private let agent = WWIntelligentAgent()     // AI 對話代理
+    static private let agent = WWIntelligentAgent()         // AI 對話代理
     
-    let sheet: WordSheet
-    let instructions: String
+    let sheet: WordSheet                                    // 目前畫面所對應的工作模式
+    let instructions: String                                // 提供給 AI 的額外指示內容
     
-    private let speechService: SpeechService = .init()
+    private let speechService: SpeechService = .init()      // 提供文字朗讀功能的服務
     
-    @Environment(\.dismiss) private var dismiss
+    @State var viewModel: WordListViewModel                 // 管理單字列表資料與操作邏輯的 ViewModel
+    @State var manager = WWMarkdownWebViewUI.Manager()      // 管理 Markdown WebView 顯示狀態的物件
+    @State private var word: String                         // 目前要讓 AI 解說的單字
+    @State private var markdown: String                     // AI 回傳的 Markdown 解說內容
+    @State private var isLoading = true                     // 是否正在等待 AI 回應
+    @State private var webHeight: CGFloat = 1               // Markdown WebView 的內容高度
     
-    @State var viewModel: WordListViewModel
-    @State var manager = WWMarkdownWebViewUI.Manager()
+    @Environment(\.dismiss) private var dismiss             // 用來關閉目前畫面的 dismiss 動作
     
-    @State private var word: String                     // 目前要讓 AI 解說的單字
-    @State private var markdown: String                 // AI 回傳的解說內容
-    @State private var isLoading = true                 // 是否正在等待 AI 回應
-    @State private var webHeight: CGFloat = 1           // WebView高度
-    
+    /// 建立 AI 單字解說畫面
+    ///
+    /// 會依照 `sheet` 模式決定單字與初始內容：
+    /// - 新增或編輯模式時，單字與解說內容皆為空
+    /// - AI 解說模式時，會帶入要分析的單字
+    ///
+    /// - Parameters:
+    ///   - sheet: 表示目前畫面用途的工作模式
+    ///   - viewModel: 提供單字資料操作能力的 ViewModel
+    ///   - instructions: 傳給 AI 的額外指示內容
     init(sheet: WordSheet, viewModel: WordListViewModel, instructions: String) {
         
         self.sheet = sheet
@@ -65,7 +79,8 @@ struct IntelliSenseWordView: View {
                 readContentItem
                 analyzeItem
             }
-        }.task {
+        }
+        .task {
             await analyzeWord(word)
         }
     }

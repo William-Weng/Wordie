@@ -1,5 +1,5 @@
 {
-  "originHash" : "27414c6a5db38617d42b21a003d7ab2d5fe1d2ac197397d258666e90cc9c9908",
+  "originHash" : "fe9b17a50b3acd95032a0004cd75ea88bed85b0d569c985975ee602d001abe3b",
   "pins" : [
     {
       "identity" : "wwcachemanager",
@@ -44,6 +44,15 @@
       "state" : {
         "revision" : "9bb37aa23ea91eb27e729c12b05291b1d563aea8",
         "version" : "0.3.1"
+      }
+    },
+    {
+      "identity" : "wwsafariviewui",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/William-Weng/WWSafariViewUI",
+      "state" : {
+        "revision" : "350ec7b78edd267b4c5e0f425e9a4083f4605199",
+        "version" : "1.0.0"
       }
     },
     {

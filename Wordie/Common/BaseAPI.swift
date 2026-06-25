@@ -161,7 +161,8 @@ extension BaseAPI {
     /// - Returns: 目前資料庫中的所有書籤資料
     func selectBookmark() -> [Bookmark] {
         
-        let array = database.select(tableName: Bookmark.tableName, type: Bookmark.self).array
+        let orderBy: WWSQLite3Manager.OrderBy = .init().build(key: "time", direction: .desc)
+        let array = database.select(tableName: Bookmark.tableName, type: Bookmark.self, orderBy: orderBy).array
         let bookmarks = array.compactMap { $0.jsonClass(for: Bookmark.self) }
 
         return bookmarks

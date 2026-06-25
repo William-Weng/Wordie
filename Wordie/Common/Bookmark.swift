@@ -11,6 +11,7 @@ import WWSQLite3Manager
 /// 書籤記錄 (記錄一些外語教學網頁)
 struct Bookmark: Codable, Identifiable, Hashable {
     
+    // 資料表名稱
     static let tableName: String = "Bookmark"
     
     let id: Int         // 流水號
@@ -39,20 +40,13 @@ extension Bookmark: WWSQLite3Manager.SchemeDelegate {
     }
 }
 
+// MARK: - 公開屬性
 extension Bookmark {
     
+    /// 表示此書籤是否已被標記為最愛
+    ///
+    /// 這個屬性會將資料模型中以整數儲存的 `favorite` 值，轉換成較容易使用的 `Bool`
     var isFavorite: Bool {
         Bool(truncating: favorite as NSNumber)
-    }
-}
-
-extension Bookmark {
-    
-    mutating func toggleFavorite() {
-        
-        var bool = isFavorite
-        
-        bool.toggle()
-        favorite = bool.intValue
     }
 }

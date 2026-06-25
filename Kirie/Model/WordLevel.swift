@@ -16,16 +16,7 @@ enum WordLevel: Int {
 // MARK: - WordLevelDatabase
 extension WordLevel: WordLevelDatabase {
     
-    var backgroundColor: Color {
-        switch self {
-        case .N5: .green
-        case .N4: .black
-        case .N3: .blue
-        case .N2: .brown
-        case .N1: .red
-        }
-    }
-    
+    /// 顯示文字
     var value: String {
         switch self {
         case .N5: "N5"
@@ -33,6 +24,17 @@ extension WordLevel: WordLevelDatabase {
         case .N3: "N3"
         case .N2: "N2"
         case .N1: "N1"
+        }
+    }
+    
+    /// 背景色
+    var backgroundColor: Color {
+        switch self {
+        case .N5: .green
+        case .N4: .black
+        case .N3: .blue
+        case .N2: .brown
+        case .N1: .red
         }
     }
 }

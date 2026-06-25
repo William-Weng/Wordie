@@ -7,22 +7,27 @@
 
 import SwiftUI
 
-/// 單字新增 / 編輯表單畫面
+import SwiftUI
+
+/// 新增或編輯書籤的表單畫面。
+///
+/// 此視圖會根據 `sheet` 模式決定畫面標題與表單初始內容：
+/// - `.add`：建立空白輸入欄位
+/// - `.edit`：帶入既有書籤資料
 struct AddBookmarkView: View {
     
-    let sheet: BookmarkSheet
+    let sheet: BookmarkSheet                        // 目前表單所對應的工作模式
+
+    @State var viewModel: BookmarkListViewModel     // 管理書籤列表資料與操作邏輯的 ViewModel
     
-    @State var viewModel: BookmarkListViewModel
+    @State private var title = ""                   // 書籤標題輸入內容
+    @State private var url = ""                     // 書籤網址輸入內容
+    @State private var icon = ""                    // 書籤圖示網址輸入內容
+    @State private var showAlert = false            // 是否顯示提示視窗
+    @State private var alertMessage = ""            // 提示視窗顯示的訊息內容
+
+    @Environment(\.dismiss) private var dismiss     // 用來關閉目前畫面的 dismiss 動作
     
-    @Environment(\.dismiss) private var dismiss
-    
-    @State private var title = ""
-    @State private var url = ""
-    @State private var icon = ""
-    
-    @State private var showAlert = false
-    @State private var alertMessage = ""
-        
     var body: some View {
         
         NavigationStack {
@@ -35,6 +40,15 @@ struct AddBookmarkView: View {
         }
     }
     
+    /// 建立新增或編輯書籤用的表單畫面
+    ///
+    /// 會依照 `sheet` 的型別設定表單初始值：
+    /// - 新增模式時，欄位內容為空字串
+    /// - 編輯模式時，欄位內容會帶入既有書籤資料
+    ///
+    /// - Parameters:
+    ///   - sheet: 表示目前是新增或編輯模式的工作項目
+    ///   - viewModel: 提供書籤資料操作能力的 ViewModel
     init(sheet: BookmarkSheet, viewModel: BookmarkListViewModel) {
         
         self.sheet = sheet
@@ -109,7 +123,7 @@ private extension AddBookmarkView {
             Button {
                 
                 switch sheet {
-                case .add: try? viewModel.addBookmark(title, url: url, icon: icon)
+                case .add: try? viewModel.addBookmark(title: title, url: url, icon: icon)
                 case .edit(let bookmark): try? viewModel.updateBookmark(id: bookmark.id, title: title, url: url, icon: icon)
                 }
                 

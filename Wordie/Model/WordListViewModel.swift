@@ -14,8 +14,9 @@ final class WordListViewModel {
     var words: [WordCard] = []   // 畫面上顯示的單字列表
     
     @ObservationIgnored
-    var api: ApiDelegate
+    var api: ApiDelegate        // 提供書籤資料存取能力的 API (此屬性不需要被 Observation 系統追蹤，因此使用`@ObservationIgnored` 避免不必要的觀察)
     
+    /// 建立單字列表 ViewModel
     init(api: ApiDelegate) {
         self.api = api
     }
@@ -24,8 +25,8 @@ final class WordListViewModel {
 // MARK: - 公開函式
 extension WordListViewModel {
         
-    /// 從資料庫讀取所有單字，並更新目前清單
-    func loadWords() {
+    /// 從資料庫重新讀取所有單字，並更新目前清單
+    func reloadWords() {
         words = api.select()
     }
     
@@ -36,7 +37,7 @@ extension WordListViewModel {
     /// - Throws: 當資料寫入失敗時拋出錯誤
     func addWord(_ wordUI: WordUI) throws {
         try api.insert(wordUI)
-        loadWords()
+        reloadWords()
     }
     
     /// 更新指定單字內容，並重新載入清單
@@ -50,7 +51,7 @@ extension WordListViewModel {
         let wordCard: WordCard = .init(id: id, word: wordUI.word, reading: wordUI.reading, chinese: wordUI.chinese, level: WordLevel.allCases[0])
         try api.update(wordCard)
         
-        loadWords()
+        reloadWords()
     }
     
     /// 刪除指定單字，並重新載入清單
@@ -61,15 +62,15 @@ extension WordListViewModel {
     func deleteWord(_ wordCard: WordCard) throws {
                 
         try api.delete(id: wordCard.id)
-        loadWords()
+        reloadWords()
     }
 }
 
 // MARK: - History
 extension WordListViewModel {
     
-    /// 從資料庫讀取所有單字記錄，並更新目前清單
-    func loadHistory() {
+    /// 從資料庫重新讀取所有單字記錄，並更新目前清單
+    func reloadHistory() {
         words = api.selectHistory()
     }
     
@@ -80,6 +81,6 @@ extension WordListViewModel {
     /// - Throws: 當資料刪除失敗時拋出錯誤
     func deleteHistory(_ wordCard: WordCard) throws {
         try api.deleteHistory(word: wordCard.word)
-        loadHistory()
+        reloadHistory()
     }
 }

@@ -15,6 +15,7 @@ enum WordLevel: Int {
 // MARK: - WordLevelDatabase
 extension WordLevel: WordLevelDatabase {
     
+    /// 顯示文字
     var value: String {
         
         switch self {
@@ -26,6 +27,7 @@ extension WordLevel: WordLevelDatabase {
         }
     }
     
+    /// 背景色
     var backgroundColor: Color {
         
         switch self {

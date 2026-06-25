@@ -132,17 +132,17 @@ private extension WordieContentView {
     var menuItems: some View {
         
         Menu {
+                        
+            Button(action: {
+                useHistory.toggle()
+            }, label: {
+                Text("歷史記錄")
+            })
             
             Button(action: {
                 path.append(Route.bookmarks)
             }, label: {
                 Text("書籤記錄")
-            })
-            
-            Button(action: {
-                useHistory.toggle()
-            }, label: {
-                Text("歷史記錄")
             })
             
             Picker("單字列表", selection: $selectedName) {
