@@ -44,8 +44,13 @@ struct BookmarkPageView: View {
                             swipeActionsMaker(for: bookmark)
                         }
                         .listRowInsets(EdgeInsets(top: 8, leading: 0, bottom: 0, trailing: 0))
-                        .listRowSeparator(.visible)
+                        .listRowSeparator(.hidden)
                         .listRowBackground(Color.clear)
+                        .overlay(alignment: .bottom) {
+                            Rectangle()
+                                .fill(.gray.opacity(0.4))
+                                .frame(height: 1)
+                        }
                     }
                 }
                 .listStyle(.plain)
