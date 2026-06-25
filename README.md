@@ -7,21 +7,13 @@
 [![Swift Package Manager-SUCCESS](https://img.shields.io/badge/Swift_Package_Manager-SUCCESS-blue.svg?style=flat)](https://developer.apple.com/swift/)
 [![LICENSE](https://img.shields.io/badge/LICENSE-MIT-yellow.svg?style=flat)](https://developer.apple.com/swift/)
 
-Wordie 是一款使用 SwiftUI 製作的英文單字學習 App，提供單字的新增、編輯、刪除與瀏覽功能，並透過 SQLite 在本機保存資料，適合作為 SwiftUI + MVVM + 本地資料庫練習專案。
+Wordie 是一款使用 SwiftUI 製作的英文單字學習 App，提供單字的新增、編輯、刪除與瀏覽功能，並透過 `SQLite` 在本機保存資料，適合作為 `SwiftUI` + `MVVM` + 本地資料庫練習專案，在 `iOS 26` 支援本地 [`AI`](https://www.apple.com/tw/apple-intelligence/) 功能。
 
 ![Wordie](https://github.com/user-attachments/assets/609eee7b-6bc3-4c72-a83a-1cb98e66a44c) ![Kirie](https://github.com/user-attachments/assets/686742c9-6c52-45d2-8a70-c84213ed2d0a)
 
-## [專案特色](https://medium.com/在程式與旅行的路上/widget-extension-等到-ios-14-才姍姍來遲的-widget-小工具-7b269d9b2253)
-
-- 使用 **SwiftUI** 建立畫面與互動流程，讓 UI 結構更清楚。
-- 採用 **MVVM** 架構，將畫面、狀態與資料操作分層管理，方便維護與擴充。
-- 使用 **WWSQLite3Manager** 操作 SQLite，本機保存單字資料。
-- 支援單字 **新增、讀取、更新、刪除**（CRUD）功能，適合當作入門資料流專案。
-- 已加入程式註解，方便在 Xcode 中閱讀與維護。
-
 ## [畫面功能](https://peterpanswift.github.io/iphone-bezels/)
 
-### 首頁
+### [首頁](https://medium.com/在程式與旅行的路上/widget-extension-等到-ios-14-才姍姍來遲的-widget-小工具-7b269d9b2253)
 - 顯示目前單字內容。
 - 可切換單字瀏覽狀態。
 - 提供新增、編輯與刪除入口。
@@ -122,8 +114,6 @@ struct WordieApp: App {
 ## 後續可擴充方向
 
 - 加入搜尋功能。
-- 加入單字收藏或分類。
-- 加入發音功能。
 - 加入測驗模式或記憶卡模式。
 - 支援匯出 / 匯入單字資料。
 - 增加錯誤處理與空畫面設計。
