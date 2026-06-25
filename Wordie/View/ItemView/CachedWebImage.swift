@@ -16,7 +16,7 @@ struct CachedWebImage<Content: View, Placeholder: View>: View {
     let content: (Image) -> Content                 // 圖片載入成功後，用來建立顯示內容的閉包
     let placeholder: () -> Placeholder              // 圖片尚未載入完成時顯示的預設內容
     
-    @State private var loader = WWWebImageLoader()  // 負責下載與快取圖片資料的載入器
+    @State private var loader = WebImageLoader()    // 負責下載與快取圖片資料的載入器
     
     var body: some View {
         

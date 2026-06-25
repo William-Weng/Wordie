@@ -80,6 +80,7 @@ struct IntelliSenseWordView: View {
                 analyzeItem
             }
         }
+        .background(Color.githubDarkBackground)
         .task {
             await analyzeWord(word)
         }
@@ -99,9 +100,9 @@ private extension IntelliSenseWordView {
     /// AI 完成後顯示的解說內容
     var explainView: some View {
             ScrollView {
-                WWMarkdownWebViewUI(markdown: markdown, height: $webHeight, textStyle: .constant(.dark), manager: manager)
+                WWMarkdownWebViewUI(markdown: markdown, height: $webHeight, manager: manager)
                     .frame(height: webHeight)
-                    .padding(20)
+                    .padding(0)
             }
         }
 }
@@ -165,7 +166,7 @@ private extension IntelliSenseWordView {
         
         defer { isLoading = false }
         
-        let prompt = "這是使用者說的：請解說\(word)"
+        let prompt = "這是使用者說的：請解說'\(word)'這個單字"
         Self.agent.configure(with: instructions, optionType: .bot)
         isLoading = true
         

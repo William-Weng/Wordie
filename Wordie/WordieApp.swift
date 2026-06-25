@@ -17,8 +17,8 @@ struct WordieApp: App {
         whole [hol]
         
         1. adj. 全部的
-        - He spent a whole morning preparing for the test.
-        - 他花了一整個早上準備考試。
+        > 例句：He spent a whole morning preparing for the test.
+        > 翻譯：他花了一整個早上準備考試。
         ```
         """
 

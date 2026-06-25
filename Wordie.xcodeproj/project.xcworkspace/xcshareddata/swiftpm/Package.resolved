@@ -1,5 +1,5 @@
 {
-  "originHash" : "fe9b17a50b3acd95032a0004cd75ea88bed85b0d569c985975ee602d001abe3b",
+  "originHash" : "1ac3bca505dfa8e382c9842cfa9fbca819d13c0d251e28ef52db88f49a46c772",
   "pins" : [
     {
       "identity" : "wwcachemanager",
@@ -42,8 +42,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/William-Weng/WWMarkdownWebViewUI",
       "state" : {
-        "revision" : "9bb37aa23ea91eb27e729c12b05291b1d563aea8",
-        "version" : "0.3.1"
+        "revision" : "00d83b230fc7044e9a4bb5edab4d397d698fad9f",
+        "version" : "0.4.1"
       }
     },
     {

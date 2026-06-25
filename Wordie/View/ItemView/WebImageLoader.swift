@@ -1,5 +1,5 @@
 //
-//  WWWebImageLoader.swift
+//  WebImageLoader.swift
 //  Wordie
 //
 //  Created by William.Weng on 2026/6/24.
@@ -10,7 +10,7 @@ import WWWebImage
 
 /// 負責下載並提供圖片資料的載入器 (此型別會根據指定網址下載圖片，並將結果更新到可供 SwiftUI 觀察的狀態)
 @MainActor @Observable
-final class WWWebImageLoader {
+final class WebImageLoader {
     
     var image: UIImage?     // 目前已載入完成的圖片
     var isLoading = false   // 表示目前是否正在進行圖片載入

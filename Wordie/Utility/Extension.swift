@@ -6,12 +6,34 @@
 //
 
 import Foundation
+import SwiftUI
 
 // MARK: - Bool
 extension Bool {
     
     /// Bool => Int
     var intValue: Int { self ? 1 : 0 }
+}
+
+// MARK: - Color
+extension Color {
+    
+    static let githubDarkBackground = Color(hex: "#0d1117")
+    
+    /// 16進制顏色轉換
+    /// - Parameter hex: 16進制顏色色碼 (#0d1117)
+    init(hex: String) {
+        
+        let hex = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
+        var rgb: UInt64 = 0
+        Scanner(string: hex).scanHexInt64(&rgb)
+
+        let r = Double((rgb >> 16) & 0xFF) / 255.0
+        let g = Double((rgb >> 8) & 0xFF) / 255.0
+        let b = Double(rgb & 0xFF) / 255.0
+
+        self.init(.sRGB, red: r, green: g, blue: b, opacity: 1.0)
+    }
 }
 
 // MARK: - JSONSerialization (subscript function)
