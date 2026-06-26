@@ -49,7 +49,7 @@ private extension WordCardView {
                     frontView
                         .padding(.horizontal, 20)
                     
-                    categoryBadge(15)
+                    categoryBadge(wordCard.category)
                         .padding(.top, 12)
                         .padding(.leading, 12)
                     
