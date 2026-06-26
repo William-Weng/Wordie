@@ -120,7 +120,7 @@ private extension AddWordView {
             
             Button {
                 
-                let wordUI = WordUI(word: word, reading: reading, chinese: chinese)
+                let wordUI = WordUI(word: word, reading: reading, category: 0, chinese: chinese)
                 
                 do {
                     switch sheet {

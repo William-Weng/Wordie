@@ -14,6 +14,7 @@ struct Word: Codable, Identifiable {
     let id: Int             // 流水號
     let japanese: String    // 日文單字
     let kana: String        // 假名
+    let category: Int       // 單字詞性 (對應 WordType)
     let chinese: String     // 中文翻譯
     let level: Int          // 單字等級分類 (越大等級越高)
     let time: Date          // 單字新增時間
@@ -29,6 +30,7 @@ extension Word: WWSQLite3Manager.SchemeDelegate {
             (key: "id", type: .INTEGER()),
             (key: "japanese", type: .TEXT(attribute: (isNotNull: true, isNoCase: true, isUnique: true), defaultValue: nil)),
             (key: "kana", type: .TEXT(attribute: (isNotNull: false, isNoCase: true, isUnique: false), defaultValue: nil)),
+            (key: "category", type: .INTEGER(attribute: (isNotNull: true, isNoCase: true, isUnique: false), defaultValue: 0)),
             (key: "chinese", type: .TEXT(attribute: (isNotNull: false, isNoCase: true, isUnique: false), defaultValue: nil)),
             (key: "level", type: .INTEGER(attribute: (isNotNull: true, isNoCase: true, isUnique: false), defaultValue: 0)),
             (key: "time", type: .TIMESTAMP()),

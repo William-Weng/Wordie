@@ -12,6 +12,7 @@ struct WordUI {
     
     let word: String        // 單字
     let reading: String     // 發音
+    let category: Int       // 詞性
     let chinese: String     // 中文翻譯
 }
 

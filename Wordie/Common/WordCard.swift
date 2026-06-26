@@ -16,6 +16,7 @@ struct WordCard: Identifiable {
     let id: Int                         // 流水號
     let word: String                    // 單字
     let reading: String                 // 發音
+    let category: Int                   // 單字詞性 (對應 WordType)
     let chinese: String                 // 中文翻譯
     let level: any WordLevelDatabase    // 單字等級
 }

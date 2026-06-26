@@ -14,6 +14,7 @@ struct Word: Codable, Identifiable {
     let id: Int             // 流水號
     let english: String     // 英文單字
     let phonetic: String    // 音標
+    let category: Int       // 單字詞性 (對應 WordType)
     let chinese: String     // 中文翻譯
     let level: Int          // 單字等級分類 (越大等級越高)
     let time: Date          // 單字新增時間
@@ -29,6 +30,7 @@ extension Word: WWSQLite3Manager.SchemeDelegate {
             (key: "id", type: .INTEGER()),
             (key: "english", type: .TEXT(attribute: (isNotNull: true, isNoCase: true, isUnique: true), defaultValue: nil)),
             (key: "phonetic", type: .TEXT(attribute: (isNotNull: false, isNoCase: true, isUnique: false), defaultValue: nil)),
+            (key: "category", type: .INTEGER(attribute: (isNotNull: true, isNoCase: true, isUnique: false), defaultValue: 0)),
             (key: "chinese", type: .TEXT(attribute: (isNotNull: false, isNoCase: true, isUnique: false), defaultValue: nil)),
             (key: "level", type: .INTEGER(attribute: (isNotNull: true, isNoCase: true, isUnique: false), defaultValue: 0)),
             (key: "time", type: .TIMESTAMP()),
@@ -42,6 +44,6 @@ extension Word: WordCardDataSource {
     /// 轉成共用型WordCard
     func toWordCard() -> WordCard {
         let level = WordLevel(rawValue: level) ?? .A2
-        return WordCard(id: id, word: english, reading: phonetic, chinese: chinese, level: level)
+        return WordCard(id: id, word: english, reading: phonetic, category: category, chinese: chinese, level: level)
     }
 }

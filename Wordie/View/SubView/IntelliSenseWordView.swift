@@ -83,6 +83,8 @@ struct IntelliSenseWordView: View {
         .background(Color.githubDarkBackground)
         .task {
             await analyzeWord(word)
+        }.onDisappear {
+            Self.agent.stop()
         }
     }
 }
@@ -167,7 +169,7 @@ private extension IntelliSenseWordView {
         defer { isLoading = false }
         
         let prompt = "這是使用者說的：請解說'\(word)'這個單字"
-        Self.agent.configure(with: instructions, optionType: .bot)
+        Self.agent.configure(with: instructions, optionType: .default)
         isLoading = true
         
         do {

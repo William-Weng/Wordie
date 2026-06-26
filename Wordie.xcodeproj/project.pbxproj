@@ -623,7 +623,7 @@
 			repositoryURL = "https://github.com/William-Weng/WWIntelligentAgent";
 			requirement = {
 				kind = upToNextMinorVersion;
-				minimumVersion = 1.4.0;
+				minimumVersion = 1.4.1;
 			};
 		};
 		813A72682FECD61200AC9620 /* XCRemoteSwiftPackageReference "WWSafariViewUI" */ = {
