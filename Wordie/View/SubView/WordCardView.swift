@@ -23,7 +23,7 @@ struct WordCardView: View {
     }
 }
 
-// MARK: - 私用屬性
+// MARK: - 私有屬性
 private extension WordCardView {
     
     /// 卡片背景
@@ -44,10 +44,17 @@ private extension WordCardView {
         Group {
             if !isFlipped {
                 
-                ZStack(alignment: .bottomTrailing) {
+                ZStack(alignment: .topLeading) {
+                    
                     frontView
                         .padding(.horizontal, 20)
+                    
+                    categoryBadge(15)
+                        .padding(.top, 12)
+                        .padding(.leading, 12)
+                    
                     levelBadge(wordCard.level)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
                         .padding(.horizontal, 12)
                         .padding(.vertical, 12)
                 }
@@ -58,9 +65,14 @@ private extension WordCardView {
             }
         }
     }
-        
+}
+
+// MARK: - 私有屬性
+private extension WordCardView {
+    
     /// 正面：英文 + 音標
     var frontView: some View {
+        
         ZStack(alignment: .bottomTrailing) {
             
             VStack(spacing: 8) {
@@ -137,6 +149,34 @@ private extension WordCardView {
                 .minimumScaleFactor(0.75)
 
             Spacer(minLength: 0)
+        }
+    }
+}
+
+// MARK: - 私有API
+private extension WordCardView {
+    
+    /// 顯示單字詞性
+    /// - Parameter rawValue: Int
+    /// - Returns: View
+    func categoryBadge(_ rawValue: Int) -> some View {
+        
+        let types = WordType.parseTypes(from: rawValue)
+        
+        return HStack(spacing: 4) {
+            
+            ForEach(types, id: \.binary) { type in
+                
+                Text(type.name)
+                    .font(.caption.bold())
+                    .foregroundStyle(.white)
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 4)
+                    .background(
+                        Capsule()
+                            .fill(type.background)
+                    )
+            }
         }
     }
 }
