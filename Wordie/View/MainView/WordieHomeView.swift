@@ -6,8 +6,8 @@
 //
 
 import SwiftUI
-import WWLoadingOverlayModifier
 import WWSafariViewUI
+import WWHUDUI
 
 /// Wordie 主畫面
 ///
@@ -20,7 +20,9 @@ struct WordieHomeView: View {
     
     let api: API
     let configure: Configure
-
+    
+    private let hud: WWHUDUI = .init()
+    
     @State private var viewModel: WordListViewModel             // 主畫面使用的 ViewModel，負責管理單字資料
     @State private var path = NavigationPath()                  // 導航路徑
     
@@ -30,7 +32,6 @@ struct WordieHomeView: View {
     @State private var isShowingDeleteConfirm = false           // 是否顯示刪除確認對話框
     @State private var isLoading = false                        // 目前正在讀取單字資料
     @State private var useHistory: Bool = false                 // 是否選到的使用歷史資料
-    @State private var isBookmarkPresented: Bool = false        // 是否要開啟書籤頁
     
     var body: some View {
         
@@ -66,9 +67,16 @@ struct WordieHomeView: View {
         .task {
             tableNames = formatTablenames()
             viewModel.reloadWords()
-            isBookmarkPresented = true
         }
-        .loadingOverlay(isPresented: isLoading)
+        .loadingOverlay(hud: hud)
+        .onChange(of: isLoading) { _, newValue in
+            
+            if newValue {
+                hud.display()
+            } else {
+                hud.dismiss(minimumVisibleDuration: 1.0)
+            }
+        }
     }
         
     /// 初始化設定

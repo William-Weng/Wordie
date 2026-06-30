@@ -146,6 +146,7 @@ private extension WordieContentView {
             })
             
             Picker("單字列表", selection: $selectedName) {
+                
                 ForEach(tableNames, id: \.self) { name in
                     ZStack {
                         Text(name)

@@ -1,5 +1,5 @@
 {
-  "originHash" : "1ac3bca505dfa8e382c9842cfa9fbca819d13c0d251e28ef52db88f49a46c772",
+  "originHash" : "6c251edeaa704a0c0f694956253e97fb9bf1cee3a5e4a2fd3de6d12782e78474",
   "pins" : [
     {
       "identity" : "wwcachemanager",
@@ -20,21 +20,21 @@
       }
     },
     {
+      "identity" : "wwhudui",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/William-Weng/WWHUDUI",
+      "state" : {
+        "revision" : "2a19638895f78f1c66756ef3a98be2e4048e5c06",
+        "version" : "1.0.0"
+      }
+    },
+    {
       "identity" : "wwintelligentagent",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/William-Weng/WWIntelligentAgent",
       "state" : {
         "revision" : "92a69f8b4934c4abe5b8835225448975f9555088",
         "version" : "1.4.1"
-      }
-    },
-    {
-      "identity" : "wwloadingoverlaymodifier",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/William-Weng/WWLoadingOverlayModifier",
-      "state" : {
-        "revision" : "cbda73503c886eaf8360401bb14ab24ddd943fdf",
-        "version" : "0.1.0"
       }
     },
     {
