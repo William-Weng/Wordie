@@ -10,15 +10,23 @@ import SwiftUI
 /// 日語能力試驗（JLPT）共分 N1～N5 五個級數（N5最簡單、N1最難）
 enum WordLevel: Int {
     
-    case N5, N4, N3, N2, N1
+    case None, N5, N4, N3, N2, N1
 }
 
 // MARK: - WordLevelDatabase
 extension WordLevel: WordLevelDatabase {
     
+    // Identifiable
+    var id: Int { rawValue }
+    
+    /// 原始數值
+    var value: Int { rawValue }
+
     /// 顯示文字
-    var value: String {
+    var title: String {
+        
         switch self {
+        case .None: "N/A"
         case .N5: "N5"
         case .N4: "N4"
         case .N3: "N3"
@@ -29,7 +37,9 @@ extension WordLevel: WordLevelDatabase {
     
     /// 背景色
     var backgroundColor: Color {
+        
         switch self {
+        case .None: .clear
         case .N5: .green
         case .N4: .black
         case .N3: .blue

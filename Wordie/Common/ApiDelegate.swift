@@ -1,5 +1,5 @@
 //
-//  APIDelegate.swift
+//  ApiDelegate.swift
 //  Wordie
 //
 //  Created by William.Weng on 2026/6/16.

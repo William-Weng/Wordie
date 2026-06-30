@@ -53,10 +53,12 @@ private extension WordCardView {
                         .padding(.top, 12)
                         .padding(.leading, 12)
                     
-                    levelBadge(wordCard.level)
-                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
-                        .padding(.horizontal, 12)
-                        .padding(.vertical, 12)
+                    if wordCard.level.value > 0 {
+                        levelBadge(wordCard.level)
+                            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
+                            .padding(.horizontal, 12)
+                            .padding(.vertical, 12)
+                    }
                 }
                 
             } else {
@@ -121,7 +123,7 @@ private extension WordCardView {
     /// 例如 `A1`、`B1` 這類等級文字，以圓角底色 badge 的方式呈現
     func levelBadge(_ level: any WordLevelDatabase) -> some View {
         
-        Text(level.value)
+        Text(level.title)
             .font(.system(size: 18, weight: .heavy, design: .rounded))
             .foregroundStyle(.white)
             .padding(.horizontal, 14)
@@ -161,7 +163,7 @@ private extension WordCardView {
     /// - Returns: View
     func categoryBadge(_ rawValue: Int) -> some View {
         
-        let types = WordType.parseTypes(from: rawValue)
+        let types = WordCategory.parseTypes(from: rawValue)
         
         return HStack(spacing: 4) {
             

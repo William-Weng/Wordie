@@ -48,9 +48,10 @@ extension WordListViewModel {
     /// - Throws: 當資料更新失敗時拋出錯誤
     func updateWord(id: Int, wordUI: WordUI) throws {
         
-        let wordCard: WordCard = .init(id: id, word: wordUI.word, reading: wordUI.reading, category: wordUI.category, chinese: wordUI.chinese, level: WordLevel.allCases[0])
-        try api.update(wordCard)
+        let level = WordLevel(rawValue: wordUI.level) ?? .None
+        let wordCard: WordCard = .init(id: id, word: wordUI.word, reading: wordUI.reading, category: wordUI.category, chinese: wordUI.chinese, level: level)
         
+        try api.update(wordCard)
         reloadWords()
     }
     

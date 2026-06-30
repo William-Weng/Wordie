@@ -24,7 +24,27 @@ final class API: BaseAPI {
             (key: "chinese", value: .string(wordUI.chinese)),
         ]
         
-        _ = try database.insert(tableName: tableName, itemsArray: [items])
+        try database.insert(tableName: tableName, itemsArray: [items])
+    }
+    
+    /// 更新指定的單字資料
+    ///
+    /// - Parameters:
+    ///   - wordCard: 要新增的單字資料
+    ///
+    /// - Throws: 當資料更新失敗時拋出錯誤
+    override func update(_ wordCard: WordCard) throws {
+        
+        let items: [WWSQLite3Manager.InsertItem] = [
+            (key: "japanese", value: .string(wordCard.word)),
+            (key: "kana", value: .string(wordCard.reading)),
+            (key: "chinese", value: .string(wordCard.chinese)),
+            (key: "category", value: .int(Int64(wordCard.category))),
+            (key: "level", value: .int(Int64(wordCard.level.value))),
+        ]
+        
+        let `where`: WWSQLite3Manager.Where = .init().compare("id", .equal, .int(wordCard.id))
+        try database.update(tableName: tableName, items: items, where: `where`)
     }
     
     /// 查詢所有歷史單字資料

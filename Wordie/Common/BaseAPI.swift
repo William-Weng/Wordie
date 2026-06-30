@@ -50,6 +50,26 @@ class BaseAPI {
         try database.insert(tableName: tableName, itemsArray: [items])
     }
     
+    /// 更新指定的單字資料
+    ///
+    /// - Parameters:
+    ///   - wordCard: 要新增的單字資料
+    ///
+    /// - Throws: 當資料更新失敗時拋出錯誤
+    func update(_ wordCard: WordCard) throws {
+        
+        let items: [WWSQLite3Manager.InsertItem] = [
+            (key: "english", value: .string(wordCard.word)),
+            (key: "phonetic", value: .string(wordCard.reading)),
+            (key: "chinese", value: .string(wordCard.chinese)),
+            (key: "category", value: .int(Int64(wordCard.category))),
+            (key: "level", value: .int(Int64(wordCard.level.value))),
+        ]
+        
+        let `where`: WWSQLite3Manager.Where = .init().compare("id", .equal, .int(wordCard.id))
+        try database.update(tableName: tableName, items: items, where: `where`)
+    }
+    
     /// 查詢所有歷史單字資料
     ///
     /// 會先從資料表查詢原始資料，再轉換成 `Word` 模型陣列後回傳
@@ -89,24 +109,6 @@ extension BaseAPI: ApiDelegate {
         let wordCards = words.compactMap { $0.jsonClass(for: Word.self)?.toWordCard() }
         
         return wordCards
-    }
-    
-    /// 更新指定的單字資料
-    ///
-    /// - Parameters:
-    ///   - wordCard: 要新增的單字資料
-    ///
-    /// - Throws: 當資料更新失敗時拋出錯誤
-    func update(_ wordCard: WordCard) throws {
-        
-        let items: [WWSQLite3Manager.InsertItem] = [
-            (key: "english", value: .string(wordCard.word)),
-            (key: "phonetic", value: .string(wordCard.reading)),
-            (key: "chinese", value: .string(wordCard.chinese)),
-        ]
-        
-        let `where`: WWSQLite3Manager.Where = .init().compare("id", .equal, .int(wordCard.id))
-        try database.update(tableName: tableName, items: items, where: `where`)
     }
     
     /// 刪除指定 id 的單字資料

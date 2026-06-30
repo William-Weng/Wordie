@@ -10,18 +10,20 @@ import SwiftUI
 /// 單字新增 / 編輯表單畫面
 struct AddWordView: View {
     
-    let sheet: WordSheet                                // 目前表單顯示的模式與內容來源
+    let sheet: WordSheet                                    // 目前表單顯示的模式與內容來源
     
-    @State var viewModel: WordListViewModel             // 單字列表的 ViewModel，負責新增與更新資料
+    @State var viewModel: WordListViewModel                 // 單字列表的 ViewModel，負責新增與更新資料
     
-    @Environment(\.dismiss) private var dismiss         // 關閉目前 sheet 畫面的環境方法
+    @Environment(\.dismiss) private var dismiss             // 關閉目前 sheet 畫面的環境方法
     
-    @State private var word = ""                        // 英文單字輸入欄位
-    @State private var reading = ""                     // 音標輸入欄位
-    @State private var chinese = ""                     // 中文解釋輸入欄位
+    @State private var word = ""                            // 英文單字輸入欄位
+    @State private var reading = ""                         // 音標輸入欄位
+    @State private var chinese = ""                         // 中文解釋輸入欄位
+    @State private var level = 0                            // 單字等級
+    @State private var categories: Set<WordCategory> = []   // 單字詞性組合
     
-    @State private var showAlert = false                // 是否顯示錯誤提示視窗
-    @State private var alertMessage = ""                // 錯誤提示內容
+    @State private var showAlert = false                    // 是否顯示錯誤提示視窗
+    @State private var alertMessage = ""                    // 錯誤提示內容
     
     var body: some View {
         
@@ -54,11 +56,19 @@ struct AddWordView: View {
             _word = State(initialValue: "")
             _reading = State(initialValue: "")
             _chinese = State(initialValue: "")
+            _categories = State(initialValue: [])
+            _level = State(initialValue: 0)
             
         case .edit(let wordCard):
+            
+            let categories = WordCategory.parseTypes(from: wordCard.category)
+            
             _word = State(initialValue: wordCard.word)
             _reading = State(initialValue: wordCard.reading)
             _chinese = State(initialValue: wordCard.chinese)
+            _categories = State(initialValue: Set(categories))
+            _level = State(initialValue: wordCard.level.value)
+            
         case .intellisense(_):
             break
         }
@@ -79,6 +89,8 @@ private extension AddWordView {
                 inputRow(systemName: "quote.opening", placeholder: "Reading", text: $reading)
                 inputRow(systemName: "translate", placeholder: "Chinese", text: $chinese)
             }
+            
+            if case .edit = sheet { otherInputRow }
         }
     }
     
@@ -120,7 +132,8 @@ private extension AddWordView {
             
             Button {
                 
-                let wordUI = WordUI(word: word, reading: reading, category: 0, chinese: chinese)
+                let category = categories.reduce(0) { $0 | $1.binary }
+                let wordUI = WordUI(word: word, reading: reading, chinese: chinese, category: category, level: level)
                 
                 do {
                     switch sheet {
@@ -159,18 +172,59 @@ private extension AddWordView {
             }
         }
     }
+    
+    /// 其它的輸入框 (等級 / 詞性)
+    @ViewBuilder
+    var otherInputRow: some View {
+        
+        Section("等級") {
+            Picker("等級", selection: $level) {
+                ForEach(WordLevel.allCases) { item in
+                    Text(item.title).tag(item)
+                }
+            }
+            .pickerStyle(.segmented)
+        }
+        
+        Section("詞性") {
+            ForEach(WordCategory.allCases) { item in
+                Toggle(item.name, isOn: Binding(
+                    get: { categories.contains(item) },
+                    set: { setCategory(item, isOn: $0) }
+                    )
+                )
+            }
+        }
+    }
 }
 
-// MARK: - 驗證
+// MARK: - 私有屬性
 private extension AddWordView {
     
     /// 判斷表單是否符合儲存條件
     ///
     /// 目前規則：
-    /// - 英文不可為空
-    /// - 中文不可為空
+    /// - 單字不可為空
+    /// - 翻譯不可為空
     var isFormValid: Bool {
         !word.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty &&
         !chinese.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+    }
+}
+
+// MARK: - 私有API
+private extension AddWordView {
+    
+    /// 設定詞性
+    /// - Parameters:
+    ///   - item: 詞性項目
+    ///   - isOn: 是否加入
+    func setCategory(_ item: WordCategory, isOn: Bool) {
+        
+        if isOn {
+            categories.insert(item)
+        } else {
+            categories.remove(item)
+        }
     }
 }

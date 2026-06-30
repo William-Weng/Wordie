@@ -1,5 +1,5 @@
 //
-//  WordType.swift
+//  WordCategory.swift
 //  Wordie
 //
 //  Created by William.Weng on 2026/6/26.
@@ -8,7 +8,7 @@
 import SwiftUI
 
 // [英文八大詞性](https://blogs.bjes.tp.edu.tw/mika/英文學習/英文的所有詞性、英文、縮寫、用法/)
-enum WordType: WordTypeDataSource {
+enum WordCategory: WordCategoryDataSource {
     
     case noun           // 0b0000_0001 (n.名詞)
     case pronoun        // 0b0000_0010 (pron.代名詞)
@@ -21,26 +21,29 @@ enum WordType: WordTypeDataSource {
 }
 
 // MARK: - 公開屬性
-extension WordType {
+extension WordCategory {
     
     /// 將詞性二進制值 => [WordType]
     /// - Parameter value: 二進制值
-    /// - Returns: [WordType]
-    static func parseTypes(from value: Int) -> [any WordTypeDataSource] {
+    /// - Returns: [WordCategoryDataSource]
+    static func parseTypes(from value: Int) -> [Self] {
         Self.allCases.filter { value & $0.binary != 0 }
     }
     
     /// 將詞性組二進位值組合
     /// - Parameter types: [WordType]
     /// - Returns: 組合完成的值
-    static func combine(_ types: [WordType]) -> Int {
+    static func combine(_ types: [WordCategory]) -> Int {
         types.reduce(0) { $0 | $1.binary }
     }
 }
 
 // MARK: - 公開屬性
-extension WordType {
-        
+extension WordCategory {
+    
+    // Identifiable
+    var id: Int { binary }
+    
     // 中文名稱
     var name: String {
         
