@@ -5,17 +5,18 @@
 //  Created by William.Weng on 2026/6/11.
 //
 
+import Foundation
 import WWSQLite3Manager
 
 /// 負責與 SQLite 資料庫溝通的單一入口
 class BaseAPI {
-    
+        
     let database: WWSQLite3Manager.Database         // SQLite 資料庫連線物件
     let filename: String                            // 資料庫檔案名稱
     let type: WWSQLite3Manager.SchemeDelegate.Type  // 資料表對應的模型型別
     
     var tableName: String                           // 單字資料表名稱
-    
+        
     /// 建立資料庫操作物件，並初始化資料表
     required init(filename: String, tableName: String, type: WWSQLite3Manager.SchemeDelegate.Type) {
         
@@ -31,6 +32,12 @@ class BaseAPI {
         } catch {
             fatalError("資料庫連線 / 建立失敗！")
         }
+    }
+    
+    // 線上字典URL
+    func searchWordUrl(_ word: String) -> URL? {
+        let string = "https://www.ezabc.com.tw/showword/?srch_target=\(word)"
+        return URL(string: string)
     }
     
     /// 新增一筆單字資料

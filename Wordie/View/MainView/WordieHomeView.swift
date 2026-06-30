@@ -7,6 +7,7 @@
 
 import SwiftUI
 import WWLoadingOverlayModifier
+import WWSafariViewUI
 
 /// Wordie 主畫面
 ///
@@ -43,14 +44,14 @@ struct WordieHomeView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 deleteItem
-                if #available(iOS 26.0, *) { intellisenseItem }
+                intellisenseItem
                 editItem
                 if !useHistory { addItem }
             }
             .sheet(item: $activeSheet) { sheet in
                 switch sheet {
                 case .add, .edit: AddWordView(sheet: sheet, viewModel: viewModel)
-                case .intellisense: if #available(iOS 26.0, *) { IntelliSenseWordView(sheet: sheet, viewModel: viewModel, instructions: configure.instructions)  }
+                case .intellisense(let wordCard): intellisenseView(with: wordCard)
                 }
             }.confirmationDialog("確定要刪除這個單字嗎？", isPresented: $isShowingDeleteConfirm, titleVisibility: .visible) {
                 Button("刪除", role: .destructive) { removeWord(with: currentIndex) }
@@ -69,7 +70,7 @@ struct WordieHomeView: View {
         }
         .loadingOverlay(isPresented: isLoading)
     }
-    
+        
     /// 初始化設定
     /// - Parameters:
     ///   - api: API功能
@@ -80,7 +81,6 @@ struct WordieHomeView: View {
         self.configure = configure
         
         _viewModel = State(wrappedValue: WordListViewModel(api: api))
-        
         loadFonts(url: .documentsDirectory, filename: "config.json")
     }
 }
@@ -140,6 +140,7 @@ private extension WordieHomeView {
         }
     }
     
+    /// 解譯單字功能
     @ToolbarContentBuilder
     var intellisenseItem: some ToolbarContent {
         
@@ -149,7 +150,7 @@ private extension WordieHomeView {
                 let currentWord = viewModel.words[currentIndex]
                 activeSheet = .intellisense(currentWord)
             } label: {
-                Image(systemName: "apple.intelligence")
+                Image(systemName: "questionmark.bubble")
                     .renderingMode(.template)
             }
             .tint(.red)
@@ -259,5 +260,14 @@ private extension WordieHomeView {
             !useHistory ? try? viewModel.deleteWord(currentWord) : try? viewModel.deleteHistory(currentWord)
             isLoading = false
         }
+    }
+    
+    /// 解譯單字功能
+    func intellisenseView(with wordCard: WordCard) -> some View {
+        
+        // if #available(iOS 26.0, *) { IntelliSenseWordView(sheet: sheet, viewModel: viewModel, instructions: configure.instructions)  }
+
+        let url = api.searchWordUrl(wordCard.word)
+        return WWSafariViewUI(url: url!).ignoresSafeArea()
     }
 }

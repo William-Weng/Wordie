@@ -5,10 +5,17 @@
 //  Created by William.Weng on 2026/6/16.
 //
 
+import Foundation
 import WWSQLite3Manager
 
 /// 負責與 SQLite 資料庫溝通的單一入口
 final class API: BaseAPI {
+    
+    // 線上字典URL
+    override func searchWordUrl(_ word: String) -> URL? {
+        let string = "https://mazii.net/zh-TW/search/word/jatw/\(word)"
+        return URL(string: string)
+    }
     
     /// 新增一筆單字資料
     ///

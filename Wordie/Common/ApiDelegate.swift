@@ -19,6 +19,9 @@ protocol ApiDelegate {
     /// 建立資料庫操作物件，並初始化資料表
     init(filename: String, tableName: String, type: WWSQLite3Manager.SchemeDelegate.Type)
     
+    /// 線上字典URL
+    func searchWordUrl(_ word: String) -> URL?
+    
     /// 取得目前資料庫中所有資料表的 schema 資訊
     func tableSchemas() -> [SqliteMaster]
     
