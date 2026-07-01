@@ -9,7 +9,7 @@ import Foundation
 
 /// 共用的單字模型 => 用來統一畫面輸出
 struct WordCard: Identifiable {
-        
+    
     // 單字發音服務單例
     private static let speechService = SpeechService()
     

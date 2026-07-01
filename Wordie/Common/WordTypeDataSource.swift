@@ -19,6 +19,9 @@ protocol WordCategoryDataSource: CaseIterable, Identifiable, Hashable {
     /// 將詞性二進制值 => [any WordTypeDataSource]
     static func parseTypes(from value: Int) -> [Self]
     
+    /// 快速轉成 ["名稱": "顏色"]
+    static func dictionary() -> [String: Color]
+    
     /// 將詞性組二進位值組合
     static func combine(_ types: [WordCategory]) -> Int
 }

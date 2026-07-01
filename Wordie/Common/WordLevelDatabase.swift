@@ -12,5 +12,8 @@ protocol WordLevelDatabase: CaseIterable, Identifiable {
     
     var value: Int { get }              // 單字等級
     var title: String { get }           // 等級顯示文字
-    var backgroundColor: Color { get }  // 背景色
+    var background: Color { get }       // 背景色
+    
+    /// 快速轉成 ["名稱": "顏色"]
+    static func dictionary() -> [String: Color]
 }

@@ -128,7 +128,7 @@ private extension WordCardView {
             .foregroundStyle(.white)
             .padding(.horizontal, 14)
             .padding(.vertical, 10)
-            .background(level.backgroundColor)
+            .background(level.background)
             .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
     }
     

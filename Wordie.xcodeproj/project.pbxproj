@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		81007DBB2FED229F00717D7A /* WWMarkdownWebViewUI in Frameworks */ = {isa = PBXBuildFile; productRef = 81007DBA2FED229F00717D7A /* WWMarkdownWebViewUI */; };
 		81007DBD2FED22A400717D7A /* WWMarkdownWebViewUI in Frameworks */ = {isa = PBXBuildFile; productRef = 81007DBC2FED22A400717D7A /* WWMarkdownWebViewUI */; };
+		810B7AD42FF51E9E00F0AB6B /* WWFlipWordCardUI in Frameworks */ = {isa = PBXBuildFile; productRef = 810B7AD32FF51E9E00F0AB6B /* WWFlipWordCardUI */; };
+		810B7AD62FF51EA300F0AB6B /* WWFlipWordCardUI in Frameworks */ = {isa = PBXBuildFile; productRef = 810B7AD52FF51EA300F0AB6B /* WWFlipWordCardUI */; };
 		811C060F2FDABC2D006D0DC4 /* WWSQLite3Manager in Frameworks */ = {isa = PBXBuildFile; productRef = 811C060E2FDABC2D006D0DC4 /* WWSQLite3Manager */; };
 		8153B4AC2FE14D38007AFC8D /* WWIntelligentAgent in Frameworks */ = {isa = PBXBuildFile; productRef = 8153B4AB2FE14D38007AFC8D /* WWIntelligentAgent */; };
 		8153B4AE2FE14D3C007AFC8D /* WWIntelligentAgent in Frameworks */ = {isa = PBXBuildFile; productRef = 8153B4AD2FE14D3C007AFC8D /* WWIntelligentAgent */; };
@@ -116,6 +118,7 @@
 				816F1DC92FEB7BAF00D3A956 /* WWWebImage in Frameworks */,
 				81909C3D2FF4C05D00795B18 /* WWHUDUI in Frameworks */,
 				819E9CA72FECDA4100097DBD /* WWSafariViewUI in Frameworks */,
+				810B7AD62FF51EA300F0AB6B /* WWFlipWordCardUI in Frameworks */,
 				8153B4AE2FE14D3C007AFC8D /* WWIntelligentAgent in Frameworks */,
 				819988DD2FE8D18C001923FE /* WWSQLite3Manager in Frameworks */,
 			);
@@ -130,6 +133,7 @@
 				8153B4AC2FE14D38007AFC8D /* WWIntelligentAgent in Frameworks */,
 				81909C3B2FF4C05700795B18 /* WWHUDUI in Frameworks */,
 				81FD4D6A2FDC0540009DA448 /* WWFontLoader in Frameworks */,
+				810B7AD42FF51E9E00F0AB6B /* WWFlipWordCardUI in Frameworks */,
 				819E9CA52FECDA3C00097DBD /* WWSafariViewUI in Frameworks */,
 				811C060F2FDABC2D006D0DC4 /* WWSQLite3Manager in Frameworks */,
 				819988DB2FE8D183001923FE /* WWSQLite3Manager in Frameworks */,
@@ -193,6 +197,7 @@
 				819E9CA62FECDA4100097DBD /* WWSafariViewUI */,
 				81007DBC2FED22A400717D7A /* WWMarkdownWebViewUI */,
 				81909C3C2FF4C05D00795B18 /* WWHUDUI */,
+				810B7AD52FF51EA300F0AB6B /* WWFlipWordCardUI */,
 			);
 			productName = Kirie;
 			productReference = 817037512FDFFF4E00347E24 /* Kirie.app */;
@@ -224,6 +229,7 @@
 				819E9CA42FECDA3C00097DBD /* WWSafariViewUI */,
 				81007DBA2FED229F00717D7A /* WWMarkdownWebViewUI */,
 				81909C3A2FF4C05700795B18 /* WWHUDUI */,
+				810B7AD32FF51E9E00F0AB6B /* WWFlipWordCardUI */,
 			);
 			productName = Wordie;
 			productReference = 817B7C602FD94C0900BBDABC /* Wordie.app */;
@@ -264,6 +270,7 @@
 				813A72682FECD61200AC9620 /* XCRemoteSwiftPackageReference "WWSafariViewUI" */,
 				81007DB92FED227400717D7A /* XCRemoteSwiftPackageReference "WWMarkdownWebViewUI" */,
 				81909C392FF4C05000795B18 /* XCRemoteSwiftPackageReference "WWHUDUI" */,
+				810B7AD22FF51E8F00F0AB6B /* XCRemoteSwiftPackageReference "WWFlipWordCardUI" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 817B7C612FD94C0900BBDABC /* Products */;
@@ -627,6 +634,14 @@
 				minimumVersion = 1.4.1;
 			};
 		};
+		810B7AD22FF51E8F00F0AB6B /* XCRemoteSwiftPackageReference "WWFlipWordCardUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/William-Weng/WWFlipWordCardUI";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 1.0.1;
+			};
+		};
 		813A72682FECD61200AC9620 /* XCRemoteSwiftPackageReference "WWSafariViewUI" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/William-Weng/WWSafariViewUI";
@@ -679,6 +694,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 81007DB92FED227400717D7A /* XCRemoteSwiftPackageReference "WWMarkdownWebViewUI" */;
 			productName = WWMarkdownWebViewUI;
+		};
+		810B7AD32FF51E9E00F0AB6B /* WWFlipWordCardUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 810B7AD22FF51E8F00F0AB6B /* XCRemoteSwiftPackageReference "WWFlipWordCardUI" */;
+			productName = WWFlipWordCardUI;
+		};
+		810B7AD52FF51EA300F0AB6B /* WWFlipWordCardUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 810B7AD22FF51E8F00F0AB6B /* XCRemoteSwiftPackageReference "WWFlipWordCardUI" */;
+			productName = WWFlipWordCardUI;
 		};
 		811C060E2FDABC2D006D0DC4 /* WWSQLite3Manager */ = {
 			isa = XCSwiftPackageProductDependency;

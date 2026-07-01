@@ -14,6 +14,16 @@ enum WordLevel: Int {
 }
 
 // MARK: - WordLevelDatabase
+extension WordLevel {
+    
+    /// 快速轉成 ["名稱": "顏色"]
+    /// - Returns: [String: Color]
+    static func dictionary() -> [String: Color] {
+        Dictionary(uniqueKeysWithValues: Self.allCases.map { ($0.title, $0.background) })
+    }
+}
+
+// MARK: - WordLevelDatabase
 extension WordLevel: WordLevelDatabase {
     
     // Identifiable
@@ -36,7 +46,7 @@ extension WordLevel: WordLevelDatabase {
     }
     
     /// 背景色
-    var backgroundColor: Color {
+    var background: Color {
         
         switch self {
         case .None: .clear
