@@ -68,17 +68,12 @@ struct WordieHomeView: View {
             tableNames = formatTablenames()
             viewModel.reloadWords()
         }
-        .loadingOverlay(hud: hud)
+        .loadingOverlay(hud)
         .onChange(of: isLoading) { _, newValue in
-            
-            if newValue {
-                hud.display()
-            } else {
-                hud.dismiss(minimumVisibleDuration: 1.0)
-            }
+            displayHUD(newValue)
         }
     }
-        
+    
     /// 初始化設定
     /// - Parameters:
     ///   - api: API功能
@@ -167,7 +162,7 @@ private extension WordieHomeView {
     }
 }
 
-// MARK: - Toolbar
+// MARK: - 私有API
 private extension WordieHomeView {
     
     /// 載入外部字型
@@ -277,5 +272,15 @@ private extension WordieHomeView {
 
         let url = api.searchWordUrl(wordCard.word)
         return WWSafariViewUI(url: url!).ignoresSafeArea()
+    }
+    
+    /// 是否顯示HUD
+    func displayHUD(_ enable: Bool) {
+        
+        if enable {
+            hud.display("資料讀取中...")
+        } else {
+            hud.dismiss(minimumVisibleDuration: 0.5)
+        }
     }
 }

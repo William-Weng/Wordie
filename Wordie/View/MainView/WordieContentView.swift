@@ -29,7 +29,7 @@ struct WordieContentView: View {
     @State private var selectedName = ""                            // 選到的資料表名稱
     @State private var isAutoReading = false                        // 翻頁自動跟讀單字
     @State private var difficulty: WordDifficulty?                  // 單字記憶難度
-    
+        
     var body: some View {
         
         ZStack {
@@ -67,9 +67,6 @@ struct WordieContentView: View {
                 .padding(.horizontal, 28)
             }
             .padding(.bottom, 8)
-        }
-        .task {
-            selectedName = tableNames.last ?? ""
         }.onChange(of: words.count) {
             clampCurrentIndex()
         }.onChange(of: selectedName) {
