@@ -29,7 +29,7 @@ enum WordCategory: WordCategoryDataSource {
     case particle       // 0b0000_0010_0000_0000 (助詞)}
 }
 
-// MARK: - 公開屬性
+// MARK: - 公開API
 extension WordCategory {
     
     /// 將詞性二進制值 => [WordType]

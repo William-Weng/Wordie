@@ -20,7 +20,7 @@ enum WordCategory: WordCategoryDataSource {
     case interjection   // 0b1000_0000 (interj.感嘆詞)
 }
 
-// MARK: - 公開屬性
+// MARK: - 公開API
 extension WordCategory {
     
     /// 將詞性二進制值 => [WordType]
