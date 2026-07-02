@@ -27,17 +27,19 @@ struct WordieHomeView: View {
     @State private var path = NavigationPath()                  // 導航路徑
     
     @State private var activeSheet: WordSheet?                  // 目前正在顯示的 sheet 狀態
-    @State private var currentIndex = 0                         // 目前正在顯示的單字索引
     @State private var tableNames: [String] = []                // 資料庫的列表名稱
     @State private var isShowingDeleteConfirm = false           // 是否顯示刪除確認對話框
     @State private var isLoading = false                        // 目前正在讀取單字資料
     @State private var useHistory: Bool = false                 // 是否選到的使用歷史資料
     
+    @AppStorage("currentIndex") private var currentIndex = 0    // 目前正在顯示的單字索引
+    @AppStorage("currnetTable") private var currnetTable = ""   // 選到的資料表名稱
+    
     var body: some View {
         
         NavigationStack(path: $path) {
             
-            WordieContentView(words: viewModel.words, configure: configure, currentIndex: $currentIndex, tableNames: $tableNames, useHistory: $useHistory, path: $path) { tablename in
+            WordieContentView(words: viewModel.words, configure: configure, currentIndex: $currentIndex, currnetTable: $currnetTable, tableNames: $tableNames, useHistory: $useHistory, path: $path) { tablename in
                 refreshWords(with: tablename, isHistory: useHistory)
             } onDifficultyMenuTap: { wordCard, difficulty in
                 try? updateWordDifficulty(wordCard?.word, difficulty: difficulty)
@@ -66,6 +68,7 @@ struct WordieHomeView: View {
         }
         .task {
             tableNames = formatTablenames()
+            api.tableName = currnetTable
             viewModel.reloadWords()
         }
         .loadingOverlay(hud)

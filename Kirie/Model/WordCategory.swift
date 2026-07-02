@@ -64,8 +64,8 @@ extension WordCategory {
         
         switch self {
         case .verb:          "動詞"
-        case .iAdjective:    "い形容詞"
-        case .naAdjective:   "な形容詞"
+        case .iAdjective:    "い形"
+        case .naAdjective:   "な形"
         case .noun:          "名詞"
         case .adverb:        "副詞"
         case .preNounAdverb: "連體詞"

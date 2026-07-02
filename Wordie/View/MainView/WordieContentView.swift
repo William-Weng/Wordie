@@ -17,17 +17,17 @@ struct WordieContentView: View {
     let configure: Configure                                        // 一般初始化設定
     
     @Binding var currentIndex: Int                                  // 目前顯示綁定的單字索引
+    @Binding var currnetTable: String                               // 選到的資料表名稱
     @Binding var tableNames: [String]                               // 資料表名稱
     @Binding var useHistory: Bool                                   // 是否選到的使用歷史資料
-    @Binding var path: NavigationPath
+    @Binding var path: NavigationPath                               // 導覽路徑
     
     let onTableMenuTap: (String) -> Void                            // 選擇資料表名稱後的動作 (單字, 是否看歷史記錄)
     let onDifficultyMenuTap: (WordCard?, WordDifficulty?) -> Void   // 選擇資料表名稱後的動作 (單字, 單字難度)
     
-    @State private var selectedName = ""                            // 選到的資料表名稱
     @State private var isAutoReading = false                        // 翻頁自動跟讀單字
     @State private var difficulty: WordDifficulty?                  // 單字記憶難度
-    
+
     var body: some View {
         
         ZStack {
@@ -44,7 +44,9 @@ struct WordieContentView: View {
                         .frame(height: 320)
                         .padding(.horizontal, 28)
                 } else {
+                    
                     WWFlipWordCardUI(words: flipWords, isAscending: false, currentIndex: $currentIndex, configure: flipWordConfigure) { _, index in
+                        difficulty = nil
                         readingWord(words[safe: index])
                     }
                     .frame(height: 320)
@@ -68,10 +70,10 @@ struct WordieContentView: View {
             .padding(.bottom, 8)
         }.onChange(of: words.count) {
             clampCurrentIndex()
-        }.onChange(of: selectedName) {
-            onTableMenuTap(selectedName)
+        }.onChange(of: currnetTable) {
+            onTableMenuTap(currnetTable)
         }.onChange(of: useHistory) {
-            onTableMenuTap(selectedName)
+            onTableMenuTap(currnetTable)
         }.onChange(of: difficulty) {
             onDifficultyMenuTap(words[currentIndex], difficulty)
         }
@@ -169,7 +171,7 @@ private extension WordieContentView {
                 Text("書籤記錄")
             })
             
-            Picker("單字列表", selection: $selectedName) {
+            Picker("單字列表", selection: $currnetTable) {
                 
                 ForEach(tableNames, id: \.self) { name in
                     ZStack {
