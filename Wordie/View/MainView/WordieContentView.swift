@@ -79,6 +79,8 @@ struct WordieContentView: View {
                     IntelliSenseWordView(wordCard: wordCard, instructions: configure.instructions)
                 }
             }
+        }.onChange(of: isAutoReading) { _, newValue in
+            readingWord(words[safe: currentIndex])
         }.onChange(of: words.count) {
             clampCurrentIndex()
         }.onChange(of: currnetTable) {
@@ -220,13 +222,12 @@ private extension WordieContentView {
                 .foregroundStyle(difficulty?.color ?? .gray)
         }
     }
-        
+    
     /// 單字跟讀功能 (isAutoReading 變為 true / false)
     var playButton: some View {
         
         WordPlayButton(image: Image(systemName: "play.fill"), isAutoReading: $isAutoReading) {
-            guard let word = words[safe: currentIndex] else { return }
-            word.speakWord(by: configure.language)
+            speakWord(words[safe: currentIndex])
         }.contextMenu {
             Picker("跟讀模式", selection: $isAutoReading) {
                 Label("手動跟讀", systemImage: "hand.tap.fill").tag(false)
@@ -270,13 +271,14 @@ private extension WordieContentView {
     /// 單字自動跟讀功能 for isAutoReading
     /// - Parameter word: 單字片資訊
     func readingWord(_ word: WordCard?) {
-
-        guard isAutoReading,
-              let word = word
-        else {
-            return
-        }
-                
+        guard isAutoReading else { return }
+        speakWord(word)
+    }
+    
+    /// 單字讀取功能 for isAutoReading
+    /// - Parameter word: 單字片資訊
+    func speakWord(_ word: WordCard?) {
+        guard let word = word else { return }
         word.speakWord(by: configure.language)
     }
 }
