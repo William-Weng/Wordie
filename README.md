@@ -11,6 +11,8 @@ Wordie 是一款使用 SwiftUI 製作的英文單字學習 App，提供單字的
 
 ![Wordie](https://github.com/user-attachments/assets/3d097a82-3278-4a05-a17d-3054c498bfe0) ![Kirie](https://github.com/user-attachments/assets/ed4a3d57-7d8e-48bc-a5d1-087da9598ead)
 
+![Wordie-AI](https://github.com/user-attachments/assets/79824c3e-04ec-4bfb-8030-a59e5ec2f690) ![Kirie-AI](https://github.com/user-attachments/assets/4a80f7d3-8d97-45c3-8eaa-fb0cad4c9b26)
+
 ## [畫面功能](https://peterpanswift.github.io/iphone-bezels/)
 
 ### [首頁](https://medium.com/在程式與旅行的路上/widget-extension-等到-ios-14-才姍姍來遲的-widget-小工具-7b269d9b2253)
