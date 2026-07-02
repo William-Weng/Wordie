@@ -7,6 +7,8 @@
 
 import SwiftUI
 import WWFlipWordCardUI
+import WWSafariViewUI
+import FoundationModels
 
 /// Wordie 主畫面
 ///
@@ -26,6 +28,7 @@ struct WordieContentView: View {
     let onDifficultyMenuTap: (WordCard?, WordDifficulty?) -> Void   // 選擇資料表名稱後的動作 (單字, 單字難度)
     
     @State private var isAutoReading = false                        // 翻頁自動跟讀單字
+    @State private var isPresented = false                          // 是否彈出AI解字功能
     @State private var difficulty: WordDifficulty?                  // 單字記憶難度
 
     var body: some View {
@@ -44,7 +47,6 @@ struct WordieContentView: View {
                         .frame(height: 320)
                         .padding(.horizontal, 28)
                 } else {
-                    
                     WWFlipWordCardUI(words: flipWords, isAscending: false, currentIndex: $currentIndex, configure: flipWordConfigure) { _, index in
                         difficulty = nil
                         readingWord(words[safe: index])
@@ -54,20 +56,29 @@ struct WordieContentView: View {
                 }
                 
                 WordProgressView(totalCount: words.count, currentIndex: $currentIndex)
-                
+                                
                 HStack {
                     difficultyItems
-                        .frame(width: 54, height: 54, alignment: .leading)
-                    Spacer()
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    intelligenceButton
+                        .frame(maxWidth: .infinity, alignment: .leading)
                     playButton
+                        .frame(maxWidth: .infinity, alignment: .center)
                     Spacer(minLength: 16)
+                        .frame(maxWidth: .infinity, alignment: .trailing)
                     menuItems
-                        .frame(width: 54, height: 54, alignment: .trailing)
+                        .frame(maxWidth: .infinity, alignment: .trailing)
                 }
                 .frame(maxWidth: .infinity)
                 .padding(.horizontal, 28)
             }
             .padding(.bottom, 8)
+        }.sheet(isPresented: $isPresented) {
+            if #available(iOS 26.0, *) {
+                if let wordCard = words[safe: currentIndex] {
+                    IntelliSenseWordView(wordCard: wordCard, instructions: configure.instructions)
+                }
+            }
         }.onChange(of: words.count) {
             clampCurrentIndex()
         }.onChange(of: currnetTable) {
@@ -209,8 +220,8 @@ private extension WordieContentView {
                 .foregroundStyle(difficulty?.color ?? .gray)
         }
     }
-    
-    /// 單字跟讀功能 (isAutoReading 變為 true / false)    
+        
+    /// 單字跟讀功能 (isAutoReading 變為 true / false)
     var playButton: some View {
         
         WordPlayButton(image: Image(systemName: "play.fill"), isAutoReading: $isAutoReading) {
@@ -221,6 +232,23 @@ private extension WordieContentView {
                 Label("手動跟讀", systemImage: "hand.tap.fill").tag(false)
                 Label("自動跟讀", systemImage: "speaker.wave.3.fill").tag(true)
             }
+        }
+    }
+    
+    /// Apple AI 功能按鍵 (支援 + 有開啟)
+    @ViewBuilder
+    var intelligenceButton: some View {
+        
+        if #available(iOS 26.0, *), SystemLanguageModel.default.availability == .available {
+            Button {
+                isPresented.toggle()
+            } label: {
+                Image(systemName: "apple.intelligence")
+                    .font(.system(size: 26, weight: .semibold))
+                    .frame(width: 54, height: 54)
+            }
+        } else {
+            Spacer()
         }
     }
 }
@@ -252,3 +280,5 @@ private extension WordieContentView {
         word.speakWord(by: configure.language)
     }
 }
+
+

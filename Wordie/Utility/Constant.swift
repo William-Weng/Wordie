@@ -12,7 +12,7 @@ import SwiftUI
 enum WordSheet: Identifiable {
     case add                        // 新增單字
     case edit(WordCard)             // 編輯指定單字
-    case intellisense(WordCard)     // AI進階功能
+    case dictionary(WordCard)       // 線上字典
 }
 
 /// 新增 / 編輯單字時使用的 sheet 狀態
@@ -46,7 +46,7 @@ extension WordSheet {
         switch self {
         case .add: return "add"
         case .edit(let wordCard): return "edit-\(wordCard.id)"
-        case .intellisense(let wordCard): return "intellisense-\(wordCard.id)"
+        case .dictionary(let wordCard): return "dictionary-\(wordCard.id)"
         }
     }
     
@@ -55,7 +55,7 @@ extension WordSheet {
         switch self {
         case .add: return "新增單字"
         case .edit: return "編輯單字"
-        case .intellisense: return "單字解說"
+        case .dictionary: return "線上字典"
         }
     }
     
@@ -64,7 +64,7 @@ extension WordSheet {
         switch self {
         case .add: return "plus"
         case .edit: return "arrow.triangle.2.circlepath"
-        case .intellisense: return "apple.intelligence"
+        case .dictionary: return "questionmark.bubble"
         }
     }
 }

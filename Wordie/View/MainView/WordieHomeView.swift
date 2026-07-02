@@ -47,14 +47,14 @@ struct WordieHomeView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 deleteItem
-                intellisenseItem
+                dictionaryItem
                 editItem
                 if !useHistory { addItem }
             }
             .sheet(item: $activeSheet) { sheet in
                 switch sheet {
                 case .add, .edit: AddWordView(sheet: sheet, viewModel: viewModel)
-                case .intellisense(let wordCard): intellisenseView(with: wordCard)
+                case .dictionary(let wordCard): dictionaryView(with: wordCard)
                 }
             }.confirmationDialog("確定要刪除這個單字嗎？", isPresented: $isShowingDeleteConfirm, titleVisibility: .visible) {
                 Button("刪除", role: .destructive) { removeWord(with: currentIndex) }
@@ -148,13 +148,13 @@ private extension WordieHomeView {
     
     /// 解譯單字功能
     @ToolbarContentBuilder
-    var intellisenseItem: some ToolbarContent {
+    var dictionaryItem: some ToolbarContent {
         
         ToolbarItem(placement: .topBarLeading) {
             Button {
                 guard viewModel.words.indices.contains(currentIndex) else { return }
                 let currentWord = viewModel.words[currentIndex]
-                activeSheet = .intellisense(currentWord)
+                activeSheet = .dictionary(currentWord)
             } label: {
                 Image(systemName: "questionmark.bubble")
                     .renderingMode(.template)
@@ -268,15 +268,6 @@ private extension WordieHomeView {
         }
     }
     
-    /// 解譯單字功能
-    func intellisenseView(with wordCard: WordCard) -> some View {
-        
-        // if #available(iOS 26.0, *) { IntelliSenseWordView(sheet: sheet, viewModel: viewModel, instructions: configure.instructions)  }
-
-        let url = api.searchWordUrl(wordCard.word)
-        return WWSafariViewUI(url: url!).ignoresSafeArea()
-    }
-    
     /// 是否顯示HUD
     func displayHUD(_ enable: Bool) {
         
@@ -285,5 +276,11 @@ private extension WordieHomeView {
         } else {
             hud.dismiss(minimumVisibleDuration: 0.5)
         }
+    }
+    
+    /// 解譯單字功能
+    func dictionaryView(with wordCard: WordCard) -> some View {
+        let url = api.searchWordUrl(wordCard.word)
+        return WWSafariViewUI(url: url!).ignoresSafeArea()
     }
 }

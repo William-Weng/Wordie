@@ -19,14 +19,12 @@ import WWMarkdownWebViewUI
 @available(iOS 26.0, *)
 struct IntelliSenseWordView: View {
     
-    static private let agent = WWIntelligentAgent()         // AI 對話代理
+    static let agent = WWIntelligentAgent()         // AI 對話代理
     
-    let sheet: WordSheet                                    // 目前畫面所對應的工作模式
     let instructions: String                                // 提供給 AI 的額外指示內容
     
     private let speechService: SpeechService = .init()      // 提供文字朗讀功能的服務
     
-    @State var viewModel: WordListViewModel                 // 管理單字列表資料與操作邏輯的 ViewModel
     @State var manager = WWMarkdownWebViewUI.Manager()      // 管理 Markdown WebView 顯示狀態的物件
     @State private var word: String                         // 目前要讓 AI 解說的單字
     @State private var markdown: String                     // AI 回傳的 Markdown 解說內容
@@ -45,20 +43,12 @@ struct IntelliSenseWordView: View {
     ///   - sheet: 表示目前畫面用途的工作模式
     ///   - viewModel: 提供單字資料操作能力的 ViewModel
     ///   - instructions: 傳給 AI 的額外指示內容
-    init(sheet: WordSheet, viewModel: WordListViewModel, instructions: String) {
+    init(wordCard: WordCard, instructions: String) {
         
-        self.sheet = sheet
-        self.viewModel = viewModel
         self.instructions = instructions
         
-        switch sheet {
-        case .add, .edit:
-            _word = State(initialValue: "")
-            _markdown = State(initialValue: "")
-        case .intellisense(let wordCard):
-            _word = State(initialValue: wordCard.word)
-            _markdown = State(initialValue: "")
-        }
+        _word = State(initialValue: wordCard.word)
+        _markdown = State(initialValue: "")
     }
     
     var body: some View {
@@ -72,7 +62,7 @@ struct IntelliSenseWordView: View {
                 }
             }
             .padding()
-            .navigationTitle(sheet.title)
+            .navigationTitle("AI解字")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 cancelItem

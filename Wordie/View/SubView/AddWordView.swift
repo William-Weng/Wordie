@@ -69,7 +69,7 @@ struct AddWordView: View {
             _categories = State(initialValue: Set(categories))
             _level = State(initialValue: wordCard.level.value)
             
-        case .intellisense(_):
+        case .dictionary(_):
             break
         }
     }
@@ -139,7 +139,7 @@ private extension AddWordView {
                     switch sheet {
                     case .add: try viewModel.addWord(wordUI)
                     case .edit(let source): try viewModel.updateWord(id: source.id, wordUI: wordUI)
-                    case .intellisense(_): break
+                    case .dictionary(_): break
                     }
                     
                     dismiss()
