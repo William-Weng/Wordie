@@ -60,6 +60,7 @@ struct WordieContentView: View {
                 HStack {
                     difficultyItems
                         .frame(maxWidth: .infinity, alignment: .leading)
+                        .disabled(words.isEmpty)
                     intelligenceButton
                         .frame(maxWidth: .infinity, alignment: .leading)
                     playButton
