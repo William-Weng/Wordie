@@ -47,7 +47,7 @@ struct WordieContentView: View {
                         .frame(height: 320)
                         .padding(.horizontal, 28)
                 } else {
-                    WWFlipWordCardUI(words: flipWords, isAscending: false, currentIndex: $currentIndex, configure: flipWordConfigure) { _, index in
+                    WWFlipWordCardUI(words: flipWords, isAscending: configure.isAscending, currentIndex: $currentIndex, configure: flipWordConfigure) { _, index in
                         difficulty = nil
                         readingWord(words[safe: index])
                     }
@@ -150,15 +150,16 @@ private extension WordieContentView {
         
         VStack(spacing: 12) {
             Image(systemName: "book.closed")
-                .font(.system(size: 40))
-                .foregroundStyle(.secondary)
+                .font(.system(size: 84))
+                .foregroundStyle(.blue)
 
             Text("目前沒有單字")
                 .font(.headline)
+                .foregroundStyle(.gray)
 
-            Text("先新增一些單字，再開始學習吧。")
+            Text("- 先新增一些單字，再開始學習吧 -")
                 .font(.subheadline)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(.gray)
                 .multilineTextAlignment(.center)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
