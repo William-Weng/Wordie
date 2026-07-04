@@ -46,6 +46,26 @@ Wordie 是一款使用 SwiftUI 製作的英文單字學習 App，提供單字的
 
 ![documentsDirectory](https://github.com/user-attachments/assets/55e66e0c-6262-4459-bd1b-deae5dd92d74)
 
+```json
+{
+  "Font": {
+    "word": {
+      "ttf": "KleeOne-SemiBold.ttf",
+      "size": 48.0
+    },
+    "reading": {
+      "ttf": "KleeOne-SemiBold.ttf",
+      "size": 28.0
+    },
+    "chinese":
+    {
+      "ttf": "jf-openhuninn-2.1.ttf",
+      "size": 32.0
+    }
+  }
+}
+```
+
 ## 執行方式
 
 1. 使用 Xcode 開啟專案。
