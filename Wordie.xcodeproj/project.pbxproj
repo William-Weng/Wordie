@@ -79,7 +79,6 @@
 				View/SubView/AddWordView.swift,
 				View/SubView/BookmarkPageView.swift,
 				View/SubView/IntelliSenseWordView.swift,
-				View/SubView/WordCardView.swift,
 				View/SubView/WordieMascotView.swift,
 				View/SubView/WordPlayButton.swift,
 				View/SubView/WordProgressView.swift,
@@ -639,7 +638,7 @@
 			repositoryURL = "https://github.com/William-Weng/WWFlipWordCardUI";
 			requirement = {
 				kind = upToNextMinorVersion;
-				minimumVersion = 1.0.1;
+				minimumVersion = 1.0.2;
 			};
 		};
 		813A72682FECD61200AC9620 /* XCRemoteSwiftPackageReference "WWSafariViewUI" */ = {

@@ -19,13 +19,11 @@ import WWMarkdownWebViewUI
 @available(iOS 26.0, *)
 struct IntelliSenseWordView: View {
     
-    static let agent = WWIntelligentAgent()         // AI 對話代理
-    
-    let instructions: String                                // 提供給 AI 的額外指示內容
-    
+    private let agent = WWIntelligentAgent()                // AI 對話代理
     private let speechService: SpeechService = .init()      // 提供文字朗讀功能的服務
     
     @State var manager = WWMarkdownWebViewUI.Manager()      // 管理 Markdown WebView 顯示狀態的物件
+    
     @State private var word: String                         // 目前要讓 AI 解說的單字
     @State private var markdown: String                     // AI 回傳的 Markdown 解說內容
     @State private var isLoading = true                     // 是否正在等待 AI 回應
@@ -45,7 +43,7 @@ struct IntelliSenseWordView: View {
     ///   - instructions: 傳給 AI 的額外指示內容
     init(wordCard: WordCard, instructions: String) {
         
-        self.instructions = instructions
+        agent.configure(with: instructions, optionType: .write)
         
         _word = State(initialValue: wordCard.word)
         _markdown = State(initialValue: "")
@@ -74,7 +72,7 @@ struct IntelliSenseWordView: View {
         .task {
             await analyzeWord(word)
         }.onDisappear {
-            Self.agent.stop()
+            agent.stop()
         }
     }
 }
@@ -159,11 +157,10 @@ private extension IntelliSenseWordView {
         defer { isLoading = false }
         
         let prompt = "這是使用者說的：請解說'\(word)'這個單字"
-        Self.agent.configure(with: instructions, optionType: .default)
         isLoading = true
         
         do {
-            let result = try await Self.agent.chat(to: prompt)
+            let result = try await agent.chat(to: prompt)
             self.markdown = result
         } catch {
             self.markdown = error.localizedDescription
