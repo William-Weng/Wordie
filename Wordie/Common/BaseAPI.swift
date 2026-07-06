@@ -10,7 +10,7 @@ import WWSQLite3Manager
 
 /// 負責與 SQLite 資料庫溝通的單一入口
 class BaseAPI {
-        
+    
     let database: WWSQLite3Manager.Database         // SQLite 資料庫連線物件
     let filename: String                            // 資料庫檔案名稱
     let type: WWSQLite3Manager.SchemeDelegate.Type  // 資料表對應的模型型別

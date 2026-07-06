@@ -6,6 +6,7 @@
 //
 
 import WWSQLite3Manager
+import Foundation
 
 /// 負責與 SQLite 資料庫溝通的單一入口
 final class API: BaseAPI {}

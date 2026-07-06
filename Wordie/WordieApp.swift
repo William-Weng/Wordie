@@ -21,7 +21,7 @@ struct WordieApp: App {
         > 翻譯：他花了一整個早上準備考試。
         ```
         """
-
+    
     var body: some Scene {
         
         WindowGroup {

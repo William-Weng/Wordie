@@ -152,8 +152,7 @@ private extension WordieHomeView {
         
         ToolbarItem(placement: .topBarLeading) {
             Button {
-                guard viewModel.words.indices.contains(currentIndex) else { return }
-                let currentWord = viewModel.words[currentIndex]
+                guard let currentWord = viewModel.words[safe: currentIndex] else { return }
                 activeSheet = .dictionary(currentWord)
             } label: {
                 Image(systemName: "questionmark.bubble")

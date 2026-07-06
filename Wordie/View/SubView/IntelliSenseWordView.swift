@@ -62,7 +62,7 @@ struct IntelliSenseWordView: View {
                 }
             }
             .padding()
-            .navigationTitle("AI解字")
+            .navigationTitle(word)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 cancelItem

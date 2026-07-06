@@ -28,9 +28,9 @@ struct WordieContentView: View {
     let onDifficultyMenuTap: (WordCard?, WordDifficulty?) -> Void   // 選擇資料表名稱後的動作 (單字, 單字難度)
     
     @State private var isAutoReading = false                        // 翻頁自動跟讀單字
-    @State private var isPresented = false                          // 是否彈出AI解字功能
     @State private var difficulty: WordDifficulty?                  // 單字記憶難度
-
+    @State private var selectedWord: WordCard?                      // 選到的單字
+    
     var body: some View {
         
         ZStack {
@@ -74,12 +74,8 @@ struct WordieContentView: View {
                 .padding(.horizontal, 28)
             }
             .padding(.bottom, 8)
-        }.sheet(isPresented: $isPresented) {
-            if #available(iOS 26.0, *) {
-                if let wordCard = words[safe: currentIndex] {
-                    IntelliSenseWordView(wordCard: wordCard, instructions: configure.instructions)
-                }
-            }
+        }.sheet(item: $selectedWord) { wordCard in
+            if #available(iOS 26.0, *) { IntelliSenseWordView(wordCard: wordCard, instructions: configure.instructions) }
         }.onChange(of: isAutoReading) { _, newValue in
             readingWord(words[safe: currentIndex])
         }.onChange(of: words.count) {
@@ -111,15 +107,13 @@ private extension WordieContentView {
     /// 翻頁用的Words集合
     var flipWords: [WWFlipWordCardUI.WordCard] {
         
-        let flipWords = words.map { word in
+        return words.map { word in
             
             let categories = WordCategory.parseTypes(from: word.category).map { $0.name }
             let level = WordLevel(rawValue: word.level.value) ?? .None
             
-            return WWFlipWordCardUI.WordCard(id: word.id, word: word.word, reading: word.reading, categories: categories, chinese: word.chinese, level: level.title)
+            return .init(id: word.id, word: word.word, reading: word.reading, categories: categories, chinese: word.chinese, level: level.title)
         }
-
-        return flipWords
     }
 }
 
@@ -244,7 +238,7 @@ private extension WordieContentView {
         
         if #available(iOS 26.0, *), SystemLanguageModel.default.availability == .available {
             Button {
-                isPresented.toggle()
+                selectedWord = words[safe: currentIndex]
             } label: {
                 Image(systemName: "apple.intelligence")
                     .font(.system(size: 26, weight: .semibold))
