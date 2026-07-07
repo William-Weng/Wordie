@@ -133,7 +133,14 @@ private extension AddWordView {
             Button {
                 
                 let category = categories.reduce(0) { $0 | $1.binary }
-                let wordUI = WordUI(word: word, reading: reading, chinese: chinese, category: category, level: level)
+                
+                let wordUI = WordUI(
+                    word: word.trimmingCharacters(in: .whitespacesAndNewlines),
+                    reading: reading.trimmingCharacters(in: .whitespacesAndNewlines),
+                    chinese: chinese.trimmingCharacters(in: .whitespacesAndNewlines),
+                    category: category,
+                    level: level
+                )
                 
                 do {
                     switch sheet {
