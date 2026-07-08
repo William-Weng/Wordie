@@ -107,3 +107,12 @@ extension Dictionary {
         return dictionary
     }
 }
+
+// MARK: - View (function)
+extension View {
+    
+    /// 一鍵收起所有鍵盤
+    func hideKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
+}

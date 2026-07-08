@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-/// 管理書籤列表資料與操作邏輯的 ViewModel。
+/// 管理書籤列表資料與操作邏輯的 ViewModel
 ///
 /// 此型別負責：
 /// - 載入書籤列表

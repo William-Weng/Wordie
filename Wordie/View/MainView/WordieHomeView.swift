@@ -67,6 +67,7 @@ struct WordieHomeView: View {
             }
         }
         .task {
+            hideKeyboard()
             tableNames = formatTablenames()
             api.tableName = currnetTable
             viewModel.reloadWords()
