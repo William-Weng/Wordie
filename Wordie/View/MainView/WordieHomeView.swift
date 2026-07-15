@@ -34,7 +34,7 @@ struct WordieHomeView: View {
     
     @AppStorage("currentIndex") private var currentIndex = 0    // 目前正在顯示的單字索引
     @AppStorage("currnetTable") private var currnetTable = ""   // 選到的資料表名稱
-    
+        
     var body: some View {
         
         NavigationStack(path: $path) {
@@ -44,9 +44,9 @@ struct WordieHomeView: View {
             } onDifficultyMenuTap: { wordCard, difficulty in
                 try? updateWordDifficulty(wordCard?.word, difficulty: difficulty)
             }
-            .navigationTitle(currnetTable)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
+                toolBarTitleView
                 deleteItem
                 dictionaryItem
                 editItem
@@ -95,6 +95,17 @@ struct WordieHomeView: View {
 
 // MARK: - Toolbar
 private extension WordieHomeView {
+    
+    /// 中間的標題文字
+    @ToolbarContentBuilder
+    var toolBarTitleView: some ToolbarContent {
+        
+        ToolbarItem(placement: .principal) {
+            Text(currnetTable)
+                .font(.headline)
+                .foregroundColor(.black)
+        }
+    }
     
     /// 左上角刪除按鈕
     ///
