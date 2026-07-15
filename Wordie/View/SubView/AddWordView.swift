@@ -90,7 +90,7 @@ private extension AddWordView {
                 inputRow(systemName: "translate", placeholder: "Chinese", text: $chinese)
             }
             
-            if case .edit = sheet { otherInputRow }
+            otherInputRow
         }
     }
     

@@ -29,6 +29,8 @@ final class API: BaseAPI {
             (key: "japanese", value: .string(wordUI.word)),
             (key: "kana", value: .string(wordUI.reading)),
             (key: "chinese", value: .string(wordUI.chinese)),
+            (key: "category", value: .int(Int64(wordUI.category))),
+            (key: "level", value: .int(Int64(wordUI.level))),
         ]
         
         try database.insert(tableName: tableName, itemsArray: [items])

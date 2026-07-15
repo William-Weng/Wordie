@@ -44,6 +44,7 @@ struct WordieHomeView: View {
             } onDifficultyMenuTap: { wordCard, difficulty in
                 try? updateWordDifficulty(wordCard?.word, difficulty: difficulty)
             }
+            .navigationTitle(currnetTable)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 deleteItem
