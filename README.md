@@ -34,6 +34,18 @@ Wordie 是一款使用 SwiftUI 製作的英文單字學習 App，提供單字的
 | 資料儲存 | `SQLite` |
 | 語言 | `Swift` |
 
+## Info.plist
+- 記得要設定，在Finder / iPhone才能放文件資訊
+
+```xml
+<key>UIFileSharingEnabled</key>
+<true/>
+<key>LSSupportsOpeningDocumentsInPlace</key>
+<true/>
+<key>UISupportsDocumentBrowser</key>
+<true/>
+```
+
 ## 引用字型
 
 | 名稱 | 說明 |
