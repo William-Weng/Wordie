@@ -7,7 +7,6 @@
 
 import SwiftUI
 import WWFlipWordCardUI
-import WWSafariViewUI
 import FoundationModels
 
 /// Wordie 主畫面
@@ -29,7 +28,6 @@ struct WordieContentView: View {
     
     @State private var isAutoReading = false                        // 翻頁自動跟讀單字
     @State private var difficulty: WordDifficulty?                  // 單字記憶難度
-    @State private var selectedWord: WordCard?                      // 選到的單字
     
     var body: some View {
         
@@ -56,17 +54,15 @@ struct WordieContentView: View {
                 }
                 
                 WordProgressView(totalCount: words.count, currentIndex: $currentIndex)
-                                
+                
                 HStack {
                     difficultyItems
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .disabled(words.isEmpty)
-                    intelligenceButton
-                        .frame(maxWidth: .infinity, alignment: .leading)
+                    Spacer()
                     playButton
                         .frame(maxWidth: .infinity, alignment: .center)
-                    Spacer(minLength: 16)
-                        .frame(maxWidth: .infinity, alignment: .trailing)
+                    Spacer()
                     menuItems
                         .frame(maxWidth: .infinity, alignment: .trailing)
                 }
@@ -74,8 +70,6 @@ struct WordieContentView: View {
                 .padding(.horizontal, 28)
             }
             .padding(.bottom, 8)
-        }.sheet(item: $selectedWord) { wordCard in
-            if #available(iOS 26.0, *) { IntelliSenseWordView(wordCard: wordCard, instructions: configure.instructions) }
         }.onChange(of: isAutoReading) { _, newValue in
             readingWord(words[safe: currentIndex])
         }.onChange(of: words.count) {
@@ -229,23 +223,6 @@ private extension WordieContentView {
                 Label("手動跟讀", systemImage: "hand.tap.fill").tag(false)
                 Label("自動跟讀", systemImage: "speaker.wave.3.fill").tag(true)
             }
-        }
-    }
-    
-    /// Apple AI 功能按鍵 (支援 + 有開啟)
-    @ViewBuilder
-    var intelligenceButton: some View {
-        
-        if #available(iOS 26.0, *), SystemLanguageModel.default.availability == .available {
-            Button {
-                selectedWord = words[safe: currentIndex]
-            } label: {
-                Image(systemName: "apple.intelligence")
-                    .font(.system(size: 26, weight: .semibold))
-                    .frame(width: 54, height: 54)
-            }
-        } else {
-            Spacer()
         }
     }
 }

@@ -12,7 +12,8 @@ import SwiftUI
 enum WordSheet: Identifiable {
     case add                        // 新增單字
     case edit(WordCard)             // 編輯指定單字
-    case dictionary(WordCard)       // 線上字典
+    case dictionary(WordCard)       // 網頁字典
+    case ai(WordCard)               // Apple Intelligence
 }
 
 /// 新增 / 編輯單字時使用的 sheet 狀態
@@ -35,7 +36,7 @@ enum WordDifficulty: String, CaseIterable {
 
 /// [Navigation路徑](https://www.appcoda.com.tw/swiftui-navigation/)
 enum Route: Hashable {
-    case bookmarks
+    case bookmarks              // 好看書籤
 }
 
 // MARK: - 公開屬性
@@ -47,6 +48,7 @@ extension WordSheet {
         case .add: return "add"
         case .edit(let wordCard): return "edit-\(wordCard.id)"
         case .dictionary(let wordCard): return "dictionary-\(wordCard.id)"
+        case .ai(let wordCard): return "ai-\(wordCard.id)"
         }
     }
     
@@ -56,6 +58,7 @@ extension WordSheet {
         case .add: return "新增單字"
         case .edit: return "編輯單字"
         case .dictionary: return "線上字典"
+        case .ai: return "AI字典"
         }
     }
     
@@ -64,7 +67,8 @@ extension WordSheet {
         switch self {
         case .add: return "plus"
         case .edit: return "arrow.triangle.2.circlepath"
-        case .dictionary: return "questionmark.bubble"
+        case .dictionary(_): return "character.book.closed.fill"
+        case .ai(_): return "apple.intelligence"
         }
     }
 }

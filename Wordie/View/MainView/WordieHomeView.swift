@@ -48,7 +48,7 @@ struct WordieHomeView: View {
             .toolbar {
                 toolBarTitleView
                 deleteItem
-                dictionaryItem
+                menuItems
                 editItem
                 if !useHistory { addItem }
             }
@@ -56,8 +56,10 @@ struct WordieHomeView: View {
                 switch sheet {
                 case .add, .edit: AddWordView(sheet: sheet, viewModel: viewModel)
                 case .dictionary(let wordCard): dictionaryView(with: wordCard)
+                case .ai(let wordCard): if #available(iOS 26.0, *) { IntelliSenseWordView(wordCard: wordCard, instructions: configure.instructions) }
                 }
-            }.confirmationDialog("確定要刪除這個單字嗎？", isPresented: $isShowingDeleteConfirm, titleVisibility: .visible) {
+            }
+            .confirmationDialog("確定要刪除這個單字嗎？", isPresented: $isShowingDeleteConfirm, titleVisibility: .visible) {
                 Button("刪除", role: .destructive) { removeWord(with: currentIndex) }
             } message: {
                 Text("這個動作無法復原。")
@@ -66,6 +68,8 @@ struct WordieHomeView: View {
                 case .bookmarks: BookmarkPageView(api: api, configure: configure)
                 }
             }
+            .toolbarColorScheme(.dark, for: .navigationBar)
+            .toolbarBackground(.visible, for: .navigationBar)
         }
         .task {
             hideKeyboard()
@@ -131,12 +135,44 @@ private extension WordieHomeView {
         ToolbarItem(placement: .topBarTrailing) {
             
             Button {
-                guard viewModel.words.indices.contains(currentIndex) else { return }
-                let currentWord = viewModel.words[currentIndex]
+                guard let currentWord = viewModel.words[safe: currentIndex] else { return }
                 activeSheet = .edit(currentWord)
             } label: {
                 Image(systemName: "pencil")
             }
+            .disabled(viewModel.words.isEmpty)
+        }
+    }
+    
+    /// 解譯單字功能
+    @ToolbarContentBuilder
+    var menuItems: some ToolbarContent {
+        
+        ToolbarItem(placement: .topBarLeading) {
+            
+            Menu {
+                Button(action: {
+                    guard let currentWord = viewModel.words[safe: currentIndex] else { return }
+                    activeSheet = .dictionary(currentWord)
+                }, label: {
+                    Text("線上字典")
+                })
+                
+                if #available(iOS 26.0, *) {
+                    
+                    Button(action: {
+                        guard let currentWord = viewModel.words[safe: currentIndex] else { return }
+                        activeSheet = .ai(currentWord)
+                    }, label: {
+                        Text("AI字典")
+                    })
+                }
+            } label: {
+                Image(systemName: "questionmark.bubble")
+                    .renderingMode(.template)
+                    
+            }
+            .tint(.red)
             .disabled(viewModel.words.isEmpty)
         }
     }
@@ -153,23 +189,6 @@ private extension WordieHomeView {
                 isShowingDeleteConfirm = true
             } label: {
                 Image(systemName: "trash")
-            }
-            .tint(.red)
-            .disabled(viewModel.words.isEmpty)
-        }
-    }
-    
-    /// 解譯單字功能
-    @ToolbarContentBuilder
-    var dictionaryItem: some ToolbarContent {
-        
-        ToolbarItem(placement: .topBarLeading) {
-            Button {
-                guard let currentWord = viewModel.words[safe: currentIndex] else { return }
-                activeSheet = .dictionary(currentWord)
-            } label: {
-                Image(systemName: "questionmark.bubble")
-                    .renderingMode(.template)
             }
             .tint(.red)
             .disabled(viewModel.words.isEmpty)
