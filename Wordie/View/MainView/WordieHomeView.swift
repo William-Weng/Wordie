@@ -122,7 +122,9 @@ private extension WordieHomeView {
                 activeSheet = .add
             } label: {
                 Image(systemName: "plus")
+                    .renderingMode(.template)
             }
+            .tint(.accentColor)
         }
     }
     
@@ -139,7 +141,9 @@ private extension WordieHomeView {
                 activeSheet = .edit(currentWord)
             } label: {
                 Image(systemName: "pencil")
+                    .renderingMode(.template)
             }
+            .tint(.accentColor)
             .disabled(viewModel.words.isEmpty)
         }
     }
@@ -170,7 +174,6 @@ private extension WordieHomeView {
             } label: {
                 Image(systemName: "questionmark.bubble")
                     .renderingMode(.template)
-                    
             }
             .tint(.red)
             .disabled(viewModel.words.isEmpty)
