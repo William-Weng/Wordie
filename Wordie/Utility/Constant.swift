@@ -10,16 +10,16 @@ import SwiftUI
 
 /// 新增 / 編輯單字時使用的 sheet 狀態
 enum WordSheet: Identifiable {
-    case add                        // 新增單字
-    case edit(WordCard)             // 編輯指定單字
-    case dictionary(WordCard)       // 網頁字典
-    case ai(WordCard)               // Apple Intelligence
+    case add                            // 新增單字
+    case edit(WordCard)                 // 編輯指定單字
+    case dictionary(WordCard, String)   // 網頁字典 (單字, 字典名稱)
+    case ai(WordCard)                   // Apple Intelligence
 }
 
 /// 新增 / 編輯單字時使用的 sheet 狀態
 enum BookmarkSheet: Identifiable {
-    case add                        // 新增書籤
-    case edit(Bookmark)             // 編輯指定書籤
+    case add                            // 新增書籤
+    case edit(Bookmark)                 // 編輯指定書籤
 }
 
 /// 單字片滑動方向
@@ -42,12 +42,12 @@ enum Route: Hashable {
 // MARK: - 公開屬性
 extension WordSheet {
     
-    /// sheet(item:) 用的唯一 id
+    /// sheet(item:) 用的唯一id
     var id: String {
         switch self {
         case .add: return "add"
         case .edit(let wordCard): return "edit-\(wordCard.id)"
-        case .dictionary(let wordCard): return "dictionary-\(wordCard.id)"
+        case .dictionary(let wordCard, let key): return "dictionary-\(key)-\(wordCard.id)"
         case .ai(let wordCard): return "ai-\(wordCard.id)"
         }
     }
@@ -67,7 +67,7 @@ extension WordSheet {
         switch self {
         case .add: return "plus"
         case .edit: return "arrow.triangle.2.circlepath"
-        case .dictionary(_): return "character.book.closed.fill"
+        case .dictionary(_, _): return "character.book.closed.fill"
         case .ai(_): return "apple.intelligence"
         }
     }

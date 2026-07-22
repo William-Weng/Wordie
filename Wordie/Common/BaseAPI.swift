@@ -11,12 +11,23 @@ import WWSQLite3Manager
 /// 負責與 SQLite 資料庫溝通的單一入口
 class BaseAPI {
     
+    let keyWord = "<WORD>"                          // 更換單字的Keyword
+    
     let database: WWSQLite3Manager.Database         // SQLite 資料庫連線物件
     let filename: String                            // 資料庫檔案名稱
     let type: WWSQLite3Manager.SchemeDelegate.Type  // 資料表對應的模型型別
     
     var tableName: String                           // 單字資料表名稱
-        
+    
+    // 線上字典URL
+    var dictionies: [String: String] {
+        [
+            "EZABC 簡單背單字": "https://www.ezabc.com.tw/showword/?srch_target=\(keyWord)",
+            "Yahoo字典": "https://tw.dictionary.search.yahoo.com/search?p=\(keyWord)",
+            "劍橋詞典": "https://dictionary.cambridge.org/zht/詞典/英語-漢語-繁體/\(keyWord)",
+        ]
+    }
+    
     /// 建立資料庫操作物件，並初始化資料表
     required init(filename: String, tableName: String, type: WWSQLite3Manager.SchemeDelegate.Type) {
         
@@ -33,13 +44,7 @@ class BaseAPI {
             fatalError("資料庫連線 / 建立失敗！")
         }
     }
-    
-    // 線上字典URL
-    func searchWordUrl(_ word: String) -> URL? {
-        let string = "https://www.ezabc.com.tw/showword/?srch_target=\(word)"
-        return URL(string: string)
-    }
-    
+        
     /// 新增一筆單字資料
     ///
     /// - Parameters:

@@ -56,7 +56,7 @@ struct WordieHomeView: View {
             .sheet(item: $activeSheet) { sheet in
                 switch sheet {
                 case .add, .edit: AddWordView(sheet: sheet, viewModel: viewModel)
-                case .dictionary(let wordCard): dictionaryView(with: wordCard)
+                case .dictionary(let wordCard, let key): dictionaryView(wordCard: wordCard, from: key)
                 case .ai(let wordCard): if #available(iOS 26.0, *) { IntelliSenseWordView(wordCard: wordCard, instructions: configure.instructions) }
                 }
             }
@@ -154,12 +154,15 @@ private extension WordieHomeView {
         ToolbarItem(placement: .topBarLeading) {
             
             Menu {
-                Button(action: {
-                    guard let currentWord = viewModel.words[safe: currentIndex] else { return }
-                    activeSheet = .dictionary(currentWord)
-                }, label: {
-                    Text("線上字典")
-                }).background(Color.black)
+                
+                ForEach(api.dictionies.keys.sorted(), id: \.self) { key in
+                    Button(action: {
+                        guard let currentWord = viewModel.words[safe: currentIndex] else { return }
+                        activeSheet = .dictionary(currentWord, key)
+                    }, label: {
+                        Text(key)
+                    }).background(Color.black)
+                }
                 
                 if #available(iOS 26.0, *), SystemLanguageModel.default.availability == .available {
                                         
@@ -312,8 +315,11 @@ private extension WordieHomeView {
     }
     
     /// 解譯單字功能
-    func dictionaryView(with wordCard: WordCard) -> some View {
-        let url = api.searchWordUrl(wordCard.word)
+    func dictionaryView(wordCard: WordCard, from key : String) -> some View {
+        
+        let urlString = api.dictionies[key]?.replacingOccurrences(of: api.keyWord, with: wordCard.word)
+        let url = URL(string: urlString!)
+                
         return WWSafariViewUI(url: url!).ignoresSafeArea()
     }
 }

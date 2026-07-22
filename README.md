@@ -9,9 +9,9 @@
 
 Wordie 是一款使用 SwiftUI 製作的英文單字學習 App，提供單字的新增、編輯、刪除與瀏覽功能，並透過 `SQLite` 在本機保存資料，適合作為 `SwiftUI` + `MVVM` + 本地資料庫練習專案，在 `iOS 26` 支援本地 [`AI`](https://www.apple.com/tw/apple-intelligence/) 功能。
 
-![Wordie](https://github.com/user-attachments/assets/3d097a82-3278-4a05-a17d-3054c498bfe0) ![Wordie-AI](https://github.com/user-attachments/assets/79824c3e-04ec-4bfb-8030-a59e5ec2f690)
+![Wordie](https://github.com/user-attachments/assets/1c03eda7-4a6f-400c-93c1-fa081dede1da) ![Wordie-AI](https://github.com/user-attachments/assets/79824c3e-04ec-4bfb-8030-a59e5ec2f690)
 
-![Kirie](https://github.com/user-attachments/assets/ed4a3d57-7d8e-48bc-a5d1-087da9598ead) ![Kirie-AI](https://github.com/user-attachments/assets/4a80f7d3-8d97-45c3-8eaa-fb0cad4c9b26)
+![Kirie](https://github.com/user-attachments/assets/d7a3c773-bb46-4726-b8cf-9cf508431192) ![Kirie-AI](https://github.com/user-attachments/assets/4a80f7d3-8d97-45c3-8eaa-fb0cad4c9b26)
 
 ## [畫面功能](https://peterpanswift.github.io/iphone-bezels/)
 
