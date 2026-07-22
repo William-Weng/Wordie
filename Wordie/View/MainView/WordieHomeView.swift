@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import FoundationModels
 import WWSafariViewUI
 import WWHUDUI
 
@@ -68,8 +69,6 @@ struct WordieHomeView: View {
                 case .bookmarks: BookmarkPageView(api: api, configure: configure)
                 }
             }
-            .toolbarColorScheme(.dark, for: .navigationBar)
-            .toolbarBackground(.visible, for: .navigationBar)
         }
         .task {
             hideKeyboard()
@@ -160,10 +159,10 @@ private extension WordieHomeView {
                     activeSheet = .dictionary(currentWord)
                 }, label: {
                     Text("線上字典")
-                })
+                }).background(Color.black)
                 
-                if #available(iOS 26.0, *) {
-                    
+                if #available(iOS 26.0, *), SystemLanguageModel.default.availability == .available {
+                                        
                     Button(action: {
                         guard let currentWord = viewModel.words[safe: currentIndex] else { return }
                         activeSheet = .ai(currentWord)
