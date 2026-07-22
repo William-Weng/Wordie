@@ -151,3 +151,17 @@ struct WordieApp: App {
 - 加入測驗模式或記憶卡模式。
 - 支援匯出 / 匯入單字資料。
 - 增加錯誤處理與空畫面設計。
+
+## [引用套件](https://swiftpackageindex.com/William-Weng)
+
+| 項目 | 說明 |
+|------|------|
+| [WWCacheManager](https://github.com/William-Weng/WWCacheManager) | 一個高效、線程安全的快取管理器，支援 `DispatchQueue` 讀寫鎖和 `@propertyWrapper` 語法 |
+| [WWFlipWordCardUI](https://github.com/William-Weng/WWFlipWordCardUI) | 一個基於 SwiftUI 的單字卡元件，支援翻頁式卡片互動，適合用於單字學習、語言學習與教育類 App |
+| [WWFontLoader](https://github.com/William-Weng/WWFontLoader) | iOS 字型載入器 - 支援系統內建字型和外部的 TTF 字型檔案，自動註冊並提供全域 Font 存取 |
+| [WWHUDUI](https://github.com/William-Weng/WWHUDUI) | 一個用 SwiftUI 製作的簡單 HUD（Head-Up Display）元件 |
+| [WWIntelligentAgent](https://github.com/William-Weng/WWIntelligentAgent) | 一個以 **Apple Foundation Models** 為基礎的輕量級 Swift 包裝器 |
+| [WWMarkdownWebViewUI](https://github.com/William-Weng/WWMarkdownWebViewUI) | 使用 `WKWebView` 在 SwiftUI 中渲染 `Markdown`，支援動態高度 |
+| [WWSafariViewUI](https://github.com/William-Weng/WWSafariViewUI) | 是一個以 SwiftUI 包裝 `SFSafariViewController` 的輕量元件 |
+| [WWSQLite3Manager](https://github.com/William-Weng/WWSQLite3Manager) | 一套輕量級的 Swift SQLite3 工具 |
+| [WWWebImage](https://github.com/William-Weng/WWWebImage) | 簡易的非同步網路圖片下載工具 |
