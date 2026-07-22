@@ -29,13 +29,14 @@ struct WordieHomeView: View {
     
     @State private var activeSheet: WordSheet?                  // 目前正在顯示的 sheet 狀態
     @State private var tableNames: [String] = []                // 資料庫的列表名稱
-    @State private var isShowingDeleteConfirm = false           // 是否顯示刪除確認對話框
     @State private var isLoading = false                        // 目前正在讀取單字資料
     @State private var useHistory: Bool = false                 // 是否選到的使用歷史資料
     
     @AppStorage("currentIndex") private var currentIndex = 0    // 目前正在顯示的單字索引
     @AppStorage("currnetTable") private var currnetTable = ""   // 選到的資料表名稱
-        
+    
+    @State private var showDeleteAlert = false                  // 是否顯示刪除確認對話框
+    
     var body: some View {
         
         NavigationStack(path: $path) {
@@ -59,24 +60,25 @@ struct WordieHomeView: View {
                 case .dictionary(let wordCard, let key): dictionaryView(wordCard: wordCard, from: key)
                 case .ai(let wordCard): if #available(iOS 26.0, *) { IntelliSenseWordView(wordCard: wordCard, instructions: configure.instructions) }
                 }
-            }
-            .confirmationDialog("確定要刪除這個單字嗎？", isPresented: $isShowingDeleteConfirm, titleVisibility: .visible) {
-                Button("刪除", role: .destructive) { removeWord(with: currentIndex) }
-            } message: {
-                Text("這個動作無法復原。")
             }.navigationDestination(for: Route.self) { route in
                 switch route {
                 case .bookmarks: BookmarkPageView(api: api, configure: configure)
                 }
             }
         }
+        .loadingOverlay(hud)
         .task {
             hideKeyboard()
             tableNames = formatTablenames()
             api.tableName = currnetTable
             viewModel.reloadWords()
         }
-        .loadingOverlay(hud)
+        .alert("確定要刪除這個單字嗎？", isPresented: $showDeleteAlert) {
+            Button("刪除", role: .destructive) { removeWord(with: currentIndex) }
+            Button("取消", role: .cancel) {}
+        } message: {
+            Text("這個動作無法復原。")
+        }
         .onChange(of: isLoading) { _, newValue in
             displayHUD(newValue)
         }
@@ -191,7 +193,7 @@ private extension WordieHomeView {
         ToolbarItem(placement: .topBarLeading) {
             Button {
                 guard viewModel.words.indices.contains(currentIndex) else { return }
-                isShowingDeleteConfirm = true
+                showDeleteAlert = true
             } label: {
                 Image(systemName: "trash")
             }
