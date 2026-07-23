@@ -66,6 +66,11 @@ extension WordListViewModel {
         reloadWords()
     }
     
+    /// 搜尋包含關鍵字的單字
+    /// 
+    /// - Parameters:
+    ///   - keyword: 關鍵字
+    /// - Returns: 目前資料庫中在包含關鍵字的所有單字
     func selectWord(from keyword: String) {
         words = api.selectWord(from: keyword)
     }

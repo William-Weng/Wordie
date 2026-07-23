@@ -19,7 +19,7 @@ final class API: BaseAPI {
             "語源由来辞典": "https://gogen-yurai.jp/?s=\(keyWord)",
         ]
     }
-        
+    
     /// 新增一筆單字資料
     ///
     /// - Parameters:
@@ -84,6 +84,7 @@ final class API: BaseAPI {
     }
     
     /// 搜尋包含關鍵字的單字
+    /// 
     /// - Parameters:
     ///   - keyword: 關鍵字
     /// - Returns: 目前資料庫中在包含關鍵字的所有單字
