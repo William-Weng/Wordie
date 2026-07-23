@@ -58,7 +58,9 @@ private extension BookmarkRow {
     /// 會優先顯示遠端圖片，下載期間則顯示預設的載入中佔位畫面
     var coverImage: some View {
         
-        CachedWebImage(url: URL(string: bookmark.icon)) { image in
+        let width: CGFloat = 56
+        
+        return CachedWebImage(url: URL(string: bookmark.icon)) { image in
             image
                 .resizable()
                 .scaledToFill()
@@ -69,8 +71,8 @@ private extension BookmarkRow {
                 ProgressView()
             }
         }
-        .frame(width: 56, height: 56)
-        .clipShape(RoundedRectangle(cornerRadius: 28))
+        .frame(width: width, height: width)
+        .clipShape(RoundedRectangle(cornerRadius: width * 0.5))
     }
     
     /// 書籤最愛狀態的圖示視圖

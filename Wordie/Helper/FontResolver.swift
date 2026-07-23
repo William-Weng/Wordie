@@ -25,6 +25,10 @@ class FontResolver {
     var reading: Font = .system(size: 28, weight: .medium, design: .monospaced)
     var chinese: Font = .system(size: 32, weight: .bold, design: .rounded)
     
+    var searchWord: Font = .system(size: 24, weight: .bold, design: .rounded)
+    var searchReading: Font = .system(size: 14, weight: .medium, design: .monospaced)
+    var searchChinese: Font = .system(size: 16, weight: .bold, design: .rounded)
+    
     private let loader = WWFontLoader.shared
 }
 
@@ -39,9 +43,13 @@ extension FontResolver {
     /// - Throws: `WWFontLoader.CustomError` 如果載入失敗
     func resolveFonts(from config: FontConfig) throws {
         
-        if let word = try resolveFont(detail: config.font.word, size: 48) { self.word = word }
-        if let reading = try resolveFont(detail: config.font.reading, size: 28) { self.reading = reading }
-        if let chinese = try resolveFont(detail: config.font.chinese, size: 32) { self.chinese = chinese }
+        if let word = try resolveFont(detail: config.font.word, defaultSize: 48) { self.word = word }
+        if let reading = try resolveFont(detail: config.font.reading, defaultSize: 28) { self.reading = reading }
+        if let chinese = try resolveFont(detail: config.font.chinese, defaultSize: 32) { self.chinese = chinese }
+        
+        if let searchWord = try resolveSearchFont(detail: config.font.word, size: 24) { self.searchWord = searchWord }
+        if let searchReading = try resolveSearchFont(detail: config.font.reading, size: 14) { self.searchReading = searchReading }
+        if let searchChinese = try resolveSearchFont(detail: config.font.chinese, size: 16) { self.searchChinese = searchChinese }
     }
 }
 
@@ -50,15 +58,15 @@ private extension FontResolver {
     
     /// 解析單一字型
     ///
-    /// 根據 FontDetail 設定，載入系統字型或 TTF 字型。
+    /// 根據 FontDetail 設定，載入系統字型或 TTF 字型
     ///
     /// - Parameter detail: 字型詳細設定（FontDetail）
-    /// - Parameter size: 預設字型大小（如果 config 沒有 size）
+    /// - Parameter defaultSize: 預設字型大小（如果 config 沒有 size）
     /// - Returns: SwiftUI Font 物件
     /// - Throws: `WWFontLoader.CustomError` 如果載入失敗
-    func resolveFont(detail: FontDetail, size: CGFloat) throws -> Font? {
+    func resolveFont(detail: FontDetail, defaultSize: CGFloat) throws -> Font? {
         
-        let size = detail.size ?? size
+        let size = detail.size ?? defaultSize
         
         if let postScriptName = detail.name {
             let source = WWFontLoader.FontSource.system(postScriptName: postScriptName, size: size)
@@ -76,6 +84,19 @@ private extension FontResolver {
         return nil
     }
     
+    /// 解析單一字型 for 單字搜尋
+    ///
+    /// 根據 FontDetail 設定，載入系統字型或 TTF 字型
+    ///
+    /// - Parameter detail: 參照的字型詳細設定
+    /// - Parameter size: 字型大小
+    /// - Returns: SwiftUI Font 物件
+    /// - Throws: `WWFontLoader.CustomError` 如果載入失敗
+    func resolveSearchFont(detail: FontDetail, size: CGFloat) throws -> Font? {
+        let newDetail: FontDetail = .init(name: detail.name, ttf: detail.ttf, size: size)
+        return try resolveFont(detail: newDetail, defaultSize: size)
+    }
+    
     /// 將 UIFont 轉換為 SwiftUI Font
     ///
     /// 輔助函式，將 WWFontLoader 回傳的 UIFont 轉換為 SwiftUI 的 Font
@@ -84,6 +105,6 @@ private extension FontResolver {
     /// - Returns: SwiftUI Font 物件（如果 uiFont 不為 nil）
     func swiftUIFont(_ uiFont: UIFont?) -> Font? {
         guard let uiFont = uiFont else { return nil }
-        return Font(uiFont)
+        return .init(uiFont)
     }
 }

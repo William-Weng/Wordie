@@ -20,8 +20,8 @@ protocol ApiDelegate {
     /// 建立資料庫操作物件，並初始化資料表
     init(filename: String, tableName: String, type: WWSQLite3Manager.SchemeDelegate.Type)
         
-    /// 取得目前資料庫中所有資料表的 schema 資訊
-    func tableSchemas() -> [SqliteMaster]
+    /// 取得所有的單字資料名稱 (排序過的)
+    func tablenames() -> [String]
     
     /// 讀取所有單字資料
     func select() -> [WordCard]
@@ -31,6 +31,9 @@ protocol ApiDelegate {
     
     /// - Returns: 目前資料庫中的所有書籤資料
     func selectBookmark() -> [Bookmark]
+    
+    
+    func selectWord(from keyword: String) -> [WordCard]
     
     /// 新增一筆單字資料
     func insert(_ wordUI: WordUI) throws

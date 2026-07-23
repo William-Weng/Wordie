@@ -65,6 +65,10 @@ extension WordListViewModel {
         try api.delete(id: wordCard.id)
         reloadWords()
     }
+    
+    func selectWord(from keyword: String) {
+        words = api.selectWord(from: keyword)
+    }
 }
 
 // MARK: - History

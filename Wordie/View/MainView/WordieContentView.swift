@@ -166,12 +166,21 @@ private extension WordieContentView {
                 useHistory.toggle()
             }, label: {
                 Text("歷史記錄")
+                Image(systemName: "book")
             })
             
             Button(action: {
                 path.append(Route.bookmarks)
             }, label: {
                 Text("書籤記錄")
+                Image(systemName: "bookmark")
+            })
+            
+            Button(action: {
+                path.append(Route.search)
+            }, label: {
+                Text("單字查詢")
+                Image(systemName: "magnifyingglass")
             })
             
             Picker("單字列表", selection: $currnetTable) {
@@ -255,5 +264,3 @@ private extension WordieContentView {
         word.speakWord(by: configure.language)
     }
 }
-
-

@@ -82,4 +82,26 @@ final class API: BaseAPI {
             return []
         }
     }
+    
+    /// 搜尋包含關鍵字的單字
+    /// - Parameters:
+    ///   - keyword: 關鍵字
+    /// - Returns: 目前資料庫中在包含關鍵字的所有單字
+    override func selectWord(from keyword: String) -> [WordCard] {
+        
+        let sql = """
+            SELECT e.*
+            FROM \(tableName) e
+            WHERE kana LIKE '%\(keyword)%' OR japanese LIKE '%\(keyword)%'
+            ORDER BY kana
+            """
+        
+        do {
+            let dict = try database.query(sql: sql)
+            let words = dict.compactMap { $0.jsonClass(for: Word.self)?.toWordCard() }
+            return words
+        } catch {
+            return []
+        }
+    }
 }

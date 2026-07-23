@@ -9,9 +9,17 @@
 
 Wordie 是一款使用 SwiftUI 製作的英文單字學習 App，提供單字的新增、編輯、刪除與瀏覽功能，並透過 `SQLite` 在本機保存資料，適合作為 `SwiftUI` + `MVVM` + 本地資料庫練習專案，在 `iOS 26` 支援本地 [`AI`](https://www.apple.com/tw/apple-intelligence/) 功能。
 
-![Wordie](https://github.com/user-attachments/assets/1c03eda7-4a6f-400c-93c1-fa081dede1da) ![Wordie-AI](https://github.com/user-attachments/assets/79824c3e-04ec-4bfb-8030-a59e5ec2f690)
+<img width="256" alt="Wordie" src="https://github.com/user-attachments/assets/9ade8dd8-bf22-4d21-a40e-323c9e702fc6" />
 
-![Kirie](https://github.com/user-attachments/assets/d7a3c773-bb46-4726-b8cf-9cf508431192) ![Kirie-AI](https://github.com/user-attachments/assets/4a80f7d3-8d97-45c3-8eaa-fb0cad4c9b26)
+<img width="256" alt="Wordie-AI" src="https://github.com/user-attachments/assets/79824c3e-04ec-4bfb-8030-a59e5ec2f690" />
+
+<img width="256" alt="Wordie2" src="https://github.com/user-attachments/assets/7d592435-eb80-4b0b-b5c9-47ab3efacfca" />
+
+<img width="256" alt="Kirie" src="https://github.com/user-attachments/assets/d7a3c773-bb46-4726-b8cf-9cf508431192" />
+
+<img width="256" alt="Kirie-AI" src="https://github.com/user-attachments/assets/4a80f7d3-8d97-45c3-8eaa-fb0cad4c9b26" />
+
+<img width="256" alt="Kirie2" src="https://github.com/user-attachments/assets/79d031b0-a949-4fb2-8236-31b555281c06" />
 
 ## [畫面功能](https://peterpanswift.github.io/iphone-bezels/)
 

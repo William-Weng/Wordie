@@ -15,7 +15,7 @@ import WWSafariViewUI
 /// - 新增與編輯書籤
 /// - 刪除書籤
 /// - 切換最愛狀態
-struct BookmarkPageView: View {
+struct BookmarkListView: View {
     
     private let configure: Configure                        // 畫面外觀設定
     
@@ -75,7 +75,6 @@ struct BookmarkPageView: View {
     ///   - api: 提供書籤資料查詢與異動功能的 API
     ///   - configure: 畫面外觀設定
     init(api: API, configure: Configure) {
-        
         self.configure = configure
         _viewModel = State(wrappedValue: BookmarkListViewModel(api: api))
         viewModel.reloadBookmarks()
@@ -83,7 +82,7 @@ struct BookmarkPageView: View {
 }
 
 // MARK: - 小工具
-private extension BookmarkPageView {
+private extension BookmarkListView {
     
     /// 畫面的背景漸層視圖
     var backgroundView: some View {

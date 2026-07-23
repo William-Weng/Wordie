@@ -24,8 +24,8 @@ enum BookmarkSheet: Identifiable {
 
 /// 單字片滑動方向
 enum CardAwayDirection: CGFloat {
-    case left = -1                  // 向左滑
-    case right = 1                  // 向右滑
+    case left = -1                      // 向左滑
+    case right = 1                      // 向右滑
 }
 
 /// 單字記憶難度
@@ -36,7 +36,8 @@ enum WordDifficulty: String, CaseIterable {
 
 /// [Navigation路徑](https://www.appcoda.com.tw/swiftui-navigation/)
 enum Route: Hashable {
-    case bookmarks              // 好看書籤
+    case bookmarks                      // 實用書籤
+    case search                         // 單字查詢
 }
 
 // MARK: - 公開屬性

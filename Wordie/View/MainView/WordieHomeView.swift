@@ -62,14 +62,15 @@ struct WordieHomeView: View {
                 }
             }.navigationDestination(for: Route.self) { route in
                 switch route {
-                case .bookmarks: BookmarkPageView(api: api, configure: configure)
+                case .bookmarks: BookmarkListView(api: api, configure: configure)
+                case .search: WordSearchListView(configure: configure, viewModel: $viewModel)
                 }
             }
         }
         .loadingOverlay(hud)
         .task {
             hideKeyboard()
-            tableNames = formatTablenames()
+            tableNames = api.tablenames()
             api.tableName = currnetTable
             viewModel.reloadWords()
         }
@@ -259,23 +260,6 @@ private extension WordieHomeView {
             !isHistory ? viewModel.reloadWords() : viewModel.reloadHistory()
             isLoading = false
         }
-    }
-    
-    /// 把預設的資料表排在前面
-    /// - Returns: [String]
-    func formatTablenames() -> [String] {
-        
-        let sqlTablenames = api.tableSchemas().map(\.name).sorted()
-        let exceptionName: Set<String> = [History.tableName, Bookmark.tableName, api.tableName]
-        
-        var tablenames = [api.tableName]
-        
-        for name in sqlTablenames {
-            if exceptionName.contains(name) { continue }
-            tablenames.append(name)
-        }
-        
-        return tablenames.reversed()
     }
     
     /// 更新單字難易度

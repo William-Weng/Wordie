@@ -44,7 +44,7 @@ class BaseAPI {
             fatalError("資料庫連線 / 建立失敗！")
         }
     }
-        
+    
     /// 新增一筆單字資料
     ///
     /// - Parameters:
@@ -107,11 +107,33 @@ class BaseAPI {
             return []
         }
     }
+    
+    /// 搜尋包含關鍵字的單字
+    /// - Parameters:
+    ///   - keyword: 關鍵字
+    /// - Returns: 目前資料庫中在包含關鍵字的所有單字
+    func selectWord(from keyword: String) -> [WordCard] {
+
+        let sql = """
+            SELECT e.*
+            FROM \(tableName) e
+            WHERE english LIKE '%\(keyword)%'
+            ORDER BY english
+            """
+        
+        do {
+            let dict = try database.query(sql: sql)
+            let words = dict.compactMap { $0.jsonClass(for: Word.self)?.toWordCard() }
+            return words
+        } catch {
+            return []
+        }
+    }
 }
 
 // MARK: - CRUD
 extension BaseAPI: ApiDelegate {
-        
+    
     /// 讀取所有單字資料
     ///
     /// 會先從資料表查詢原始資料，再轉換成 `Word` 模型陣列後回傳
@@ -135,10 +157,21 @@ extension BaseAPI: ApiDelegate {
         try database.delete(tableName: tableName, where: `where`)
     }
     
-    /// 取得目前資料庫中所有資料表的 schema 資訊 => 回傳內容會把 sqlite_master 的查詢結果轉成 SqliteMaster 陣列
-    func tableSchemas() -> [SqliteMaster] {
-        let result = selectSqliteMaster()
-        return result.array.compactMap { $0.jsonClass(for: SqliteMaster.self) }.sorted { $0.name > $1.name  }
+    /// 取得所有的單字資料名稱 (排序過的)
+    /// - Returns: [String]
+    func tablenames() -> [String] {
+        
+        let sqlTablenames = tableSchemas().map(\.name).sorted()
+        let exceptionName: Set<String> = [History.tableName, Bookmark.tableName, tableName]
+        
+        var tablenames = [tableName]
+        
+        for name in sqlTablenames {
+            if exceptionName.contains(name) { continue }
+            tablenames.append(name)
+        }
+        
+        return tablenames.reversed()
     }
 }
 
@@ -266,6 +299,12 @@ private extension BaseAPI {
     /// 查詢 SQLite 系統表 `sqlite_master` 中所有類型為 table 的資料 => 也就是列出目前資料庫裡的所有資料表名稱與其 schema 資訊
     func selectSqliteMaster() -> WWSQLite3Manager.SelectResult {
         database.tables()
+    }
+    
+    /// 取得目前資料庫中所有資料表的 schema 資訊 => 回傳內容會把 sqlite_master 的查詢結果轉成 SqliteMaster 陣列
+    func tableSchemas() -> [SqliteMaster] {
+        let result = selectSqliteMaster()
+        return result.array.compactMap { $0.jsonClass(for: SqliteMaster.self) }.sorted { $0.name > $1.name  }
     }
 }
 
