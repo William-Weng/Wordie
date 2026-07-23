@@ -37,22 +37,14 @@ struct WordSearchListView: View {
             .searchable(text: $searchText, placement: .toolbar, prompt: "單字搜尋")
             .listStyle(.plain)
             .onChange(of: searchText) { _, newValue in
-                
-                let keyword = newValue.trimmingCharacters(in: .whitespacesAndNewlines)
-                
-                if keyword.isEmpty {
-                    viewModel.reloadWords()
-                } else {
-                    viewModel.selectWord(from: keyword)
-                }
-                
+                searchWord(from: newValue)
             }.sheet(item: $activeSheet) { sheet in
                 AddWordView(sheet: sheet, viewModel: viewModel)
             }
         }
         .preferredColorScheme(.light)
     }
-
+    
     /// 建立單字搜尋列表畫面
     ///
     /// - Parameters:
@@ -152,5 +144,25 @@ private extension WordSearchListView {
             .font(FontResolver.shared.searchChinese)
             .foregroundStyle(.primary)
             .multilineTextAlignment(.leading)
+    }
+}
+
+// MARK: - 私有API
+private extension WordSearchListView {
+    
+    /// 搜尋包含關鍵字的單字
+    ///
+    /// - Parameters:
+    ///   - keyword: 關鍵字
+    /// - Returns: 目前資料庫中在包含關鍵字的所有單字，如果關鍵字為空，就轉回原本在卡片上的值
+    func searchWord(from newValue: String) {
+        
+        let keyword = newValue.trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        if keyword.isEmpty {
+            viewModel.reloadWords()
+        } else {
+            viewModel.selectWord(from: keyword)
+        }
     }
 }
