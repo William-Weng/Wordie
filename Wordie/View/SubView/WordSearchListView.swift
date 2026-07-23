@@ -81,7 +81,7 @@ private extension WordSearchListView {
     /// 單字卡片背景
     var itemBackgroundView: some View {
         RoundedRectangle(cornerRadius: 18, style: .continuous)
-            .fill(.white.opacity(0.35))
+            .fill(.white.opacity(0.28))
     }
     
     /// 單字卡片邊框

@@ -37,8 +37,8 @@ struct KirieApp: App {
                     icon: "hare.fill",
                     language: "ja-JP",
                     colors: [
-                        Color(red: 0.99, green: 0.94, blue: 0.95),
-                        Color(red: 0.98, green: 0.90, blue: 0.92)
+                        Color(red: 0.80, green: 0.90, blue: 0.80),
+                        Color(red: 0.72, green: 0.84, blue: 0.72)
                     ],
                     isAscending: false,
                     instructions: instructions
