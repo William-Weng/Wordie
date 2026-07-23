@@ -168,7 +168,7 @@ private extension WordieHomeView {
                 }
                 
                 if #available(iOS 26.0, *), SystemLanguageModel.default.availability == .available {
-                                        
+                    
                     Button(action: {
                         guard let currentWord = viewModel.words[safe: currentIndex] else { return }
                         activeSheet = .ai(currentWord)

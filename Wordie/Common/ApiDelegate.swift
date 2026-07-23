@@ -29,7 +29,7 @@ protocol ApiDelegate {
     /// 查詢所有歷史單字資料
     func selectHistory() -> [WordCard]
     
-    /// - Returns: 目前資料庫中的所有書籤資料
+    /// 目前資料庫中的所有書籤資料
     func selectBookmark() -> [Bookmark]
     
     /// 搜尋包含關鍵字的單字
