@@ -42,7 +42,6 @@ struct WordSearchListView: View {
                 AddWordView(sheet: sheet, viewModel: viewModel)
             }
         }
-        .preferredColorScheme(.light)
     }
     
     /// 建立單字搜尋列表畫面
@@ -122,7 +121,7 @@ private extension WordSearchListView {
         
         Text(word.word)
             .font(FontResolver.shared.searchWord)
-            .foregroundStyle(.primary)
+            .foregroundStyle(.black)
             .lineLimit(1)
             .minimumScaleFactor(0.5)
             .layoutPriority(1)
@@ -133,7 +132,7 @@ private extension WordSearchListView {
         
         Text(word.reading)
             .font(FontResolver.shared.searchReading)
-            .foregroundStyle(.secondary)
+            .foregroundStyle(.gray)
             .lineLimit(1)
     }
     
@@ -142,7 +141,7 @@ private extension WordSearchListView {
         
         Text(word.chinese)
             .font(FontResolver.shared.searchChinese)
-            .foregroundStyle(.primary)
+            .foregroundStyle(.black)
             .multilineTextAlignment(.leading)
     }
 }
