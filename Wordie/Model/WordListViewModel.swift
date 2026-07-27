@@ -24,12 +24,12 @@ final class WordListViewModel {
 
 // MARK: - 公開函式
 extension WordListViewModel {
-        
+    
     /// 從資料庫重新讀取所有單字，並更新目前清單
     func reloadWords() {
         words = api.select()
     }
-    
+        
     /// 新增一筆單字資料到資料庫，並重新載入清單
     ///
     /// - Parameter wordUI: 要新增的單字資料
@@ -66,13 +66,14 @@ extension WordListViewModel {
         reloadWords()
     }
     
-    /// 搜尋包含關鍵字的單字
-    /// 
+    /// 搜尋單字並回傳對應的 WordCard 陣列
     /// - Parameters:
-    ///   - keyword: 關鍵字
-    /// - Returns: 目前資料庫中在包含關鍵字的所有單字
-    func selectWord(from keyword: String) {
-        words = api.selectWord(from: keyword)
+    ///   - keyword: 要搜尋的關鍵字
+    ///   - category: 可選的詞性篩選（bitmask）
+    /// - Returns: 成功時回傳符合條件的 WordCard 陣列；發生錯誤或查詢失敗時回傳空陣列
+    func selectWord(from keyword: String, by category: WordCategory?) {
+        words = api.selectWord(from: keyword, by: category)
+        print(words.first)
     }
 }
 

@@ -6,8 +6,8 @@
 //
 
 import SwiftUI
-import WWFlipWordCardUI
 import FoundationModels
+import WWFlipWordCardUI
 
 /// Wordie 主畫面
 ///

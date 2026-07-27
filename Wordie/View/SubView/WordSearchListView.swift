@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import WWHUDUI
 
 /// 單字搜尋頁
 struct WordSearchListView: View {
@@ -16,8 +17,10 @@ struct WordSearchListView: View {
     
     @State private var searchText = ""
     @State private var activeSheet: WordSheet?
+    @State private var category: WordCategory?
     
     var body: some View {
+        
         ZStack {
             
             backgroundView
@@ -37,17 +40,23 @@ struct WordSearchListView: View {
                     }
                     .padding(.horizontal, 8)
             }
-            .navigationTitle(viewModel.api.tableName)
+            .navigationTitle(title)
             .searchable(text: $searchText, placement: .toolbar, prompt: "單字搜尋")
+            .toolbar {
+                categoryItems
+            }
             .listStyle(.plain)
-            .onChange(of: searchText) { _, newValue in
-                searchWord(from: newValue)
-            }.sheet(item: $activeSheet) { sheet in
+            .sheet(item: $activeSheet) { sheet in
                 AddWordView(sheet: sheet, viewModel: viewModel)
+            }
+            .onChange(of: searchText) { _, newValue in
+                viewModel.selectWord(from: newValue, by: category)
+            }.onChange(of: category) { _, newValue in
+                viewModel.selectWord(from: searchText, by: newValue)
             }
         }
     }
-        
+    
     /// 建立單字搜尋列表畫面
     ///
     /// - Parameters:
@@ -56,6 +65,17 @@ struct WordSearchListView: View {
     init(configure: Configure, viewModel: Binding<WordListViewModel>) {
         self.configure = configure
         _viewModel = viewModel
+    }
+}
+
+// MARK: - 私有屬性
+private extension WordSearchListView {
+    
+    /// 目前畫面顯示的標題
+    ///
+    /// 當使用者已選擇特定詞性分類時，回傳該分類的名稱；若尚未指定分類，則回傳 API 對應的資料表名稱
+    var title: String {
+        category?.name ?? viewModel.api.tableName
     }
 }
 
@@ -83,6 +103,43 @@ private extension WordSearchListView {
     var itemBorder: some View {
         RoundedRectangle(cornerRadius: 18, style: .continuous)
             .stroke(.black.opacity(0.22), lineWidth: 1)
+    }
+    
+    /// 詞性篩選選單
+    ///
+    /// 這個選單提供兩種操作：
+    /// - 從 `WordCategory.allCases` 中選擇指定的詞性分類
+    /// - 清除目前的分類條件，改為「不限定」
+    ///
+    /// 選取某個詞性後，`category` 會更新為對應的 `WordCategory`；選擇「不限定」時，`category` 會被設為 `nil`
+    var categoryItems: some View {
+        
+        Menu {
+            
+            Picker("詞性列表", selection: $category) {
+                
+                ForEach(WordCategory.allCases, id: \.self) { category in
+                    
+                    ZStack {
+                        Text(category.name)
+                        Image(systemName: "leaf.fill")
+                    }
+                    .tag(Optional(category))
+                }
+            }
+            
+            Button {
+                category = nil
+            } label: {
+                Text("不限定")
+                Image(systemName: "line.3.horizontal.decrease.circle")
+            }
+            
+        } label: {
+            Image(systemName: "list.bullet.rectangle")
+                .font(.system(size: 20, weight: .semibold))
+                .frame(width: 32, height: 32)
+        }
     }
     
     /// 建立指定單搜字尋的滑動操作按鈕
@@ -170,22 +227,4 @@ private extension WordSearchListView {
     }
 }
 
-// MARK: - 私有API
-private extension WordSearchListView {
-    
-    /// 搜尋包含關鍵字的單字
-    ///
-    /// - Parameters:
-    ///   - keyword: 關鍵字
-    /// - Returns: 目前資料庫中在包含關鍵字的所有單字，如果關鍵字為空，就轉回原本在卡片上的值
-    func searchWord(from newValue: String) {
-        
-        let keyword = newValue.removeWhitespacesAndNewlines
-        
-        if keyword.isEmpty {
-            viewModel.reloadWords()
-        } else {
-            viewModel.selectWord(from: keyword)
-        }
-    }
-}
+

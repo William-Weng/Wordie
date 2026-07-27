@@ -108,23 +108,34 @@ class BaseAPI {
         }
     }
     
-    /// 搜尋包含關鍵字的單字
+    /// 搜尋單字並回傳對應的 WordCard 陣列
     /// - Parameters:
-    ///   - keyword: 關鍵字
-    /// - Returns: 目前資料庫中在包含關鍵字的所有單字
-    func selectWord(from keyword: String) -> [WordCard] {
-
-        let sql = """
-            SELECT e.*
-            FROM \(tableName) e
-            WHERE english LIKE '%\(keyword)%'
-            ORDER BY english
-            """
+    ///   - keyword: 要搜尋的關鍵字；若為空字串將不套用文字搜尋條件。此參數會作簡單的單引號轉義以避免基本的 SQL 語法錯誤（但非完全安全的注入防護）
+    ///   - category: 可選的詞性篩選（bitmask）。若為 nil 則不套用詞性篩選；若有值，查詢會使用 bitwise AND，回傳「包含該詞性 flag」的紀錄
+    /// - Returns: 成功時回傳符合條件的 WordCard 陣列；發生錯誤或查詢失敗時回傳空陣列
+    func selectWord(from keyword: String, by category: WordCategory?) -> [WordCard] {
+        
+        let wordKey = "english"
+        var conditions: [String] = []
+        
+        if !keyword.isEmpty {
+            let escapedKeyword = keyword.replacingOccurrences(of: "'", with: "''")
+            conditions.append("\(wordKey) LIKE '%\(escapedKeyword)%'")
+        }
+        
+        if let category {
+            conditions.append("(category & \(category.binary)) != 0")
+        }
+        
+        let whereClause = conditions.isEmpty
+        ? ""
+        : "WHERE " + conditions.joined(separator: " AND ")
+        
+        let sql = "SELECT e.* FROM \(tableName) e \(whereClause) ORDER BY \(wordKey)"
         
         do {
             let dict = try database.query(sql: sql)
-            let words = dict.compactMap { $0.jsonClass(for: Word.self)?.toWordCard() }
-            return words
+            return dict.compactMap { $0.jsonClass(for: Word.self)?.toWordCard() }
         } catch {
             return []
         }

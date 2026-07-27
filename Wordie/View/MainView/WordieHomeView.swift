@@ -42,7 +42,7 @@ struct WordieHomeView: View {
         NavigationStack(path: $path) {
             
             WordieContentView(words: viewModel.words, configure: configure, currentIndex: $currentIndex, currnetTable: $currnetTable, tableNames: $tableNames, useHistory: $useHistory, path: $path) { tablename in
-                refreshWords(with: tablename, isHistory: useHistory)
+                refreshWords(with: tablename, useHistory: useHistory)
             } onDifficultyMenuTap: { wordCard, difficulty in
                 try? updateWordDifficulty(wordCard?.word, difficulty: difficulty)
             }
@@ -82,6 +82,9 @@ struct WordieHomeView: View {
         }
         .onChange(of: isLoading) { _, newValue in
             displayHUD(newValue)
+        }
+        .onChange(of: path) { oldValue, newValue in
+            if newValue.count < oldValue.count { refreshWords(with: currnetTable, useHistory: useHistory) }
         }
     }
     
@@ -249,7 +252,7 @@ private extension WordieHomeView {
     /// - Parameters:
     ///   - tableName: 資料表名稱
     ///   - isHistory: 是否看歷史記錄
-    func refreshWords(with tableName: String, isHistory: Bool) {
+    func refreshWords(with tableName: String, useHistory: Bool) {
         
         isLoading = true
         currentIndex = 0
@@ -257,7 +260,7 @@ private extension WordieHomeView {
         viewModel.api.tableName = tableName
         
         Task {
-            !isHistory ? viewModel.reloadWords() : viewModel.reloadHistory()
+            !useHistory ? viewModel.reloadWords() : viewModel.reloadHistory()
             isLoading = false
         }
     }
