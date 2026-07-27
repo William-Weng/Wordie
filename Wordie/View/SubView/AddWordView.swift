@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import WWSQLite3Manager
 
 /// 單字新增 / 編輯表單畫面
 struct AddWordView: View {
@@ -23,7 +24,7 @@ struct AddWordView: View {
     @State private var categories: Set<WordCategory> = []   // 單字詞性組合
     
     @State private var showAlert = false                    // 是否顯示錯誤提示視窗
-    @State private var alertMessage = ""                    // 錯誤提示內容
+    @State private var error: Error?                        // 錯誤內容
     
     var body: some View {
         
@@ -148,10 +149,9 @@ private extension AddWordView {
                     case .edit(let source): try viewModel.updateWord(id: source.id, wordUI: wordUI)
                     case .dictionary, .ai: break
                     }
-                    
                     dismiss()
                 } catch {
-                    alertMessage = error.localizedDescription
+                    self.error = error
                     showAlert = true
                 }
             } label: {
@@ -161,11 +161,11 @@ private extension AddWordView {
             .alert("錯誤", isPresented: $showAlert) {
                 Button("OK", role: .cancel) { }
             } message: {
-                Text(alertMessage)
+                Text(parseErrorMessage(error))
             }
         }
     }
-    
+        
     /// 左上角取消按鈕，關閉目前表單畫面
     @ToolbarContentBuilder
     var cancelItem: some ToolbarContent {
@@ -233,5 +233,30 @@ private extension AddWordView {
         } else {
             categories.remove(item)
         }
+    }
+    
+    /// 解析錯誤訊息
+    /// - Parameter error: Error?
+    /// - Returns: String
+    func parseErrorMessage(_ error: Error?) -> String {
+        
+        var errorMessage = "未知錯誤，請稍後再試"
+        
+        if let error {
+            
+            errorMessage = error.localizedDescription
+            
+            if let customError = error as? WWSQLite3Manager.CustomError {
+                
+                errorMessage = customError.failureReason
+                
+                switch customError {
+                case .sqlite(_, let code,  _): if code == 19 { errorMessage = "該單字已存在資料庫中" }
+                default: break
+                }
+            }
+        }
+        
+        return errorMessage
     }
 }
