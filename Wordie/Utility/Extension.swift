@@ -15,6 +15,15 @@ extension Bool {
     var intValue: Int { self ? 1 : 0 }
 }
 
+// MARK: - String
+extension String {
+    
+    /// 回傳去除前後空白與換行字元後的字串
+    var removeWhitespacesAndNewlines: String {
+        self.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+}
+
 // MARK: - Color
 extension Color {
     

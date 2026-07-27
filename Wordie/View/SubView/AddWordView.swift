@@ -135,9 +135,9 @@ private extension AddWordView {
                 let category = categories.reduce(0) { $0 | $1.binary }
                 
                 let wordUI = WordUI(
-                    word: word.trimmingCharacters(in: .whitespacesAndNewlines),
-                    reading: reading.trimmingCharacters(in: .whitespacesAndNewlines),
-                    chinese: chinese.trimmingCharacters(in: .whitespacesAndNewlines),
+                    word: word.removeWhitespacesAndNewlines,
+                    reading: reading.removeWhitespacesAndNewlines,
+                    chinese: chinese.removeWhitespacesAndNewlines,
                     category: category,
                     level: level
                 )
@@ -214,8 +214,8 @@ private extension AddWordView {
     /// - 單字不可為空
     /// - 翻譯不可為空
     var isFormValid: Bool {
-        !word.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty &&
-        !chinese.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        !word.removeWhitespacesAndNewlines.isEmpty &&
+        !chinese.removeWhitespacesAndNewlines.isEmpty
     }
 }
 

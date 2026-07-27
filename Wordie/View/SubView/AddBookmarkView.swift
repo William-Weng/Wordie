@@ -165,7 +165,7 @@ private extension AddBookmarkView {
     /// - 英文不可為空
     /// - 中文不可為空
     var isFormValid: Bool {
-        !title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty &&
-        !url.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        !title.removeWhitespacesAndNewlines.isEmpty &&
+        !url.removeWhitespacesAndNewlines.isEmpty
     }
 }

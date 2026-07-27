@@ -180,7 +180,7 @@ private extension WordSearchListView {
     /// - Returns: 目前資料庫中在包含關鍵字的所有單字，如果關鍵字為空，就轉回原本在卡片上的值
     func searchWord(from newValue: String) {
         
-        let keyword = newValue.trimmingCharacters(in: .whitespacesAndNewlines)
+        let keyword = newValue.removeWhitespacesAndNewlines
         
         if keyword.isEmpty {
             viewModel.reloadWords()
