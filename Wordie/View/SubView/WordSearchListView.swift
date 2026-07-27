@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// 單字搜尋頁
 struct WordSearchListView: View {
     
     private let configure: Configure
@@ -29,7 +30,10 @@ struct WordSearchListView: View {
                     .listRowBackground(Color.clear)
                     .contentShape(Rectangle())
                     .onTapGesture {
-                        activeSheet = .edit(word)
+                        word.speakWord(by: configure.language)
+                    }
+                    .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                        swipeActionsMaker(for: word)
                     }
                     .padding(.horizontal, 8)
             }
@@ -43,7 +47,7 @@ struct WordSearchListView: View {
             }
         }
     }
-    
+        
     /// 建立單字搜尋列表畫面
     ///
     /// - Parameters:
@@ -81,6 +85,30 @@ private extension WordSearchListView {
             .stroke(.black.opacity(0.22), lineWidth: 1)
     }
     
+    /// 建立指定單搜字尋的滑動操作按鈕
+    ///
+    /// - Parameter bookmark: 要操作的書籤資料
+    @ViewBuilder
+    func swipeActionsMaker(for word: WordCard) -> some View {
+        
+        Button {
+            activeSheet = .edit(word)
+        } label: {
+            Label("編輯", systemImage: "pencil")
+        }
+        .tint(Color.green)
+        
+        Button(role: .destructive) {
+            try? viewModel.deleteWord(word)
+        } label: {
+            Label("刪除", systemImage: "trash")
+        }
+    }
+}
+ 
+// MARK: - 文字元件
+private extension WordSearchListView {
+    
     /// 單一單字卡片
     func itemViewCard(_ word: WordCard) -> some View {
         
@@ -111,10 +139,6 @@ private extension WordSearchListView {
         }
         .shadow(color: .black.opacity(0.05), radius: 6, x: 0, y: 2)
     }
-}
- 
-// MARK: - 文字元件
-private extension WordSearchListView {
     
     /// 顯示主要單字
     func wordItem(_ word: WordCard) -> some View {
