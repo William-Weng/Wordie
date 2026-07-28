@@ -117,14 +117,14 @@ private extension BookmarkListView {
         Button {
             activeSheet = .edit(bookmark)
         } label: {
-            Label("編輯", systemImage: "pencil")
+            Image(systemName: "pencil")
         }
         .tint(Color.green)
         
         Button(role: .destructive) {
            try? viewModel.deleteBookmark(bookmark)
         } label: {
-            Label("刪除", systemImage: "trash")
+            Image(systemName: "trash")
         }
     }
 }

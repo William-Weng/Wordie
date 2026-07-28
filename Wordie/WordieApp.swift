@@ -43,7 +43,7 @@ struct WordieApp: App {
                     instructions: instructions
                 )
             )
-            .preferredColorScheme(.light)
+            .preferredColorScheme(.dark)
         }
     }
 }

@@ -44,7 +44,7 @@ struct KirieApp: App {
                     instructions: instructions
                 )
             )
-            .preferredColorScheme(.light)
+            .preferredColorScheme(.dark)
         }
     }
 }

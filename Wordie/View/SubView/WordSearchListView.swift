@@ -41,9 +41,10 @@ struct WordSearchListView: View {
                     }
                     .padding(.horizontal, 8)
             }
-            .navigationTitle(title)
             .searchable(text: $searchText, placement: .toolbar, prompt: "單字搜尋")
+            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
+                toolBarTitleView
                 categoryItems
             }
             .listStyle(.plain)
@@ -111,6 +112,17 @@ private extension WordSearchListView {
             .stroke(.black.opacity(0.22), lineWidth: 1)
     }
     
+    /// 中間的標題文字
+    @ToolbarContentBuilder
+    var toolBarTitleView: some ToolbarContent {
+        
+        ToolbarItem(placement: .principal) {
+            Text(title)
+                .font(.headline)
+                .foregroundColor(.black)
+        }
+    }
+    
     /// 詞性篩選選單
     ///
     /// 這個選單提供兩種操作：
@@ -118,36 +130,41 @@ private extension WordSearchListView {
     /// - 清除目前的分類條件，改為「不限定」
     ///
     /// 選取某個詞性後，`category` 會更新為對應的 `WordCategory`；選擇「不限定」時，`category` 會被設為 `nil`
-    var categoryItems: some View {
+    ///
+    @ToolbarContentBuilder
+    var categoryItems: some ToolbarContent {
         
-        Menu {
+        ToolbarItem(placement: .topBarTrailing) {
             
-            Picker("詞性列表", selection: $category) {
+            Menu {
                 
-                ForEach(WordCategory.allCases, id: \.self) { category in
+                Picker("詞性列表", selection: $category) {
                     
-                    ZStack {
-                        Text(category.name)
-                        Image(systemName: "leaf.fill")
+                    ForEach(WordCategory.allCases, id: \.self) { category in
+
+                        VStack {
+                            Text(category.name)
+                            Image(systemName: "leaf.fill")
+                        }
+                        .tag(Optional(category))
                     }
-                    .tag(Optional(category))
                 }
-            }
-            
-            Button {
-                category = nil
+                
+                Button {
+                    category = nil
+                } label: {
+                    Text("不限定")
+                    Image(systemName: "line.3.horizontal.decrease.circle")
+                }
+                
             } label: {
-                Text("不限定")
-                Image(systemName: "line.3.horizontal.decrease.circle")
+                Image(systemName: "list.bullet.rectangle")
+                    .font(.system(size: 20, weight: .semibold))
+                    .frame(width: 32, height: 32)
             }
-            
-        } label: {
-            Image(systemName: "list.bullet.rectangle")
-                .font(.system(size: 20, weight: .semibold))
-                .frame(width: 32, height: 32)
         }
     }
-    
+        
     /// 建立指定單搜字尋的滑動操作按鈕
     ///
     /// - Parameter bookmark: 要操作的書籤資料
@@ -157,14 +174,14 @@ private extension WordSearchListView {
         Button {
             activeSheet = .edit(word)
         } label: {
-            Label("編輯", systemImage: "pencil")
+            Image(systemName: "pencil")
         }
         .tint(Color.green)
         
         Button(role: .destructive) {
             try? viewModel.deleteWord(word)
         } label: {
-            Label("刪除", systemImage: "trash")
+            Image(systemName: "trash")
         }
     }
 }
