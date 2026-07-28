@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-// 詞性DataSource
+/// 詞性DataSource
 protocol WordCategoryDataSource: CaseIterable, Identifiable, Hashable {
     
     var id: Int { get }

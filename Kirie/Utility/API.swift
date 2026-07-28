@@ -107,7 +107,6 @@ final class API: BaseAPI {
         : "WHERE " + conditions.joined(separator: " AND ")
         
         let sql = "SELECT j.* FROM \(tableName) j \(whereClause) ORDER BY \(wordKey)"
-        print(sql)
         
         do {
             let dict = try database.query(sql: sql)

@@ -11,10 +11,13 @@ import SwiftUI
 @Observable
 final class WordListViewModel {
     
-    var words: [WordCard] = []   // 畫面上顯示的單字列表
+    var words: [WordCard] = []          // 畫面上顯示的單字列表
     
     @ObservationIgnored
-    var api: ApiDelegate        // 提供書籤資料存取能力的 API (此屬性不需要被 Observation 系統追蹤，因此使用`@ObservationIgnored` 避免不必要的觀察)
+    var api: ApiDelegate                // 提供書籤資料存取能力的 API (此屬性不需要被 Observation 系統追蹤，因此使用`@ObservationIgnored` 避免不必要的觀察)
+    
+    @ObservationIgnored
+    private var lastQuery: WordQuery?   // 記錄上一次的搜尋文字 + 詞性 (防止重複搜尋)
     
     /// 建立單字列表 ViewModel
     init(api: ApiDelegate) {
@@ -29,7 +32,7 @@ extension WordListViewModel {
     func reloadWords() {
         words = api.select()
     }
-        
+    
     /// 新增一筆單字資料到資料庫，並重新載入清單
     ///
     /// - Parameter wordUI: 要新增的單字資料
@@ -41,7 +44,7 @@ extension WordListViewModel {
     }
     
     /// 更新指定單字內容，並重新載入清單
-    /// 
+    ///
     /// - Parameters:
     ///   - id: 要更新資料的ID
     ///   - wordUI: 更新的資料
@@ -61,19 +64,29 @@ extension WordListViewModel {
     ///
     /// - Throws: 當資料刪除失敗時拋出錯誤
     func deleteWord(_ wordCard: WordCard) throws {
-                
+        
         try api.delete(id: wordCard.id)
         reloadWords()
     }
     
-    /// 搜尋單字並回傳對應的 WordCard 陣列
+    /// 搜尋單字並回傳對應的 WordCard 陣列 (不會重複搜尋)
     /// - Parameters:
     ///   - keyword: 要搜尋的關鍵字
     ///   - category: 可選的詞性篩選（bitmask）
     /// - Returns: 成功時回傳符合條件的 WordCard 陣列；發生錯誤或查詢失敗時回傳空陣列
     func selectWord(from keyword: String, by category: WordCategory?) {
-        words = api.selectWord(from: keyword, by: category)
-        print(words.first)
+        
+        let newKeyword = keyword.removeWhitespacesAndNewlines
+        let query = WordQuery(keyword: newKeyword, category: category)
+        
+        guard lastQuery != query else { return }
+        lastQuery = query
+        
+        if newKeyword.isEmpty && category == nil {
+            words = api.select()
+        } else {
+            words = api.selectWord(from: newKeyword, by: category)
+        }
     }
 }
 

@@ -42,7 +42,7 @@ struct WordieHomeView: View {
         NavigationStack(path: $path) {
             
             WordieContentView(words: viewModel.words, configure: configure, currentIndex: $currentIndex, currnetTable: $currnetTable, tableNames: $tableNames, useHistory: $useHistory, path: $path) { tablename in
-                refreshWords(with: tablename, useHistory: useHistory)
+                resetWords(with: tablename, useHistory: useHistory)
             } onDifficultyMenuTap: { wordCard, difficulty in
                 try? updateWordDifficulty(wordCard?.word, difficulty: difficulty)
             }
@@ -63,7 +63,7 @@ struct WordieHomeView: View {
             }.navigationDestination(for: Route.self) { route in
                 switch route {
                 case .bookmarks: BookmarkListView(api: api, configure: configure)
-                case .search: WordSearchListView(configure: configure, viewModel: $viewModel)
+                case .search: WordSearchListView(configure: configure, api: viewModel.api)
                 }
             }
         }
@@ -84,7 +84,9 @@ struct WordieHomeView: View {
             displayHUD(newValue)
         }
         .onChange(of: path) { oldValue, newValue in
-            if newValue.count < oldValue.count { refreshWords(with: currnetTable, useHistory: useHistory) }
+            if newValue.count < oldValue.count {
+                refreshWords(with: currnetTable, useHistory: useHistory)
+            }
         }
     }
     
@@ -248,6 +250,15 @@ private extension WordieHomeView {
         }
     }
     
+    /// 重新讀取單字 (A1 / B1 / C1) => 會重新從第一個單字開始
+    /// - Parameters:
+    ///   - tableName: 資料表名稱
+    ///   - isHistory: 是否看歷史記錄
+    func resetWords(with tableName: String, useHistory: Bool) {
+        currentIndex = 0
+        refreshWords(with: tableName, useHistory: useHistory)
+    }
+    
     /// 更新單字 (A1 / B1 / C1)
     /// - Parameters:
     ///   - tableName: 資料表名稱
@@ -255,8 +266,6 @@ private extension WordieHomeView {
     func refreshWords(with tableName: String, useHistory: Bool) {
         
         isLoading = true
-        currentIndex = 0
-        viewModel.words.removeAll()
         viewModel.api.tableName = tableName
         
         Task {

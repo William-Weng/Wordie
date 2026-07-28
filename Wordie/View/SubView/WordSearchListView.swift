@@ -12,8 +12,8 @@ import WWHUDUI
 struct WordSearchListView: View {
     
     private let configure: Configure
-    
-    @Binding private var viewModel: WordListViewModel
+        
+    @State private var viewModel: WordListViewModel
     
     @State private var searchText = ""
     @State private var activeSheet: WordSheet?
@@ -61,10 +61,11 @@ struct WordSearchListView: View {
     ///
     /// - Parameters:
     ///   - configure: 畫面外觀設定
-    ///   - viewModel: 單字資料來源與操作邏輯
-    init(configure: Configure, viewModel: Binding<WordListViewModel>) {
+    ///   - api: API 共有規範
+    init(configure: Configure, api: ApiDelegate) {
         self.configure = configure
-        _viewModel = viewModel
+        viewModel = .init(api: api)
+        viewModel.reloadWords()
     }
 }
 
