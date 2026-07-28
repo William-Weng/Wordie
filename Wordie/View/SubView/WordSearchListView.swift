@@ -11,13 +11,14 @@ import WWHUDUI
 /// 單字搜尋頁
 struct WordSearchListView: View {
     
-    private let configure: Configure
-        
-    @State private var viewModel: WordListViewModel
+    private let configure: Configure                    // 外部注入的設定資料，用來初始化此畫面需要的參數或行為
+    private let hud: WWHUDUI = .init()                  // 顯示載入中、成功、失敗等提示訊息的 HUD 元件
     
-    @State private var searchText = ""
-    @State private var activeSheet: WordSheet?
-    @State private var category: WordCategory?
+    @State private var viewModel: WordListViewModel     // 畫面的資料與商業邏輯控制中心，負責管理單字清單、查詢與狀態更新
+    
+    @State private var searchText = ""                  // 搜尋框目前的文字內容
+    @State private var activeSheet: WordSheet?          // 目前要顯示的 Sheet 類型
+    @State private var category: WordCategory?          // 目前選擇的詞性分類
     
     var body: some View {
         
@@ -50,13 +51,17 @@ struct WordSearchListView: View {
                 AddWordView(sheet: sheet, viewModel: viewModel)
             }
             .onChange(of: searchText) { _, newValue in
-                viewModel.selectWord(from: newValue, by: category)
+                displayHUD {
+                    viewModel.selectWord(from: newValue, by: category)
+                }
             }.onChange(of: category) { _, newValue in
-                viewModel.selectWord(from: searchText, by: newValue)
+                displayHUD {
+                    viewModel.selectWord(from: searchText, by: newValue)
+                }
             }
-        }
+        }.loadingOverlay(hud)
     }
-    
+        
     /// 建立單字搜尋列表畫面
     ///
     /// - Parameters:
@@ -228,4 +233,20 @@ private extension WordSearchListView {
     }
 }
 
+// MARK: - 私有API
+private extension WordSearchListView {
+    
+    /// 顯示HUD
+    /// - Parameter action: 要執行的動作功能
+    func displayHUD(action: () -> Void) {
+        
+        hud.display("資料讀取中...")
+        
+        action()
+        
+        Task {
+            hud.dismiss(minimumVisibleDuration: 0.75)
+        }
+    }
+}
 

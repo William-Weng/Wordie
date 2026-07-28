@@ -29,7 +29,6 @@ struct WordieHomeView: View {
     
     @State private var activeSheet: WordSheet?                  // 目前正在顯示的 sheet 狀態
     @State private var tableNames: [String] = []                // 資料庫的列表名稱
-    @State private var isLoading = false                        // 目前正在讀取單字資料
     @State private var useHistory: Bool = false                 // 是否選到的使用歷史資料
     
     @AppStorage("currentIndex") private var currentIndex = 0    // 目前正在顯示的單字索引
@@ -42,7 +41,11 @@ struct WordieHomeView: View {
         NavigationStack(path: $path) {
             
             WordieContentView(words: viewModel.words, configure: configure, currentIndex: $currentIndex, currnetTable: $currnetTable, tableNames: $tableNames, useHistory: $useHistory, path: $path) { tablename in
-                resetWords(with: tablename, useHistory: useHistory)
+                
+                displayHUD {
+                    resetWords(with: tablename, useHistory: useHistory)
+                }
+                
             } onDifficultyMenuTap: { wordCard, difficulty in
                 try? updateWordDifficulty(wordCard?.word, difficulty: difficulty)
             }
@@ -68,24 +71,28 @@ struct WordieHomeView: View {
             }
         }
         .loadingOverlay(hud)
+        .alert("確定要刪除這個單字嗎？", isPresented: $showDeleteAlert) {
+            Button("刪除", role: .destructive) {
+                displayHUD {
+                    removeWord(with: currentIndex)
+                }
+            }
+            Button("取消", role: .cancel) {}
+        } message: {
+            Text("這個動作無法復原。")
+        }
         .task {
             hideKeyboard()
             tableNames = api.tablenames()
             api.tableName = currnetTable
             viewModel.reloadWords()
         }
-        .alert("確定要刪除這個單字嗎？", isPresented: $showDeleteAlert) {
-            Button("刪除", role: .destructive) { removeWord(with: currentIndex) }
-            Button("取消", role: .cancel) {}
-        } message: {
-            Text("這個動作無法復原。")
-        }
-        .onChange(of: isLoading) { _, newValue in
-            displayHUD(newValue)
-        }
         .onChange(of: path) { oldValue, newValue in
+            
             if newValue.count < oldValue.count {
-                refreshWords(with: currnetTable, useHistory: useHistory)
+                displayHUD {
+                    refreshWords(with: currnetTable, useHistory: useHistory)
+                }
             }
         }
     }
@@ -258,22 +265,7 @@ private extension WordieHomeView {
         currentIndex = 0
         refreshWords(with: tableName, useHistory: useHistory)
     }
-    
-    /// 更新單字 (A1 / B1 / C1)
-    /// - Parameters:
-    ///   - tableName: 資料表名稱
-    ///   - isHistory: 是否看歷史記錄
-    func refreshWords(with tableName: String, useHistory: Bool) {
         
-        isLoading = true
-        viewModel.api.tableName = tableName
-        
-        Task {
-            !useHistory ? viewModel.reloadWords() : viewModel.reloadHistory()
-            isLoading = false
-        }
-    }
-    
     /// 更新單字難易度
     /// - Parameters:
     ///   - word: 單字
@@ -289,26 +281,32 @@ private extension WordieHomeView {
         try api.updateHistory(at: word, difficulty: difficulty)
     }
     
+    /// 更新單字 (A1 / B1 / C1)
+    /// - Parameters:
+    ///   - tableName: 資料表名稱
+    ///   - isHistory: 是否看歷史記錄
+    func refreshWords(with tableName: String, useHistory: Bool) {
+        viewModel.api.tableName = tableName
+        !useHistory ? viewModel.reloadWords() : viewModel.reloadHistory()
+    }
+    
     /// 刪除單字
     /// - Parameter index: 單字序號
     func removeWord(with index: Int) {
-        
         let currentWord = viewModel.words[index]
-        isLoading = true
-        
-        Task {
-            !useHistory ? try? viewModel.deleteWord(currentWord) : try? viewModel.deleteHistory(currentWord)
-            isLoading = false
-        }
+        !useHistory ? try? viewModel.deleteWord(currentWord) : try? viewModel.deleteHistory(currentWord)
     }
     
-    /// 是否顯示HUD
-    func displayHUD(_ enable: Bool) {
+    /// 顯示HUD
+    /// - Parameter action: 要執行的動作功能
+    func displayHUD(action: () -> Void) {
         
-        if enable {
-            hud.display("資料讀取中...")
-        } else {
-            hud.dismiss(minimumVisibleDuration: 0.5)
+        hud.display("資料讀取中...")
+        
+        action()
+        
+        Task {
+            hud.dismiss(minimumVisibleDuration: 0.75)
         }
     }
     
