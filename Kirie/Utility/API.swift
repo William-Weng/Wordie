@@ -12,7 +12,7 @@ import WWSQLite3Manager
 final class API: BaseAPI {
     
     // 線上字典URL
-    override var dictionies: [String: String] {
+    override var dictionaries: [String: String] {
         [
             "Mazii 日語詞典": "https://mazii.net/zh-TW/search/word/jatw/\(keyWord)",
             "時雨日中辭典": "https://www.sigure.tw/dict/jp/\(keyWord)",

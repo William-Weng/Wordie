@@ -170,7 +170,7 @@ private extension WordieHomeView {
             
             Menu {
                 
-                ForEach(api.dictionies.keys.sorted(), id: \.self) { key in
+                ForEach(api.dictionaries.keys.sorted(), id: \.self) { key in
                     Button(action: {
                         guard let currentWord = viewModel.words[safe: currentIndex] else { return }
                         activeSheet = .dictionary(currentWord, key)
@@ -313,7 +313,7 @@ private extension WordieHomeView {
     /// 解譯單字功能
     func dictionaryView(wordCard: WordCard, from key : String) -> some View {
         
-        let urlString = api.dictionies[key]?.replacingOccurrences(of: api.keyWord, with: wordCard.word)
+        let urlString = api.dictionaries[key]?.replacingOccurrences(of: api.keyWord, with: wordCard.word)
         let url = URL(string: urlString!)
                 
         return WWSafariViewUI(url: url!).ignoresSafeArea()

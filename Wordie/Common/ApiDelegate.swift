@@ -15,7 +15,7 @@ protocol ApiDelegate {
     var tableName: String { get set }                       // 單字資料表名稱
     var type: WWSQLite3Manager.SchemeDelegate.Type { get }  // 資料表對應的模型型別
     var filename: String { get }                            // 資料庫檔案名稱
-    var dictionies: [String: String] { get }                // 線上字典URL
+    var dictionaries: [String: String] { get }              // 線上字典URL
     
     /// 建立資料庫操作物件，並初始化資料表
     init(filename: String, tableName: String, type: WWSQLite3Manager.SchemeDelegate.Type)

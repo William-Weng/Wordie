@@ -20,7 +20,7 @@ class BaseAPI {
     var tableName: String                           // 單字資料表名稱
     
     // 線上字典URL
-    var dictionies: [String: String] {
+    var dictionaries: [String: String] {
         [
             "EZABC 簡單背單字": "https://www.ezabc.com.tw/showword/?srch_target=\(keyWord)",
             "Yahoo字典": "https://tw.dictionary.search.yahoo.com/search?p=\(keyWord)",
