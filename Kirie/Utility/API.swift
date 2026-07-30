@@ -90,21 +90,20 @@ final class API: BaseAPI {
     /// - Returns: 成功時回傳符合條件的 WordCard 陣列；發生錯誤或查詢失敗時回傳空陣列
     override func selectWord(from keyword: String, by category: WordCategory?) -> [WordCard] {
         
-        let wordKey = "kana"
+        let wordKey = "japanese"
+        let subWordKey = "kana"
         var conditions: [String] = []
         
         if !keyword.isEmpty {
             let escapedKeyword = keyword.replacingOccurrences(of: "'", with: "''")
-            conditions.append("\(wordKey) LIKE '%\(escapedKeyword)%'")
+            conditions.append("\(wordKey) LIKE '%\(escapedKeyword)%' OR \(subWordKey) LIKE '%\(escapedKeyword)%'")
         }
         
         if let category {
             conditions.append("(category & \(category.binary)) != 0")
         }
-        
-        let whereClause = conditions.isEmpty
-        ? ""
-        : "WHERE " + conditions.joined(separator: " AND ")
+                
+        let whereClause = conditions.isEmpty ? "" : "WHERE " + conditions.joined(separator: " AND ")
         
         let sql = "SELECT j.* FROM \(tableName) j \(whereClause) ORDER BY \(wordKey)"
         

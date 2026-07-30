@@ -127,9 +127,7 @@ class BaseAPI {
             conditions.append("(category & \(category.binary)) != 0")
         }
         
-        let whereClause = conditions.isEmpty
-        ? ""
-        : "WHERE " + conditions.joined(separator: " AND ")
+        let whereClause = conditions.isEmpty ? "" : "WHERE " + conditions.joined(separator: " AND ")
         
         let sql = "SELECT e.* FROM \(tableName) e \(whereClause) ORDER BY \(wordKey)"
         

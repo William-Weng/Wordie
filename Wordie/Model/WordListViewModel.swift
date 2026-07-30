@@ -12,6 +12,7 @@ import SwiftUI
 final class WordListViewModel {
     
     var words: [WordCard] = []          // 畫面上顯示的單字列表
+    var category: WordCategory?
     
     @ObservationIgnored
     var api: ApiDelegate                // 提供書籤資料存取能力的 API (此屬性不需要被 Observation 系統追蹤，因此使用`@ObservationIgnored` 避免不必要的觀察)
@@ -30,7 +31,12 @@ extension WordListViewModel {
     
     /// 從資料庫重新讀取所有單字，並更新目前清單
     func reloadWords() {
-        words = api.select()
+        
+        if let category {
+            words = api.selectWord(from: "", by: category)
+        } else {
+            words = api.select()
+        }
     }
     
     /// 新增一筆單字資料到資料庫，並重新載入清單
@@ -72,9 +78,8 @@ extension WordListViewModel {
     /// 搜尋單字並回傳對應的 WordCard 陣列 (不會重複搜尋)
     /// - Parameters:
     ///   - keyword: 要搜尋的關鍵字
-    ///   - category: 可選的詞性篩選（bitmask）
     /// - Returns: 成功時回傳符合條件的 WordCard 陣列；發生錯誤或查詢失敗時回傳空陣列
-    func selectWord(from keyword: String, by category: WordCategory?) {
+    func selectWord(from keyword: String) {
         
         let newKeyword = keyword.removeWhitespacesAndNewlines
         let query = WordQuery(keyword: newKeyword, category: category)

@@ -18,7 +18,6 @@ struct WordSearchListView: View {
     
     @State private var searchText = ""                  // 搜尋框目前的文字內容
     @State private var activeSheet: WordSheet?          // 目前要顯示的 Sheet 類型
-    @State private var category: WordCategory?          // 目前選擇的詞性分類
     
     var body: some View {
         
@@ -53,16 +52,17 @@ struct WordSearchListView: View {
             }
             .onChange(of: searchText) { _, newValue in
                 displayHUD {
-                    viewModel.selectWord(from: newValue, by: category)
+                    viewModel.selectWord(from: newValue)
                 }
-            }.onChange(of: category) { _, newValue in
+            }.onChange(of: viewModel.category) { _, newValue in
                 displayHUD {
-                    viewModel.selectWord(from: searchText, by: newValue)
+                    viewModel.category = newValue
+                    viewModel.selectWord(from: searchText)
                 }
             }
         }.loadingOverlay(hud)
     }
-        
+    
     /// 建立單字搜尋列表畫面
     ///
     /// - Parameters:
@@ -82,7 +82,7 @@ private extension WordSearchListView {
     ///
     /// 當使用者已選擇特定詞性分類時，回傳該分類的名稱；若尚未指定分類，則回傳 API 對應的資料表名稱
     var title: String {
-        category?.name ?? viewModel.api.tableName
+        viewModel.category?.name ?? viewModel.api.tableName
     }
 }
 
@@ -138,7 +138,7 @@ private extension WordSearchListView {
             
             Menu {
                 
-                Picker("詞性列表", selection: $category) {
+                Picker("詞性列表", selection: $viewModel.category) {
                     
                     ForEach(WordCategory.allCases, id: \.self) { category in
 
@@ -151,7 +151,7 @@ private extension WordSearchListView {
                 }
                 
                 Button {
-                    category = nil
+                    viewModel.category = nil
                 } label: {
                     Text("不限定")
                     Image(systemName: "line.3.horizontal.decrease.circle")
