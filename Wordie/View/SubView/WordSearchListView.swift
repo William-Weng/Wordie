@@ -51,9 +51,7 @@ struct WordSearchListView: View {
                 AddWordView(sheet: sheet, viewModel: viewModel)
             }
             .onChange(of: searchText) { _, newValue in
-                displayHUD {
-                    viewModel.selectWord(from: newValue)
-                }
+                viewModel.selectWord(from: newValue)
             }.onChange(of: viewModel.category) { _, newValue in
                 displayHUD {
                     viewModel.category = newValue
