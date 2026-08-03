@@ -13,13 +13,13 @@ Wordie 是一款使用 SwiftUI 製作的英文單字學習 App，提供單字的
 
 <img width="256" alt="Wordie-AI" src="https://github.com/user-attachments/assets/79824c3e-04ec-4bfb-8030-a59e5ec2f690" />
 
-<img width="256" alt="Wordie2" src="https://github.com/user-attachments/assets/7d592435-eb80-4b0b-b5c9-47ab3efacfca" />
+<img width="256" alt="Wordie-2" src="https://github.com/user-attachments/assets/60cbae05-d4bd-4412-b9f5-ac2fcf1d1d53" />
 
 <img width="256" alt="Kirie" src="https://github.com/user-attachments/assets/5ffa1a79-f8b6-496f-b036-9f86f711bdf8" />
 
 <img width="256" alt="Kirie-AI" src="https://github.com/user-attachments/assets/83246189-0c98-4eb6-92f6-2106458a1947" />
 
-<img width="256" alt="Kirie2" src="https://github.com/user-attachments/assets/3d1b4d21-895b-4e31-8c44-0d3f7f7ad2db" />
+<img width="256" alt="Kirie-2" src="https://github.com/user-attachments/assets/8d23c1e6-e8d6-4194-9b05-b7c71e9b9870" />
 
 ## [畫面功能](https://peterpanswift.github.io/iphone-bezels/)
 
