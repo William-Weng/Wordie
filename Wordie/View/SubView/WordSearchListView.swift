@@ -17,6 +17,7 @@ struct WordSearchListView: View {
     @State private var viewModel: WordListViewModel     // 畫面的資料與商業邏輯控制中心，負責管理單字清單、查詢與狀態更新
     
     @State private var searchText = ""                  // 搜尋框目前的文字內容
+    @State private var useHistory = false               // 是否搜尋單字歷史
     @State private var activeSheet: WordSheet?          // 目前要顯示的 Sheet 類型
     
     var body: some View {
@@ -44,6 +45,7 @@ struct WordSearchListView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 toolBarTitleView
+                historyButton
                 categoryItems
             }
             .listStyle(.plain)
@@ -51,12 +53,15 @@ struct WordSearchListView: View {
                 AddWordView(sheet: sheet, viewModel: viewModel)
             }
             .onChange(of: searchText) { _, newValue in
-                viewModel.selectWord(from: newValue)
+                viewModel.keyword = newValue
+                viewModel.selectWord(useHistory: useHistory)
             }.onChange(of: viewModel.category) { _, newValue in
                 displayHUD {
                     viewModel.category = newValue
-                    viewModel.selectWord(from: searchText)
+                    viewModel.selectWord(useHistory: useHistory)
                 }
+            }.onChange(of: useHistory) { _, newValue in
+                viewModel.selectWord(useHistory: newValue)
             }
         }.loadingOverlay(hud)
     }
@@ -162,7 +167,29 @@ private extension WordSearchListView {
             }
         }
     }
+    
+    /// 搜尋歷史單字的開關
+    @ToolbarContentBuilder
+    var historyButton: some ToolbarContent {
         
+        ToolbarItem(placement: .topBarTrailing) {
+            
+            Button(action: {
+                useHistory.toggle()
+            }, label: {
+                if useHistory {
+                    Image(systemName: "clock.arrow.circlepath")
+                        .font(.system(size: 20, weight: .semibold))
+                        .frame(width: 32, height: 32)
+                } else {
+                    Image(systemName: "text.book.closed")
+                        .font(.system(size: 20, weight: .semibold))
+                        .frame(width: 32, height: 32)
+                }
+            })
+        }
+    }
+    
     /// 建立指定單搜字尋的滑動操作按鈕
     ///
     /// - Parameter bookmark: 要操作的書籤資料
@@ -218,15 +245,39 @@ private extension WordSearchListView {
         .shadow(color: .black.opacity(0.05), radius: 6, x: 0, y: 2)
     }
     
-    /// 顯示主要單字
+    /// 顯示主要單字 / 難度
     func wordItem(_ word: WordCard) -> some View {
+                
+        HStack(alignment: .center, spacing: 6) {
+            
+            Text(word.word)
+                .font(FontResolver.shared.searchWord)
+                .foregroundStyle(.black)
+                .lineLimit(1)
+                .minimumScaleFactor(0.5)
+                .layoutPriority(1)
+            
+            if word.diffculty != 0 {
+                difficultyBadge(word.diffculty)
+            }
+        }
+    }
+    
+    /// 顯示單字難度的 badge
+    ///
+    /// - Parameter diffculty: 難度值，正數顯示紅色，0 或負數顯示灰色；負數會轉成正值顯示
+    /// - Returns: 一個固定 24x24、大致垂直置中的難度標籤
+    func difficultyBadge(_ difficulty: Int) -> some View {
         
-        Text(word.word)
-            .font(FontResolver.shared.searchWord)
-            .foregroundStyle(.black)
-            .lineLimit(1)
-            .minimumScaleFactor(0.5)
-            .layoutPriority(1)
+        let color: Color = (difficulty > 0) ? .red : .green
+        let value = (difficulty > 0) ? difficulty : difficulty * -1
+        
+        return Text("\(value)")
+            .font(.caption.bold())
+            .foregroundStyle(.white)
+            .frame(width: 24, height: 24)
+            .background(color, in: RoundedRectangle(cornerRadius: 8, style: .continuous))
+            .offset(y: 2)
     }
     
     /// 顯示讀音

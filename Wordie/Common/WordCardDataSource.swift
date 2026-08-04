@@ -11,6 +11,7 @@ import Foundation
 protocol WordCardDataSource {
     
     /// 轉成WordCard
+    /// - Parameter diffculty: 單字難度 (使用者累加)
     /// - Returns: WordCard
-    func toWordCard() -> WordCard
+    func toWordCard(diffculty: Int) -> WordCard
 }

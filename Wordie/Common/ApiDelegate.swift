@@ -25,15 +25,16 @@ protocol ApiDelegate {
     
     /// 讀取所有單字資料
     func select() -> [WordCard]
-    
+        
     /// 查詢所有歷史單字資料
-    func selectHistory() -> [WordCard]
+    func selectHistory(from keyword: String, by category: WordCategory?) -> [WordCard]
     
     /// 目前資料庫中的所有書籤資料
     func selectBookmark() -> [Bookmark]
     
+    /// 搜尋單字並回傳對應的 WordCard 陣列
     func selectWord(from keyword: String, by category: WordCategory?) -> [WordCard]
-        
+    
     /// 新增一筆單字資料
     func insert(_ wordUI: WordUI) throws
     

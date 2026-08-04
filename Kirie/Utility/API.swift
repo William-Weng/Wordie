@@ -58,32 +58,48 @@ final class API: BaseAPI {
         let `where`: WWSQLite3Manager.Where = .init().compare("id", .equal, .int(wordCard.id))
         try database.update(tableName: tableName, items: items, where: `where`)
     }
-    
+        
     /// 查詢所有歷史單字資料
-    ///
+    /// => SELECT j.* FROM N3 j JOIN History h ON h.word = j.japanese WHERE japanese LIKE '%あ%' OR kana LIKE '%あ%' AND (category & 4) != 0 ORDER BY h.time DESC
     /// 會先從資料表查詢原始資料，再轉換成 `Word` 模型陣列後回傳
     ///
     /// - Returns: 目前歷史資料庫中在該資料庫的所有單字
-    override func selectHistory() -> [WordCard] {
+    override func selectHistory(from keyword: String, by category: WordCategory?) -> [WordCard] {
+
+        let wordKey = "japanese"
+        let subWordKey = "kana"
+        var conditions: [String] = []
         
-        let sql = """
-            SELECT j.*
-            FROM \(tableName) j
-            JOIN History h ON h.word = j.japanese
-            ORDER BY h.time DESC
-            """
+        if !keyword.isEmpty {
+            let escapedKeyword = keyword.replacingOccurrences(of: "'", with: "''")
+            conditions.append("\(wordKey) LIKE '%\(escapedKeyword)%' OR \(subWordKey) LIKE '%\(escapedKeyword)%'")
+        }
+        
+        if let category {
+            conditions.append("(category & \(category.binary)) != 0")
+        }
+        
+        let whereClause = conditions.isEmpty ? "" : "WHERE " + conditions.joined(separator: " AND ")
+        
+        let sql = "SELECT j.*, h.difficulty FROM \(tableName) j JOIN History h ON h.word = j.\(wordKey) \(whereClause) ORDER BY h.time DESC"
         
         do {
             let dict = try database.query(sql: sql)
-            let words = dict.compactMap { $0.jsonClass(for: Word.self)?.toWordCard() }
             
-            return words
+            return dict.compactMap {
+                
+                guard let word = $0.jsonClass(for: Word.self) else { return nil }
+                
+                let diffculty = $0["difficulty"] as? Int64 ?? 0
+                return word.toWordCard(diffculty: Int(diffculty))
+            }
         } catch {
             return []
         }
     }
     
     /// 搜尋單字並回傳對應的 WordCard 陣列
+    /// => SELECT j.* FROM N3 j WHERE japanese LIKE '%あ%' OR kana LIKE '%あ%' AND (category & 4) != 0 ORDER BY japanese
     /// - Parameters:
     ///   - keyword: 要搜尋的關鍵字；若為空字串將不套用文字搜尋條件。此參數會作簡單的單引號轉義以避免基本的 SQL 語法錯誤（但非完全安全的注入防護）
     ///   - category: 可選的詞性篩選（bitmask）。若為 nil 則不套用詞性篩選；若有值，查詢會使用 bitwise AND，回傳「包含該詞性 flag」的紀錄
@@ -109,7 +125,7 @@ final class API: BaseAPI {
         
         do {
             let dict = try database.query(sql: sql)
-            return dict.compactMap { $0.jsonClass(for: Word.self)?.toWordCard() }
+            return dict.compactMap { $0.jsonClass(for: Word.self)?.toWordCard(diffculty: 0) }
         } catch {
             return []
         }

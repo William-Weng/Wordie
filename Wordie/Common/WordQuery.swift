@@ -12,4 +12,5 @@ struct WordQuery: Equatable {
     
     let keyword: String             // 關鍵字
     let category: WordCategory?     // 詞性
+    let useHistory: Bool            // 是否搜尋歷史單字
 }

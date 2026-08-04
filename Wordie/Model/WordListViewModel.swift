@@ -12,7 +12,8 @@ import SwiftUI
 final class WordListViewModel {
     
     var words: [WordCard] = []          // 畫面上顯示的單字列表
-    var category: WordCategory?
+    var category: WordCategory?         // 要過濾的詞性
+    var keyword: String = ""            // 要搜尋的關鍵字
     
     @ObservationIgnored
     var api: ApiDelegate                // 提供書籤資料存取能力的 API (此屬性不需要被 Observation 系統追蹤，因此使用`@ObservationIgnored` 避免不必要的觀察)
@@ -58,7 +59,7 @@ extension WordListViewModel {
     func updateWord(id: Int, wordUI: WordUI) throws {
         
         let level = WordLevel(rawValue: wordUI.level) ?? .None
-        let wordCard: WordCard = .init(id: id, word: wordUI.word, reading: wordUI.reading, category: wordUI.category, chinese: wordUI.chinese, level: level)
+        let wordCard: WordCard = .init(id: id, word: wordUI.word, reading: wordUI.reading, category: wordUI.category, chinese: wordUI.chinese, level: level, diffculty: 0)
         
         try api.update(wordCard)
         reloadWords()
@@ -77,15 +78,17 @@ extension WordListViewModel {
     
     /// 搜尋單字並回傳對應的 WordCard 陣列 (不會重複搜尋)
     /// - Parameters:
-    ///   - keyword: 要搜尋的關鍵字
+    ///   - useHistory: 是否搜尋歷史單字
     /// - Returns: 成功時回傳符合條件的 WordCard 陣列；發生錯誤或查詢失敗時回傳空陣列
-    func selectWord(from keyword: String) {
+    func selectWord(useHistory: Bool = false) {
         
         let newKeyword = keyword.removeWhitespacesAndNewlines
-        let query = WordQuery(keyword: newKeyword, category: category)
+        let query = WordQuery(keyword: newKeyword, category: category, useHistory: useHistory)
         
         guard lastQuery != query else { return }
         lastQuery = query
+        
+        if useHistory { words = api.selectHistory(from: newKeyword, by: category); return }
         
         if newKeyword.isEmpty && category == nil {
             words = api.select()
@@ -100,7 +103,7 @@ extension WordListViewModel {
     
     /// 從資料庫重新讀取所有單字記錄，並更新目前清單
     func reloadHistory() {
-        words = api.selectHistory()
+        words = api.selectHistory(from: keyword, by: category)
     }
     
     /// 刪除指定單字，並重新載入清單

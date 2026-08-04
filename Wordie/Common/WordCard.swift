@@ -19,6 +19,7 @@ struct WordCard: Identifiable {
     let category: Int                   // 單字詞性 (對應 WordType)
     let chinese: String                 // 中文翻譯
     let level: any WordLevelDatabase    // 單字等級 (對應 WordCategory)
+    let diffculty: Int                  // 單字難度 (使用者累加)
 }
 
 // MARK: - Public

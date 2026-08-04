@@ -89,25 +89,35 @@ class BaseAPI {
     /// 會先從資料表查詢原始資料，再轉換成 `Word` 模型陣列後回傳
     ///
     /// - Returns: 目前歷史資料庫中在該資料庫的所有單字
-    func selectHistory() -> [WordCard] {
+    func selectHistory(from keyword: String, by category: WordCategory?) -> [WordCard] {
+
+        let wordKey = "english"
+        var conditions: [String] = []
         
-        let sql = """
-            SELECT e.*
-            FROM \(tableName) e
-            JOIN History h ON h.word = e.english
-            ORDER BY h.time DESC
-            """
+        if !keyword.isEmpty {
+            let escapedKeyword = keyword.replacingOccurrences(of: "'", with: "''")
+            conditions.append("\(wordKey) LIKE '%\(escapedKeyword)%'")
+        }
+        
+        if let category {
+            conditions.append("(category & \(category.binary)) != 0")
+        }
+        
+        let whereClause = conditions.isEmpty ? "" : "WHERE " + conditions.joined(separator: " AND ")
+
+        let sql = "SELECT e.*, h.difficulty FROM \(tableName) e JOIN History h ON h.word = e.\(wordKey) \(whereClause) ORDER BY h.time DESC"
         
         do {
             let dict = try database.query(sql: sql)
-            let words = dict.compactMap { $0.jsonClass(for: Word.self)?.toWordCard() }
-            
-            return words
+            return dict.compactMap {
+                let word = $0.jsonClass(for: Word.self)
+                let diffculty = $0["difficulty"] as? Int ?? 0
+                return word?.toWordCard(diffculty: diffculty)
+            }
         } catch {
             return []
         }
     }
-    
     /// 搜尋單字並回傳對應的 WordCard 陣列
     /// - Parameters:
     ///   - keyword: 要搜尋的關鍵字；若為空字串將不套用文字搜尋條件。此參數會作簡單的單引號轉義以避免基本的 SQL 語法錯誤（但非完全安全的注入防護）
@@ -133,7 +143,7 @@ class BaseAPI {
         
         do {
             let dict = try database.query(sql: sql)
-            return dict.compactMap { $0.jsonClass(for: Word.self)?.toWordCard() }
+            return dict.compactMap { $0.jsonClass(for: Word.self)?.toWordCard(diffculty: 0) }
         } catch {
             return []
         }
@@ -151,7 +161,7 @@ extension BaseAPI: ApiDelegate {
     func select() -> [WordCard] {
 
         let words = selectWord().array
-        let wordCards = words.compactMap { $0.jsonClass(for: Word.self)?.toWordCard() }
+        let wordCards = words.compactMap { $0.jsonClass(for: Word.self)?.toWordCard(diffculty: 0) }
         
         return wordCards
     }
