@@ -269,7 +269,7 @@ private extension WordSearchListView {
     /// - Returns: 一個固定 24x24、大致垂直置中的難度標籤
     func difficultyBadge(_ difficulty: Int) -> some View {
         
-        let color: Color = (difficulty > 0) ? .red : .green
+        let color: Color = (difficulty > 0) ? .init(hex: "#F30") : .init(hex: "#CCC")
         let value = (difficulty > 0) ? difficulty : difficulty * -1
         
         return Text("\(value)")

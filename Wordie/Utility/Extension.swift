@@ -27,21 +27,28 @@ extension String {
 // MARK: - Color
 extension Color {
     
-    static let githubDarkBackground = Color(hex: "#0d1117")
+    /// Github的暗黑模式底色
+    static let githubDarkBackground = Color(hex: "#0D1117")
     
-    /// 16進制顏色轉換
+    /// 16進制顏色轉換 => RGB (12-bit) / RRGGBB (24-bit) / AARRGGBB (32-bit)
     /// - Parameter hex: 16進制顏色色碼 (#0d1117)
     init(hex: String) {
         
         let hex = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
-        var rgb: UInt64 = 0
-        Scanner(string: hex).scanHexInt64(&rgb)
-
-        let red = Double((rgb >> 16) & 0xFF) / 255.0
-        let green = Double((rgb >> 8) & 0xFF) / 255.0
-        let blue = Double(rgb & 0xFF) / 255.0
+        var int: UInt64 = 0
         
-        self.init(.sRGB, red: red, green: green, blue: blue, opacity: 1.0)
+        Scanner(string: hex).scanHexInt64(&int)
+
+        let a, r, g, b: UInt64
+        
+        switch hex.count {
+        case 3: (a, r, g, b) = (255, ((int >> 8) & 0xF) * 0x11, ((int >> 4) & 0xF) * 0x11, (int & 0xF) * 0x11)
+        case 6: (a, r, g, b) = (255, (int >> 16) & 0xFF, (int >> 8) & 0xFF, int & 0xFF)
+        case 8: (a, r, g, b) = ((int >> 24) & 0xFF, (int >> 16) & 0xFF, (int >> 8) & 0xFF, int & 0xFF)
+        default: (a, r, g, b) = (255, 0, 0, 0)
+        }
+        
+        self.init(.sRGB, red: Double(r) / 255, green: Double(g) / 255, blue: Double(b) / 255, opacity: Double(a) / 255)
     }
 }
 
