@@ -33,10 +33,12 @@ extension WordListViewModel {
     /// 從資料庫重新讀取所有單字，並更新目前清單
     func reloadWords() {
         
-        if let category {
-            words = api.selectWord(from: "", by: category)
-        } else {
+        let newKeyword = keyword.removeWhitespacesAndNewlines
+        
+        if newKeyword.isEmpty && category == nil {
             words = api.select()
+        } else {
+            words = api.selectWord(from: newKeyword, by: category)
         }
     }
     
@@ -80,7 +82,7 @@ extension WordListViewModel {
     /// - Parameters:
     ///   - useHistory: 是否搜尋歷史單字
     /// - Returns: 成功時回傳符合條件的 WordCard 陣列；發生錯誤或查詢失敗時回傳空陣列
-    func selectWord(useHistory: Bool = false) {
+    func selectWord(useHistory: Bool) {
         
         let newKeyword = keyword.removeWhitespacesAndNewlines
         let query = WordQuery(keyword: newKeyword, category: category, useHistory: useHistory)
@@ -107,12 +109,33 @@ extension WordListViewModel {
     }
     
     /// 刪除指定單字，並重新載入清單
-    ///
-    /// - Parameter wordCard: 欲刪除的單字資料
-    ///
-    /// - Throws: 當資料刪除失敗時拋出錯誤
     func deleteHistory(_ wordCard: WordCard) throws {
         try api.deleteHistory(word: wordCard.word)
+        reloadHistory()
+    }
+    
+    /// 將指定 id 的 history 記錄 difficulty 重設為 0
+    func resetHistoryDifficulty(_ wordCard: WordCard) throws {
+        try api.resetHistoryDifficulty(at: wordCard.word)
+        reloadHistory()
+    }
+    
+    /// 更新指定單字在 history 中的 difficulty，完成後重新載入歷史資料
+    ///
+    /// - Parameters:
+    ///   - difficulty: 要增加的單字記憶難度類型
+    ///   - wordCard: 要更新的單字資料
+    /// - Throws: 當更新資料庫失敗時拋出錯誤
+    func updteHistoryDifficulty(_ difficulty: WordDifficulty, at wordCard: WordCard) throws {
+        
+        let updateValue: Int
+        
+        switch difficulty {
+        case .easy: updateValue = wordCard.diffculty - 1
+        case .hard: updateValue = wordCard.diffculty + 1
+        }
+        
+        try api.updateHistoryDifficulty(Int64(updateValue), at: wordCard.word)
         reloadHistory()
     }
 }

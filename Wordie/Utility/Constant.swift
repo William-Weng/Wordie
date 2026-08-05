@@ -68,8 +68,8 @@ extension WordSheet {
         switch self {
         case .add: return "plus"
         case .edit: return "arrow.triangle.2.circlepath"
-        case .dictionary(_, _): return "character.book.closed.fill"
-        case .ai(_): return "apple.intelligence"
+        case .dictionary: return "character.book.closed.fill"
+        case .ai: return "apple.intelligence"
         }
     }
 }

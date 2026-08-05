@@ -41,7 +41,7 @@ struct BookmarkListView: View {
                             try? viewModel.updateBookmark(id: bookmark.id, isFavorite: !bookmark.isFavorite)
                         }
                         .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                            swipeActionsMaker(for: bookmark)
+                            trailingSwipeActions(for: bookmark)
                         }
                         .listRowInsets(EdgeInsets(top: 8, leading: 0, bottom: 0, trailing: 0))
                         .listRowSeparator(.hidden)
@@ -112,7 +112,7 @@ private extension BookmarkListView {
     ///
     /// - Parameter bookmark: 要操作的書籤資料
     @ViewBuilder
-    func swipeActionsMaker(for bookmark: Bookmark) -> some View {
+    func trailingSwipeActions(for bookmark: Bookmark) -> some View {
         
         Button {
             activeSheet = .edit(bookmark)

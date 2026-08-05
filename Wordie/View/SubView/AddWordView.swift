@@ -69,7 +69,7 @@ struct AddWordView: View {
             _chinese = State(initialValue: wordCard.chinese)
             _categories = State(initialValue: Set(categories))
             _level = State(initialValue: wordCard.level.value)
-            
+        
         case .dictionary, .ai:
             break
         }

@@ -37,7 +37,10 @@ struct WordSearchListView: View {
                         word.speakWord(by: configure.language)
                     }
                     .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                        swipeActionsMaker(for: word)
+                        trailingSwipeActions(for: word)
+                    }
+                    .swipeActions(edge: .leading, allowsFullSwipe: true) {
+                        leadingSwipeActions(for: word)
                     }
                     .padding(.horizontal, 8)
             }
@@ -190,27 +193,101 @@ private extension WordSearchListView {
         }
     }
     
-    /// 建立指定單搜字尋的滑動操作按鈕
+    /// 根據目前畫面模式，回傳對應的右側滑動操作
     ///
-    /// - Parameter bookmark: 要操作的書籤資料
+    /// - Parameter word: 目前要操作的單字資料
+    /// - Returns: 一組 trailing swipe actions；一般模式顯示編輯與刪除，歷史模式顯示重設與刪除
     @ViewBuilder
-    func swipeActionsMaker(for word: WordCard) -> some View {
+    func trailingSwipeActions(for word: WordCard) -> some View {
+        
+        if !useHistory {
+            generalSwipeActions(for: word)
+        } else {
+            historySwipeActions(for: word)
+        }
+    }
+    
+    @ViewBuilder
+    func leadingSwipeActions(for word: WordCard) -> some View {
+        
+        if !useHistory {
+            EmptyView()
+        } else {
+            updateDifficultyActions(for: word)
+        }
+    }
+}
+
+// MARK: - Swipe元件
+private extension WordSearchListView {
+    
+    /// 一般單字列表使用的右側滑動操作
+    ///
+    /// - Parameter word: 目前要操作的單字資料
+    /// - Returns: 包含編輯與刪除的 swipe actions
+    @ViewBuilder
+    func generalSwipeActions(for word: WordCard) -> some View {
         
         Button {
             activeSheet = .edit(word)
         } label: {
             Image(systemName: "pencil")
         }
-        .tint(Color.green)
+        .tint(.seaGreen)
         
         Button(role: .destructive) {
             try? viewModel.deleteWord(word)
         } label: {
             Image(systemName: "trash")
         }
+        .tint(.darkRed)
+    }
+    
+    /// 歷史紀錄列表使用的右側滑動操作
+    ///
+    /// - Parameter word: 目前要操作的歷史資料
+    /// - Returns: 包含重設 badge 與刪除歷史紀錄的 swipe actions
+    @ViewBuilder
+    func historySwipeActions(for word: WordCard) -> some View {
+        
+        Button {
+            try? viewModel.resetHistoryDifficulty(word)
+        } label: {
+            Image(systemName: "arrow.counterclockwise")
+        }
+        .tint(.seaGreen)
+
+        Button(role: .destructive) {
+            try? viewModel.deleteHistory(word)
+        } label: {
+            Image(systemName: "trash")
+        }
+        .tint(.darkRed)
+    }
+    
+    /// 提供更新單字 difficulty 的滑動操作
+    ///
+    /// - Parameter word: 目前要更新難度的單字資料
+    /// - Returns: 包含標記困難與標記簡單的操作按鈕
+    @ViewBuilder
+    func updateDifficultyActions(for word: WordCard) -> some View {
+        
+        Button {
+            try? viewModel.updteHistoryDifficulty(.hard, at: word)
+        } label: {
+            Image(systemName: "brain.head.profile")
+        }
+        .tint(.darkRed)
+        
+        Button {
+            try? viewModel.updteHistoryDifficulty(.easy, at: word)
+        } label: {
+            Image(systemName: "hand.thumbsup.fill")
+        }
+        .tint(.skyBlue)
     }
 }
- 
+
 // MARK: - 文字元件
 private extension WordSearchListView {
     
@@ -247,7 +324,7 @@ private extension WordSearchListView {
     
     /// 顯示主要單字 / 難度
     func wordItem(_ word: WordCard) -> some View {
-                
+        
         HStack(alignment: .center, spacing: 6) {
             
             Text(word.word)
@@ -269,7 +346,7 @@ private extension WordSearchListView {
     /// - Returns: 一個固定 24x24、大致垂直置中的難度標籤
     func difficultyBadge(_ difficulty: Int) -> some View {
         
-        let color: Color = (difficulty > 0) ? .init(hex: "#F30") : .init(hex: "#CCC")
+        let color: Color = (difficulty > 0) ? .darkRed : .skyBlue
         let value = (difficulty > 0) ? difficulty : difficulty * -1
         
         return Text("\(value)")

@@ -109,10 +109,13 @@ class BaseAPI {
         
         do {
             let dict = try database.query(sql: sql)
+            
             return dict.compactMap {
-                let word = $0.jsonClass(for: Word.self)
-                let diffculty = $0["difficulty"] as? Int ?? 0
-                return word?.toWordCard(diffculty: diffculty)
+                
+                guard let word = $0.jsonClass(for: Word.self) else { return nil }
+                
+                let diffculty = $0["difficulty"] as? Int64 ?? 0
+                return word.toWordCard(diffculty: Int(diffculty))
             }
         } catch {
             return []
@@ -208,6 +211,26 @@ extension BaseAPI {
     func updateHistory(at word: String, difficulty: WordDifficulty) throws {
         guard let history = selectHistoryWord(word) else { try insertHistoryWord(word); return }
         try updateHistory(history, difficulty: difficulty)
+    }
+    
+    /// 將指定單字 的 history 記錄 difficulty 重設為 0
+    func resetHistoryDifficulty(at word: String) throws {
+        try updateHistoryDifficulty(0, at: word)
+    }
+    
+    /// 更新指定單字在 history 中的 difficulty / badge 值
+    ///
+    /// - Parameters:
+    ///   - badge: 要寫入的 badge 數值
+    ///   - word: 要更新的單字
+    func updateHistoryDifficulty(_ difficulty: Int64, at word: String) throws {
+        
+        let items: [WWSQLite3Manager.InsertItem] = [
+            (key: "difficulty", value: .int(difficulty)),
+        ]
+        
+        let `where`: WWSQLite3Manager.Where = .init().compare("word", .equal, .text(word))
+        try database.update(tableName: History.tableName, items: items, where: `where`)
     }
     
     /// 刪除指定單字的歷史資料
@@ -329,7 +352,7 @@ private extension BaseAPI {
 
 // MARK: - Private (History)
 private extension BaseAPI {
-        
+    
     /// 依照單字內容查詢歷史資料
     ///
     /// - Parameter word: 要查詢的單字

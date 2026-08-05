@@ -68,7 +68,7 @@ struct IntelliSenseWordView: View {
                 analyzeItem
             }
         }
-        .background(Color.githubDarkBackground)
+        .background(Color.githubDarkBlack)
         .task {
             await analyzeWord(word)
         }.onDisappear {

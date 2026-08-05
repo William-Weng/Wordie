@@ -46,12 +46,18 @@ protocol ApiDelegate {
     
     /// 更新指定單字的難度累積值
     func updateHistory(at word: String, difficulty: WordDifficulty) throws
-        
+    
     /// 更新指定的書籤內容
     func updateBookmark(id: Int, title: String, url: String, icon: String) throws
     
     /// 更新指定的書籤是否常用開關
     func updateBookmark(id: Int, isFavorite: Bool) throws
+    
+    /// 更新指定單字在 history 中的 difficulty / badge 值
+    func updateHistoryDifficulty(_ difficulty: Int64, at word: String) throws
+    
+    /// 將指定單字 的 history 記錄 difficulty 重設為 0
+    func resetHistoryDifficulty(at word: String) throws
     
     /// 刪除指定 id 的單字資料
     func delete(id: Int) throws
@@ -61,4 +67,5 @@ protocol ApiDelegate {
     
     /// 刪除指定 id 的書籤資料
     func deleteBookmark(id: Int) throws
+
 }
