@@ -166,7 +166,7 @@ private extension WordieContentView {
                 useHistory.toggle()
             }, label: {
                 Text("歷史記錄")
-                Image(systemName: "book")
+                Image(systemName: "brain.head.profile")
             })
             
             Button(action: {

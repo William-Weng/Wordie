@@ -67,5 +67,4 @@ protocol ApiDelegate {
     
     /// 刪除指定 id 的書籤資料
     func deleteBookmark(id: Int) throws
-
 }

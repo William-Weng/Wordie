@@ -30,7 +30,7 @@ extension Color {
     static let githubDarkBlack = Color(hex: "#0D1117")  /// Github的暗黑模式底色
     static let darkRed = Color(hex: "#F30")             /// 暗紅色
     static let seaGreen = Color(hex: "#3C3")            /// 海洋色
-    static let skyBlue = Color(hex: "#6CF")             /// 天藍色
+    static let lightBlue = Color(hex: "#6CF")           /// 天藍色
     
     /// 16進制顏色轉換 => RGB (12-bit) / RRGGBB (24-bit) / AARRGGBB (32-bit)
     /// - Parameter hex: 16進制顏色色碼 (#0d1117)

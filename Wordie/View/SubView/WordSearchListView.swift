@@ -185,7 +185,7 @@ private extension WordSearchListView {
                         .font(.system(size: 20, weight: .semibold))
                         .frame(width: 32, height: 32)
                 } else {
-                    Image(systemName: "text.book.closed")
+                    Image(systemName: "brain.head.profile")
                         .font(.system(size: 20, weight: .semibold))
                         .frame(width: 32, height: 32)
                 }
@@ -284,7 +284,7 @@ private extension WordSearchListView {
         } label: {
             Image(systemName: "hand.thumbsup.fill")
         }
-        .tint(.skyBlue)
+        .tint(.lightBlue)
     }
 }
 
@@ -346,7 +346,7 @@ private extension WordSearchListView {
     /// - Returns: 一個固定 24x24、大致垂直置中的難度標籤
     func difficultyBadge(_ difficulty: Int) -> some View {
         
-        let color: Color = (difficulty > 0) ? .darkRed : .skyBlue
+        let color: Color = (difficulty > 0) ? .darkRed : .lightBlue
         let value = (difficulty > 0) ? difficulty : difficulty * -1
         
         return Text("\(value)")
