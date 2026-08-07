@@ -26,7 +26,7 @@ enum WordCategory: WordCategoryDataSource {
     
     // === 附屬語 ===
     case auxiliaryVerb  // 0b0000_0001_0000_0000 (助動詞)
-    case particle       // 0b0000_0010_0000_0000 (助詞)}
+    case particle       // 0b0000_0010_0000_0000 (助詞)
 }
 
 // MARK: - 公開API
