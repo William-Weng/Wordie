@@ -1,5 +1,5 @@
 {
-  "originHash" : "106c3c27e200cf3206ae2c7b9f4905fd52f4ca5e803fa18318bd2cce4ed08e7d",
+  "originHash" : "f63fda812068b7472dca8f6820aa1ce1c119b151e80867edeeec3bc4bd866284",
   "pins" : [
     {
       "identity" : "wwcachemanager",
@@ -11,12 +11,21 @@
       }
     },
     {
+      "identity" : "wwdetectdevice",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/William-Weng/WWDetectDevice",
+      "state" : {
+        "revision" : "025943aa329b7eac5a0443a6e3d7b6586061a967",
+        "version" : "1.5.1"
+      }
+    },
+    {
       "identity" : "wwflipwordcardui",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/William-Weng/WWFlipWordCardUI",
       "state" : {
-        "revision" : "9fdd06082c43d820fee2dbfb4c121cd636a0dd24",
-        "version" : "1.0.3"
+        "revision" : "0555b7cf0091d5b1b61bed521f62dd642058a1fd",
+        "version" : "1.0.4"
       }
     },
     {

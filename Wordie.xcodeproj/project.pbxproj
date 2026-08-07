@@ -9,8 +9,6 @@
 /* Begin PBXBuildFile section */
 		81007DBB2FED229F00717D7A /* WWMarkdownWebViewUI in Frameworks */ = {isa = PBXBuildFile; productRef = 81007DBA2FED229F00717D7A /* WWMarkdownWebViewUI */; };
 		81007DBD2FED22A400717D7A /* WWMarkdownWebViewUI in Frameworks */ = {isa = PBXBuildFile; productRef = 81007DBC2FED22A400717D7A /* WWMarkdownWebViewUI */; };
-		810B7AD42FF51E9E00F0AB6B /* WWFlipWordCardUI in Frameworks */ = {isa = PBXBuildFile; productRef = 810B7AD32FF51E9E00F0AB6B /* WWFlipWordCardUI */; };
-		810B7AD62FF51EA300F0AB6B /* WWFlipWordCardUI in Frameworks */ = {isa = PBXBuildFile; productRef = 810B7AD52FF51EA300F0AB6B /* WWFlipWordCardUI */; };
 		811C060F2FDABC2D006D0DC4 /* WWSQLite3Manager in Frameworks */ = {isa = PBXBuildFile; productRef = 811C060E2FDABC2D006D0DC4 /* WWSQLite3Manager */; };
 		8153B4AC2FE14D38007AFC8D /* WWIntelligentAgent in Frameworks */ = {isa = PBXBuildFile; productRef = 8153B4AB2FE14D38007AFC8D /* WWIntelligentAgent */; };
 		8153B4AE2FE14D3C007AFC8D /* WWIntelligentAgent in Frameworks */ = {isa = PBXBuildFile; productRef = 8153B4AD2FE14D3C007AFC8D /* WWIntelligentAgent */; };
@@ -21,8 +19,12 @@
 		81909C3D2FF4C05D00795B18 /* WWHUDUI in Frameworks */ = {isa = PBXBuildFile; productRef = 81909C3C2FF4C05D00795B18 /* WWHUDUI */; };
 		819988DB2FE8D183001923FE /* WWSQLite3Manager in Frameworks */ = {isa = PBXBuildFile; productRef = 819988DA2FE8D183001923FE /* WWSQLite3Manager */; };
 		819988DD2FE8D18C001923FE /* WWSQLite3Manager in Frameworks */ = {isa = PBXBuildFile; productRef = 819988DC2FE8D18C001923FE /* WWSQLite3Manager */; };
+		81AA356830256C220032043D /* WWFlipWordCardUI in Frameworks */ = {isa = PBXBuildFile; productRef = 81AA356730256C220032043D /* WWFlipWordCardUI */; };
+		81AA356A30256C260032043D /* WWFlipWordCardUI in Frameworks */ = {isa = PBXBuildFile; productRef = 81AA356930256C260032043D /* WWFlipWordCardUI */; };
 		81CEC543300734510018C7BF /* WWSafariViewUI in Frameworks */ = {isa = PBXBuildFile; productRef = 81CEC542300734510018C7BF /* WWSafariViewUI */; };
 		81CEC545300734550018C7BF /* WWSafariViewUI in Frameworks */ = {isa = PBXBuildFile; productRef = 81CEC544300734550018C7BF /* WWSafariViewUI */; };
+		81D57A9D3025AECB003D2B15 /* WWDetectDevice in Frameworks */ = {isa = PBXBuildFile; productRef = 81D57A9C3025AECB003D2B15 /* WWDetectDevice */; };
+		81D57A9F3025AED1003D2B15 /* WWDetectDevice in Frameworks */ = {isa = PBXBuildFile; productRef = 81D57A9E3025AED1003D2B15 /* WWDetectDevice */; };
 		81FD4D6A2FDC0540009DA448 /* WWFontLoader in Frameworks */ = {isa = PBXBuildFile; productRef = 81FD4D692FDC0540009DA448 /* WWFontLoader */; };
 		81FD4D6D2FDC089D009DA448 /* WWFontLoader in Frameworks */ = {isa = PBXBuildFile; productRef = 81FD4D6C2FDC089D009DA448 /* WWFontLoader */; };
 /* End PBXBuildFile section */
@@ -69,6 +71,8 @@
 				Model/BookmarkListViewModel.swift,
 				Model/SqliteMaster.swift,
 				Model/WordListViewModel.swift,
+				UIKit/AppDelegate.swift,
+				UIKit/SceneDelegate.swift,
 				Utility/Constant.swift,
 				Utility/Extension.swift,
 				View/ItemView/BookmarkRow.swift,
@@ -115,11 +119,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				817037732FE0009E00347E24 /* WWFontLoader in Frameworks */,
+				81D57A9F3025AED1003D2B15 /* WWDetectDevice in Frameworks */,
 				81007DBD2FED22A400717D7A /* WWMarkdownWebViewUI in Frameworks */,
 				816F1DC92FEB7BAF00D3A956 /* WWWebImage in Frameworks */,
 				81CEC545300734550018C7BF /* WWSafariViewUI in Frameworks */,
 				81909C3D2FF4C05D00795B18 /* WWHUDUI in Frameworks */,
-				810B7AD62FF51EA300F0AB6B /* WWFlipWordCardUI in Frameworks */,
+				81AA356A30256C260032043D /* WWFlipWordCardUI in Frameworks */,
 				8153B4AE2FE14D3C007AFC8D /* WWIntelligentAgent in Frameworks */,
 				819988DD2FE8D18C001923FE /* WWSQLite3Manager in Frameworks */,
 			);
@@ -134,9 +139,10 @@
 				8153B4AC2FE14D38007AFC8D /* WWIntelligentAgent in Frameworks */,
 				81909C3B2FF4C05700795B18 /* WWHUDUI in Frameworks */,
 				81FD4D6A2FDC0540009DA448 /* WWFontLoader in Frameworks */,
-				810B7AD42FF51E9E00F0AB6B /* WWFlipWordCardUI in Frameworks */,
+				81AA356830256C220032043D /* WWFlipWordCardUI in Frameworks */,
 				811C060F2FDABC2D006D0DC4 /* WWSQLite3Manager in Frameworks */,
 				819988DB2FE8D183001923FE /* WWSQLite3Manager in Frameworks */,
+				81D57A9D3025AECB003D2B15 /* WWDetectDevice in Frameworks */,
 				81007DBB2FED229F00717D7A /* WWMarkdownWebViewUI in Frameworks */,
 				81CEC543300734510018C7BF /* WWSafariViewUI in Frameworks */,
 			);
@@ -197,8 +203,9 @@
 				816F1DC82FEB7BAF00D3A956 /* WWWebImage */,
 				81007DBC2FED22A400717D7A /* WWMarkdownWebViewUI */,
 				81909C3C2FF4C05D00795B18 /* WWHUDUI */,
-				810B7AD52FF51EA300F0AB6B /* WWFlipWordCardUI */,
 				81CEC544300734550018C7BF /* WWSafariViewUI */,
+				81AA356930256C260032043D /* WWFlipWordCardUI */,
+				81D57A9E3025AED1003D2B15 /* WWDetectDevice */,
 			);
 			productName = Kirie;
 			productReference = 817037512FDFFF4E00347E24 /* Kirie.app */;
@@ -229,8 +236,9 @@
 				816F1DC62FEB7BAA00D3A956 /* WWWebImage */,
 				81007DBA2FED229F00717D7A /* WWMarkdownWebViewUI */,
 				81909C3A2FF4C05700795B18 /* WWHUDUI */,
-				810B7AD32FF51E9E00F0AB6B /* WWFlipWordCardUI */,
 				81CEC542300734510018C7BF /* WWSafariViewUI */,
+				81AA356730256C220032043D /* WWFlipWordCardUI */,
+				81D57A9C3025AECB003D2B15 /* WWDetectDevice */,
 			);
 			productName = Wordie;
 			productReference = 817B7C602FD94C0900BBDABC /* Wordie.app */;
@@ -270,8 +278,9 @@
 				816F1DC52FEB7B8900D3A956 /* XCRemoteSwiftPackageReference "WWWebImage" */,
 				81007DB92FED227400717D7A /* XCRemoteSwiftPackageReference "WWMarkdownWebViewUI" */,
 				81909C392FF4C05000795B18 /* XCRemoteSwiftPackageReference "WWHUDUI" */,
-				810B7AD22FF51E8F00F0AB6B /* XCRemoteSwiftPackageReference "WWFlipWordCardUI" */,
 				81CEC541300734490018C7BF /* XCRemoteSwiftPackageReference "WWSafariViewUI" */,
+				81AA355F30256B490032043D /* XCRemoteSwiftPackageReference "WWFlipWordCardUI" */,
+				81D57A9B3025AEAF003D2B15 /* XCRemoteSwiftPackageReference "WWDetectDevice" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 817B7C612FD94C0900BBDABC /* Products */;
@@ -325,7 +334,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 20260804;
+				CURRENT_PROJECT_VERSION = 20260807;
 				DEVELOPMENT_TEAM = 4Q5CYDAG3B;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -342,7 +351,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.10;
+				MARKETING_VERSION = 1.2.12;
 				PRODUCT_BUNDLE_IDENTIFIER = idv.william.Kirie;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -361,7 +370,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 20260804;
+				CURRENT_PROJECT_VERSION = 20260807;
 				DEVELOPMENT_TEAM = 4Q5CYDAG3B;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -378,7 +387,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.10;
+				MARKETING_VERSION = 1.2.12;
 				PRODUCT_BUNDLE_IDENTIFIER = idv.william.Kirie;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -520,7 +529,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 20260804;
+				CURRENT_PROJECT_VERSION = 20260807;
 				DEVELOPMENT_TEAM = 4Q5CYDAG3B;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -537,7 +546,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.10;
+				MARKETING_VERSION = 1.2.12;
 				PRODUCT_BUNDLE_IDENTIFIER = idv.william.Wordie;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -556,7 +565,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 20260804;
+				CURRENT_PROJECT_VERSION = 20260807;
 				DEVELOPMENT_TEAM = 4Q5CYDAG3B;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -573,7 +582,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.10;
+				MARKETING_VERSION = 1.2.12;
 				PRODUCT_BUNDLE_IDENTIFIER = idv.william.Wordie;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -635,14 +644,6 @@
 				minimumVersion = 1.4.1;
 			};
 		};
-		810B7AD22FF51E8F00F0AB6B /* XCRemoteSwiftPackageReference "WWFlipWordCardUI" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/William-Weng/WWFlipWordCardUI";
-			requirement = {
-				kind = upToNextMinorVersion;
-				minimumVersion = 1.0.3;
-			};
-		};
 		816F1DC52FEB7B8900D3A956 /* XCRemoteSwiftPackageReference "WWWebImage" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/William-Weng/WWWebImage";
@@ -667,12 +668,28 @@
 				minimumVersion = 2.4.4;
 			};
 		};
+		81AA355F30256B490032043D /* XCRemoteSwiftPackageReference "WWFlipWordCardUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/William-Weng/WWFlipWordCardUI";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 1.0.4;
+			};
+		};
 		81CEC541300734490018C7BF /* XCRemoteSwiftPackageReference "WWSafariViewUI" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/William-Weng/WWSafariViewUI";
 			requirement = {
 				kind = upToNextMinorVersion;
 				minimumVersion = 1.1.0;
+			};
+		};
+		81D57A9B3025AEAF003D2B15 /* XCRemoteSwiftPackageReference "WWDetectDevice" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/William-Weng/WWDetectDevice";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 1.5.1;
 			};
 		};
 		81FD4D6B2FDC089D009DA448 /* XCRemoteSwiftPackageReference "WWFontLoader" */ = {
@@ -695,16 +712,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 81007DB92FED227400717D7A /* XCRemoteSwiftPackageReference "WWMarkdownWebViewUI" */;
 			productName = WWMarkdownWebViewUI;
-		};
-		810B7AD32FF51E9E00F0AB6B /* WWFlipWordCardUI */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 810B7AD22FF51E8F00F0AB6B /* XCRemoteSwiftPackageReference "WWFlipWordCardUI" */;
-			productName = WWFlipWordCardUI;
-		};
-		810B7AD52FF51EA300F0AB6B /* WWFlipWordCardUI */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 810B7AD22FF51E8F00F0AB6B /* XCRemoteSwiftPackageReference "WWFlipWordCardUI" */;
-			productName = WWFlipWordCardUI;
 		};
 		811C060E2FDABC2D006D0DC4 /* WWSQLite3Manager */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -755,6 +762,16 @@
 			package = 819988D92FE8D183001923FE /* XCRemoteSwiftPackageReference "WWSQLite3Manager" */;
 			productName = WWSQLite3Manager;
 		};
+		81AA356730256C220032043D /* WWFlipWordCardUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 81AA355F30256B490032043D /* XCRemoteSwiftPackageReference "WWFlipWordCardUI" */;
+			productName = WWFlipWordCardUI;
+		};
+		81AA356930256C260032043D /* WWFlipWordCardUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 81AA355F30256B490032043D /* XCRemoteSwiftPackageReference "WWFlipWordCardUI" */;
+			productName = WWFlipWordCardUI;
+		};
 		81CEC542300734510018C7BF /* WWSafariViewUI */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 81CEC541300734490018C7BF /* XCRemoteSwiftPackageReference "WWSafariViewUI" */;
@@ -764,6 +781,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 81CEC541300734490018C7BF /* XCRemoteSwiftPackageReference "WWSafariViewUI" */;
 			productName = WWSafariViewUI;
+		};
+		81D57A9C3025AECB003D2B15 /* WWDetectDevice */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 81D57A9B3025AEAF003D2B15 /* XCRemoteSwiftPackageReference "WWDetectDevice" */;
+			productName = WWDetectDevice;
+		};
+		81D57A9E3025AED1003D2B15 /* WWDetectDevice */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 81D57A9B3025AEAF003D2B15 /* XCRemoteSwiftPackageReference "WWDetectDevice" */;
+			productName = WWDetectDevice;
 		};
 		81FD4D692FDC0540009DA448 /* WWFontLoader */ = {
 			isa = XCSwiftPackageProductDependency;

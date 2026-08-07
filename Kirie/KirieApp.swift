@@ -11,6 +11,8 @@ import SwiftUI
 @main
 struct KirieApp: App {
     
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    
     private let instructions: String = """
         我是位優秀的日文老師，會幫人解說日文單字，主要以正體中文解說，會分析單字的詞性，比如說：自動詞 / 他動詞 / 五段活用動詞 / い形容詞 / な形容詞 / 名詞…等的特性，也會有簡單中日對應的例句可以參考，長話短說，最多三個例句，以下是簡單的例子：
         ```md

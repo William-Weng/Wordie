@@ -5,8 +5,8 @@
 //  Created by William.Weng on 2026/6/11.
 //
 
-import Foundation
 import SwiftUI
+import WWDetectDevice
 
 /// 新增 / 編輯單字時使用的 sheet 狀態
 enum WordSheet: Identifiable {
@@ -38,6 +38,13 @@ enum WordDifficulty: String, CaseIterable {
 enum Route: Hashable {
     case bookmarks                      // 實用書籤
     case search                         // 單字查詢
+}
+
+/// 主畫面 Quick Action 的類型定義，rawValue 會直接對應到 UIApplicationShortcutItem.type
+enum ShortcutItemType: String {
+    
+    case lastUsedTime = "com.wordie.lastUsedTime"   // 顯示「上次使用時間」的快捷項目
+    case appVersion = "com.wordie.appVersion"       // 顯示「應用程式版本」的快捷項目
 }
 
 // MARK: - 公開屬性
@@ -118,6 +125,54 @@ extension WordDifficulty {
         switch self {
         case .easy: return .blue
         case .hard: return .red
+        }
+    }
+}
+
+// MARK: - 建立 UIApplicationShortcutItem
+extension ShortcutItemType {
+    
+    /// 將 enum 轉成對應的 UIApplicationShortcutItem
+    ///
+    /// - Returns: 一個可以註冊到 `UIApplication.shared.shortcutItems` 的項目
+    var item: UIApplicationShortcutItem {
+        switch self {
+        case .lastUsedTime: return .init(type: rawValue, localizedTitle: title, localizedSubtitle: subTitle, icon: icon)
+        case .appVersion: return .init(type: rawValue, localizedTitle: title, localizedSubtitle: subTitle, icon: icon)
+        }
+    }
+}
+
+// MARK: - 內部屬性（標題 / 副標 / 圖示）
+private extension ShortcutItemType {
+        
+    /// Quick Action 的主標題文字
+    var title: String {
+        switch self {
+        case .lastUsedTime: return "上次使用時間"
+        case .appVersion: return "應用程式版本"
+        }
+    }
+    
+    /// Quick Action 的副標題文字
+    ///
+    /// - lastUsedTime：目前是顯示「現在時間」
+    /// - appVersion：顯示「app 版本 (build) for 裝置名稱 系統版本」
+    var subTitle: String {
+        switch self {
+        case .lastUsedTime: return DateFormatter.localizedString(from: .now, dateStyle: .medium, timeStyle: .short)
+        case .appVersion:
+            let systemInfo = WWDetectDevice.deviceSystemInformation
+            let appInfo = WWDetectDevice.appInformation
+            return "v\(appInfo.appVersion ?? "1.0") (\(appInfo.appBuildValue ?? "1")) for \(systemInfo.name) \(systemInfo.version)"
+        }
+    }
+    
+    /// Quick Action 的圖示
+    var icon: UIApplicationShortcutIcon? {
+        switch self {
+        case .lastUsedTime: return UIApplicationShortcutIcon(type: .time)
+        case .appVersion: return UIApplicationShortcutIcon(type: .favorite)
         }
     }
 }
