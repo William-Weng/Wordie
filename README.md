@@ -173,3 +173,5 @@ struct WordieApp: App {
 | [WWSafariViewUI](https://github.com/William-Weng/WWSafariViewUI) | 是一個以 SwiftUI 包裝 `SFSafariViewController` 的輕量元件 |
 | [WWSQLite3Manager](https://github.com/William-Weng/WWSQLite3Manager) | 一套輕量級的 Swift SQLite3 工具 |
 | [WWWebImage](https://github.com/William-Weng/WWWebImage) | 簡易的非同步網路圖片下載工具 |
+| [WWDetectDevice](https://github.com/William-Weng/WWDetectDevice) | 一個用來辨識 Apple 裝置型號、機型資訊與螢幕圓角半徑的工具套件 |
+
