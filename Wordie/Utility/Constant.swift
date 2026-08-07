@@ -45,6 +45,7 @@ enum ShortcutItemType: String {
     
     case lastUsedTime = "com.wordie.lastUsedTime"   // 顯示「上次使用時間」的快捷項目
     case appVersion = "com.wordie.appVersion"       // 顯示「應用程式版本」的快捷項目
+    case wordCount = "com.wordie.wordCount"         // 顯示「已存單字數量」的快捷項目
 }
 
 // MARK: - 公開屬性
@@ -136,10 +137,7 @@ extension ShortcutItemType {
     ///
     /// - Returns: 一個可以註冊到 `UIApplication.shared.shortcutItems` 的項目
     var item: UIApplicationShortcutItem {
-        switch self {
-        case .lastUsedTime: return .init(type: rawValue, localizedTitle: title, localizedSubtitle: subTitle, icon: icon)
-        case .appVersion: return .init(type: rawValue, localizedTitle: title, localizedSubtitle: subTitle, icon: icon)
-        }
+        .init(type: rawValue, localizedTitle: title, localizedSubtitle: subTitle, icon: icon)
     }
 }
 
@@ -151,6 +149,7 @@ private extension ShortcutItemType {
         switch self {
         case .lastUsedTime: return "上次使用時間"
         case .appVersion: return "應用程式版本"
+        case .wordCount: return "已存單字數量"
         }
     }
     
@@ -165,6 +164,9 @@ private extension ShortcutItemType {
             let systemInfo = WWDetectDevice.deviceSystemInformation
             let appInfo = WWDetectDevice.appInformation
             return "v\(appInfo.appVersion ?? "1.0") (\(appInfo.appBuildValue ?? "1")) for \(systemInfo.name) \(systemInfo.version)"
+        case .wordCount:
+            let number = NSNumber(integerLiteral: SceneDelegate.wordCount)
+            return number.positiveFormat() ?? "0"
         }
     }
     
@@ -173,6 +175,7 @@ private extension ShortcutItemType {
         switch self {
         case .lastUsedTime: return UIApplicationShortcutIcon(type: .time)
         case .appVersion: return UIApplicationShortcutIcon(type: .favorite)
+        case .wordCount: return UIApplicationShortcutIcon(type: .compose)
         }
     }
 }

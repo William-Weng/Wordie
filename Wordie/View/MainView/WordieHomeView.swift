@@ -86,6 +86,7 @@ struct WordieHomeView: View {
             tableNames = api.tablenames()
             api.tableName = currnetTable
             viewModel.reloadWords()
+            SceneDelegate.wordCount = viewModel.words.count
         }
         .onChange(of: path) { oldValue, newValue in
             

@@ -49,3 +49,15 @@ struct WordieApp: App {
         }
     }
 }
+
+private extension WordieApp {
+    
+    /// 更新主畫面 Quick Actions
+    func updateShortcutItems() {
+        
+        UIApplication.shared.shortcutItems = [
+            ShortcutItemType.appVersion.item,
+            ShortcutItemType.lastUsedTime.item,
+        ]
+    }
+}

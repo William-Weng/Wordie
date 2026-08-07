@@ -15,12 +15,41 @@ extension Bool {
     var intValue: Int { self ? 1 : 0 }
 }
 
+// MARK: - NSNumber (function)
+extension NSNumber {
+    
+    /// [數字格式化 (123456.7890 => 123,456.789)](https://www.jianshu.com/p/81c3c100bda6)
+    /// - Parameter format: [顯示的格式 - #,###.###](https://www.twblogs.net/a/5cb8c478bd9eee0eff45c9f1)
+    /// - Returns: [String?](https://unicode.org/reports/tr35/tr35-6.html#Number_Format_Patterns)
+    func positiveFormat(_ format: String = "#,###.###") -> String? {
+        
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        formatter.positiveFormat = format
+        
+        return formatter.string(from: self)
+    }
+}
+
 // MARK: - String
 extension String {
     
     /// 回傳去除前後空白與換行字元後的字串
     var removeWhitespacesAndNewlines: String {
-        self.trimmingCharacters(in: .whitespacesAndNewlines)
+        trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+}
+
+// MARK: - UISceneDelegate
+extension UISceneDelegate {
+    
+    /// 取得目前處於前景 (`foregroundActive`) 的 UIWindowScene 的 delegate
+    var current: UISceneDelegate? {
+        
+        let scene = UIApplication.shared.connectedScenes
+            .first { $0.activationState == .foregroundActive } as? UIWindowScene
+        
+        return scene?.delegate
     }
 }
 
