@@ -394,9 +394,9 @@ private extension WordSearchListView {
     func updateDifficulty(_ difficulty: WordDifficulty, at word: WordCard) {
         
         if !useHistory {
-            try? viewModel.updteWordDifficulty(difficulty, at: word)
+            try? viewModel.updateWordDifficulty(difficulty, at: word)
         } else {
-            try? viewModel.updteHistoryDifficulty(difficulty, at: word)
+            try? viewModel.updateHistoryDifficulty(difficulty, at: word)
         }
     }
 }

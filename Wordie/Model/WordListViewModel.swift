@@ -126,7 +126,7 @@ extension WordListViewModel {
     ///   - difficulty: 要增加的單字記憶難度類型
     ///   - wordCard: 要更新的單字資料
     /// - Throws: 當更新資料庫失敗時拋出錯誤
-    func updteWordDifficulty(_ difficulty: WordDifficulty, at wordCard: WordCard) throws {
+    func updateWordDifficulty(_ difficulty: WordDifficulty, at wordCard: WordCard) throws {
         try api.updateHistory(at: wordCard.word, difficulty: difficulty)
         reloadWords()
     }
@@ -137,7 +137,7 @@ extension WordListViewModel {
     ///   - difficulty: 要增加的單字記憶難度類型
     ///   - wordCard: 要更新的單字資料
     /// - Throws: 當更新資料庫失敗時拋出錯誤
-    func updteHistoryDifficulty(_ difficulty: WordDifficulty, at wordCard: WordCard) throws {
+    func updateHistoryDifficulty(_ difficulty: WordDifficulty, at wordCard: WordCard) throws {
         try api.updateHistory(at: wordCard.word, difficulty: difficulty)
         reloadHistory()
     }
