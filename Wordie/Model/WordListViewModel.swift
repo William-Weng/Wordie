@@ -120,6 +120,17 @@ extension WordListViewModel {
         reloadHistory()
     }
     
+    /// 新增 / 更新指定單字在的 difficulty，完成後重新載入原資料
+    ///
+    /// - Parameters:
+    ///   - difficulty: 要增加的單字記憶難度類型
+    ///   - wordCard: 要更新的單字資料
+    /// - Throws: 當更新資料庫失敗時拋出錯誤
+    func updteWordDifficulty(_ difficulty: WordDifficulty, at wordCard: WordCard) throws {
+        try api.updateHistory(at: wordCard.word, difficulty: difficulty)
+        reloadWords()
+    }
+    
     /// 更新指定單字在 history 中的 difficulty，完成後重新載入歷史資料
     ///
     /// - Parameters:
@@ -127,15 +138,7 @@ extension WordListViewModel {
     ///   - wordCard: 要更新的單字資料
     /// - Throws: 當更新資料庫失敗時拋出錯誤
     func updteHistoryDifficulty(_ difficulty: WordDifficulty, at wordCard: WordCard) throws {
-        
-        let updateValue: Int
-        
-        switch difficulty {
-        case .easy: updateValue = wordCard.diffculty - 1
-        case .hard: updateValue = wordCard.diffculty + 1
-        }
-        
-        try api.updateHistoryDifficulty(Int64(updateValue), at: wordCard.word)
+        try api.updateHistory(at: wordCard.word, difficulty: difficulty)
         reloadHistory()
     }
 }

@@ -40,19 +40,6 @@ extension String {
     }
 }
 
-// MARK: - UISceneDelegate
-extension UISceneDelegate {
-    
-    /// 取得目前處於前景 (`foregroundActive`) 的 UIWindowScene 的 delegate
-    var current: UISceneDelegate? {
-        
-        let scene = UIApplication.shared.connectedScenes
-            .first { $0.activationState == .foregroundActive } as? UIWindowScene
-        
-        return scene?.delegate
-    }
-}
-
 // MARK: - Color
 extension Color {
     
@@ -142,7 +129,7 @@ extension Dictionary {
     /// Dictionary => JSON Data
     /// - ["name":"William"] => {"name":"William"} => 7b226e616d65223a2257696c6c69616d227d
     /// - Returns: Data?
-    func jsonData(options: JSONSerialization.WritingOptions = JSONSerialization.WritingOptions()) -> Data? {
+    func jsonData(options: JSONSerialization.WritingOptions = .init()) -> Data? {
         return JSONSerialization.data(with: self, options: options)
     }
     
@@ -150,7 +137,7 @@ extension Dictionary {
     /// - Parameter type: 要轉換成的Dictionary類型
     /// - Returns: T?
     func jsonClass<T: Decodable>(for type: T.Type) -> T? {
-        let dictionary = self.jsonData()?.`class`(type: type.self)
+        let dictionary = jsonData()?.`class`(type: type.self)
         return dictionary
     }
 }

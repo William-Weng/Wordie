@@ -209,12 +209,7 @@ private extension WordSearchListView {
     
     @ViewBuilder
     func leadingSwipeActions(for word: WordCard) -> some View {
-        
-        if !useHistory {
-            EmptyView()
-        } else {
-            updateDifficultyActions(for: word)
-        }
+        updateDifficultyActions(for: word)
     }
 }
 
@@ -273,14 +268,14 @@ private extension WordSearchListView {
     func updateDifficultyActions(for word: WordCard) -> some View {
         
         Button {
-            try? viewModel.updteHistoryDifficulty(.hard, at: word)
+            updateDifficulty(.hard, at: word)
         } label: {
             Image(systemName: "brain.head.profile")
         }
         .tint(.darkRed)
         
         Button {
-            try? viewModel.updteHistoryDifficulty(.easy, at: word)
+            updateDifficulty(.easy, at: word)
         } label: {
             Image(systemName: "hand.thumbsup.fill")
         }
@@ -389,6 +384,19 @@ private extension WordSearchListView {
         
         Task {
             hud.dismiss(minimumVisibleDuration: 0.75)
+        }
+    }
+    
+    /// 更新指定單字卡的難度等級
+    /// - Parameters:
+    ///   - difficulty: 要設定的難度等級（WordDifficulty 枚舉）
+    ///   - word: 目標單字卡物件（WordCard）
+    func updateDifficulty(_ difficulty: WordDifficulty, at word: WordCard) {
+        
+        if !useHistory {
+            try? viewModel.updteWordDifficulty(difficulty, at: word)
+        } else {
+            try? viewModel.updteHistoryDifficulty(difficulty, at: word)
         }
     }
 }
