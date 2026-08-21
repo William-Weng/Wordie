@@ -1,4 +1,6 @@
-# Wordie
+[English](./README.en.md) | [正體中文](./README.md)
+
+# [Wordie](https://swiftpackageindex.com/William-Weng)
 
 ![SwiftUI](https://img.shields.io/badge/SwiftUI-524520?logo=swift)
 [![Swift-5.10](https://img.shields.io/badge/Swift-5.10-orange.svg?style=flat)](https://developer.apple.com/swift/)
@@ -164,7 +166,7 @@ struct WordieApp: App {
 
 | 項目 | 說明 |
 |------|------|
-| [WWCacheManager](https://github.com/William-Weng/WWCacheManager) | 一個高效、線程安全的快取管理器，支援 `DispatchQueue` 讀寫鎖和 `@propertyWrapper` 語法 |
+| [WWDetectDevice](https://github.com/William-Weng/WWDetectDevice) | 一個用來辨識 Apple 裝置型號、機型資訊與螢幕圓角半徑的工具套件 |
 | [WWFlipWordCardUI](https://github.com/William-Weng/WWFlipWordCardUI) | 一個基於 SwiftUI 的單字卡元件，支援翻頁式卡片互動，適合用於單字學習、語言學習與教育類 App |
 | [WWFontLoader](https://github.com/William-Weng/WWFontLoader) | iOS 字型載入器 - 支援系統內建字型和外部的 TTF 字型檔案，自動註冊並提供全域 Font 存取 |
 | [WWHUDUI](https://github.com/William-Weng/WWHUDUI) | 一個用 SwiftUI 製作的簡單 HUD（Head-Up Display）元件 |
@@ -173,5 +175,4 @@ struct WordieApp: App {
 | [WWSafariViewUI](https://github.com/William-Weng/WWSafariViewUI) | 是一個以 SwiftUI 包裝 `SFSafariViewController` 的輕量元件 |
 | [WWSQLite3Manager](https://github.com/William-Weng/WWSQLite3Manager) | 一套輕量級的 Swift SQLite3 工具 |
 | [WWWebImage](https://github.com/William-Weng/WWWebImage) | 簡易的非同步網路圖片下載工具 |
-| [WWDetectDevice](https://github.com/William-Weng/WWDetectDevice) | 一個用來辨識 Apple 裝置型號、機型資訊與螢幕圓角半徑的工具套件 |
 
