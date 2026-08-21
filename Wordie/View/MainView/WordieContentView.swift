@@ -45,12 +45,13 @@ struct WordieContentView: View {
                         .frame(height: 320)
                         .padding(.horizontal, 28)
                 } else {
-                    WWFlipWordCardUI(words: flipWords, isAscending: configure.isAscending, currentIndex: $currentIndex, configure: flipWordConfigure) { _, index in
-                        difficulty = nil
-                        readingWord(words[safe: index])
-                    }
-                    .frame(height: 320)
-                    .padding(.horizontal, 28)
+                    WWFlipWordCardUI(words: flipWords, isAscending: configure.isAscending, currentIndex: $currentIndex, configure: flipWordConfigure)
+                        .onDragEnded { index, _ in
+                            difficulty = nil
+                            readingWord(words[safe: index])
+                        }
+                        .frame(height: 320)
+                        .padding(.horizontal, 28)
                 }
                 
                 WordProgressView(totalCount: words.count, currentIndex: $currentIndex)

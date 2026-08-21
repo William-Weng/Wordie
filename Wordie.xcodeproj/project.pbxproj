@@ -351,7 +351,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.16;
+				MARKETING_VERSION = 1.2.17;
 				PRODUCT_BUNDLE_IDENTIFIER = idv.william.Kirie;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -387,7 +387,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.16;
+				MARKETING_VERSION = 1.2.17;
 				PRODUCT_BUNDLE_IDENTIFIER = idv.william.Kirie;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -546,7 +546,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.16;
+				MARKETING_VERSION = 1.2.17;
 				PRODUCT_BUNDLE_IDENTIFIER = idv.william.Wordie;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -582,7 +582,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.16;
+				MARKETING_VERSION = 1.2.17;
 				PRODUCT_BUNDLE_IDENTIFIER = idv.william.Wordie;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -673,7 +673,7 @@
 			repositoryURL = "https://github.com/William-Weng/WWFlipWordCardUI";
 			requirement = {
 				kind = upToNextMinorVersion;
-				minimumVersion = 1.0.4;
+				minimumVersion = 1.1.0;
 			};
 		};
 		81CEC541300734490018C7BF /* XCRemoteSwiftPackageReference "WWSafariViewUI" */ = {

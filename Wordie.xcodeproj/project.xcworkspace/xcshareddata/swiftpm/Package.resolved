@@ -1,5 +1,5 @@
 {
-  "originHash" : "f63fda812068b7472dca8f6820aa1ce1c119b151e80867edeeec3bc4bd866284",
+  "originHash" : "c4ecbaff130a57b431daba50b0df6d8a7aa43801d48e81267f106bad4514ba37",
   "pins" : [
     {
       "identity" : "wwcachemanager",
@@ -24,8 +24,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/William-Weng/WWFlipWordCardUI",
       "state" : {
-        "revision" : "0555b7cf0091d5b1b61bed521f62dd642058a1fd",
-        "version" : "1.0.4"
+        "revision" : "ff9576526d2a037ca19604f834940bffd5b6c984",
+        "version" : "1.1.0"
       }
     },
     {
