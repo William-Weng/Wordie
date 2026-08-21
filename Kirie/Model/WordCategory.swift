@@ -56,10 +56,10 @@ extension WordCategory {
 // MARK: - 公開屬性
 extension WordCategory {
     
-    // Identifiable
+    /// Identifiable
     var id: Int { binary }
     
-    // 中文名稱
+    /// 中文名稱
     var name: String {
         
         switch self {
@@ -76,7 +76,7 @@ extension WordCategory {
         }
     }
 
-    // 背景色
+    /// 背景色
     var background: Color {
         
         switch self {
@@ -93,7 +93,7 @@ extension WordCategory {
         }
     }
     
-    // 二進制數值
+    /// 二進制數值
     var binary: Int {
         
         switch self {
@@ -110,7 +110,7 @@ extension WordCategory {
         }
     }
     
-    // 二進制數值文字
+    /// 二進制數值文字
     var binaryString: String {
         String(binary, radix: 2)
     }

@@ -47,40 +47,40 @@ extension WordCategory {
 // MARK: - 公開屬性
 extension WordCategory {
     
-    // Identifiable
+    /// Identifiable
     var id: Int { binary }
     
-    // 中文名稱
+    /// 中文名稱
     var name: String {
         
         switch self {
-        case .noun: "名詞"
-        case .pronoun: "代名詞"
-        case .verb: "動詞"
-        case .adjective: "形容詞"
-        case .adverb: "副詞"
-        case .preposition: "介系詞"
-        case .conjunction: "連接詞"
+        case .noun:         "名詞"
+        case .pronoun:      "代名詞"
+        case .verb:         "動詞"
+        case .adjective:    "形容詞"
+        case .adverb:       "副詞"
+        case .preposition:  "介系詞"
+        case .conjunction:  "連接詞"
         case .interjection: "感嘆詞"
         }
     }
     
-    // 背景色
+    /// 背景色
     var background: Color {
         
         switch self {
-        case .noun: .blue
-        case .pronoun: .green
-        case .verb: .orange
-        case .adjective: .pink
-        case .adverb: .purple
-        case .preposition: .teal
-        case .conjunction: .indigo
+        case .noun:         .blue
+        case .pronoun:      .green
+        case .verb:         .orange
+        case .adjective:    .pink
+        case .adverb:       .purple
+        case .preposition:  .teal
+        case .conjunction:  .indigo
         case .interjection: .red
         }
     }
     
-    // 二進制數值
+    /// 二進制數值
     var binary: Int {
         
         switch self {
@@ -95,7 +95,7 @@ extension WordCategory {
         }
     }
     
-    // 二進制數值文字
+    /// 二進制數值文字
     var binaryString: String {
         String(binary, radix: 2)
     }

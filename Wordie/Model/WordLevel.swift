@@ -26,7 +26,7 @@ extension WordLevel {
 // MARK: - WordLevelDatabase
 extension WordLevel: WordLevelDatabase {
     
-    // Identifiable
+    /// Identifiable
     var id: Int { rawValue }
     
     /// 原始數值
