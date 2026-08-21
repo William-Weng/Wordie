@@ -91,7 +91,7 @@ private extension WordieContentView {
     var flipWordConfigure: WWFlipWordCardUI.Configure {
         
         .init(levelColors: WordLevel.dictionary(),
-              categoryColors: WordCategory.dictionary(),
+              categoryColors: WordCategory.dictionary,
               wordFont: FontResolver.shared.word,
               readingFont: FontResolver.shared.reading,
               chineseFont: FontResolver.shared.chinese

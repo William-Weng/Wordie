@@ -20,6 +20,16 @@ enum WordCategory: WordCategoryDataSource {
     case interjection   // 0b1000_0000 (interj.感嘆詞)
 }
 
+// MARK: - 公開屬性
+extension WordCategory {
+    
+    /// 快速轉成 ["名稱": "顏色"]
+    /// - Returns: [String: Color]
+    static var dictionary: [String: Color] {
+        Dictionary(uniqueKeysWithValues: Self.allCases.map { ($0.name, $0.background) })
+    }
+}
+
 // MARK: - 公開API
 extension WordCategory {
     
@@ -29,13 +39,7 @@ extension WordCategory {
     static func parseTypes(from value: Int) -> [Self] {
         Self.allCases.filter { value & $0.binary != 0 }
     }
-    
-    /// 快速轉成 ["名稱": "顏色"]
-    /// - Returns: [String: Color]
-    static func dictionary() -> [String: Color] {
-        Dictionary(uniqueKeysWithValues: Self.allCases.map { ($0.name, $0.background) })
-    }
-    
+        
     /// 將詞性組二進位值組合
     /// - Parameter types: [WordType]
     /// - Returns: 組合完成的值

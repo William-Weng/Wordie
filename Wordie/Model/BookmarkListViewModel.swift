@@ -21,7 +21,7 @@ final class BookmarkListViewModel {
     private(set) var bookmarks: [Bookmark] = []  // 目前畫面上顯示的書籤列表
     
     @ObservationIgnored
-    private var api: ApiDelegate    // 提供書籤資料存取能力的 API (此屬性不需要被 Observation 系統追蹤，因此使用`@ObservationIgnored` 避免不必要的觀察)
+    private var api: ApiDelegate                // 提供書籤資料存取能力的 API
     
     /// 建立書籤列表 ViewModel
     init(api: ApiDelegate) {

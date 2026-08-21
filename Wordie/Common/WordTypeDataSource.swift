@@ -16,12 +16,12 @@ protocol WordCategoryDataSource: CaseIterable, Identifiable, Hashable {
     var binary: Int { get }             // 二進制數值
     var binaryString: String { get }    // 二進制文字
     
+    /// 快速轉成 ["名稱": "顏色"]
+    static var dictionary: [String: Color] { get }
+    
     /// 將詞性二進制值 => [any WordTypeDataSource]
     static func parseTypes(from value: Int) -> [Self]
-    
-    /// 快速轉成 ["名稱": "顏色"]
-    static func dictionary() -> [String: Color]
-    
+        
     /// 將詞性組二進位值組合
     static func combine(_ types: [WordCategory]) -> Int
 }
