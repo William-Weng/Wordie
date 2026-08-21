@@ -11,7 +11,7 @@ import WWSQLite3Manager
 /// 負責與 SQLite 資料庫溝通的單一入口
 class BaseAPI {
     
-    let keyWord = "<WORD>"                          // 更換單字的Keyword
+    static let keyWord = "<WORD>"                   // 更換單字的Keyword
     
     let database: WWSQLite3Manager.Database         // SQLite 資料庫連線物件
     let filename: String                            // 資料庫檔案名稱
@@ -22,9 +22,9 @@ class BaseAPI {
     // 線上字典URL
     var dictionaries: [String: String] {
         [
-            "EZABC 簡單背單字": "https://www.ezabc.com.tw/showword/?srch_target=\(keyWord)",
-            "Yahoo字典": "https://tw.dictionary.search.yahoo.com/search?p=\(keyWord)",
-            "劍橋詞典": "https://dictionary.cambridge.org/zht/詞典/英語-漢語-繁體/\(keyWord)",
+            "EZABC 簡單背單字": "https://www.ezabc.com.tw/showword/?srch_target=\(Self.keyWord)",
+            "Yahoo字典": "https://tw.dictionary.search.yahoo.com/search?p=\(Self.keyWord)",
+            "劍橋詞典": "https://dictionary.cambridge.org/zht/詞典/英語-漢語-繁體/\(Self.keyWord)",
         ]
     }
     

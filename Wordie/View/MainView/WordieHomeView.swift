@@ -66,7 +66,7 @@ struct WordieHomeView: View {
             }.navigationDestination(for: Route.self) { route in
                 switch route {
                 case .bookmarks: BookmarkListView(api: api, configure: configure)
-                case .search: WordSearchListView(configure: configure, api: viewModel.api)
+                case .search: WordSearchListView(configure: configure, api: viewModel.api, dictionaries: api.dictionaries)
                 }
             }
         }
@@ -314,9 +314,9 @@ private extension WordieHomeView {
     /// 解譯單字功能
     func dictionaryView(wordCard: WordCard, from key : String) -> some View {
         
-        let urlString = api.dictionaries[key]?.replacingOccurrences(of: api.keyWord, with: wordCard.word)
+        let urlString = api.dictionaries[key]?.replacingOccurrences(of: BaseAPI.keyWord, with: wordCard.word)
         let url = URL(string: urlString!)
-                
+        
         return WWSafariViewUI(url: url!).ignoresSafeArea()
     }
 }

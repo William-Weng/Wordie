@@ -7,12 +7,14 @@
 
 import SwiftUI
 import WWHUDUI
+import WWSafariViewUI
 
 /// 單字搜尋頁
 struct WordSearchListView: View {
     
     private let configure: Configure                    // 外部注入的設定資料，用來初始化此畫面需要的參數或行為
     private let hud: WWHUDUI = .init()                  // 顯示載入中、成功、失敗等提示訊息的 HUD 元件
+    private let dictionaries: [String: String]          // 線上字典URL
     
     @State private var viewModel: WordListViewModel     // 畫面的資料與商業邏輯控制中心，負責管理單字清單、查詢與狀態更新
     
@@ -33,6 +35,10 @@ struct WordSearchListView: View {
                     .listRowSeparator(.hidden)
                     .listRowBackground(Color.clear)
                     .contentShape(Rectangle())
+                    .onLongPressGesture {
+                        let key = dictionaries.keys.sorted().first
+                        activeSheet = .dictionary(word, key ?? "")
+                    }
                     .onTapGesture {
                         word.speakWord(by: configure.language)
                     }
@@ -53,7 +59,10 @@ struct WordSearchListView: View {
             }
             .listStyle(.plain)
             .sheet(item: $activeSheet) { sheet in
-                AddWordView(sheet: sheet, viewModel: viewModel)
+                switch sheet {
+                case .dictionary(let wordCard, let string): dictionaryView(wordCard: wordCard, from: string)
+                default: AddWordView(sheet: sheet, viewModel: viewModel)
+                }
             }
             .onChange(of: searchText) { _, newValue in
                 viewModel.keyword = newValue
@@ -70,12 +79,14 @@ struct WordSearchListView: View {
     }
     
     /// 建立單字搜尋列表畫面
-    ///
+    /// 
     /// - Parameters:
     ///   - configure: 畫面外觀設定
     ///   - api: API 共有規範
-    init(configure: Configure, api: ApiDelegate) {
+    ///   - dictionaries: 線上字典URL
+    init(configure: Configure, api: ApiDelegate, dictionaries: [String: String]) {
         self.configure = configure
+        self.dictionaries = dictionaries
         viewModel = .init(api: api)
         viewModel.reloadWords()
     }
@@ -398,6 +409,15 @@ private extension WordSearchListView {
         } else {
             try? viewModel.updateHistoryDifficulty(difficulty, at: word)
         }
+    }
+    
+    /// 解譯單字功能
+    func dictionaryView(wordCard: WordCard, from key : String) -> some View {
+        
+        let urlString = viewModel.api.dictionaries[key]?.replacingOccurrences(of: BaseAPI.keyWord, with: wordCard.word)
+        let url = URL(string: urlString!)
+        
+        return WWSafariViewUI(url: url!).ignoresSafeArea()
     }
 }
 
