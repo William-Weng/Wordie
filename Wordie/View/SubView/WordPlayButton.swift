@@ -12,23 +12,46 @@ import SwiftUI
 /// 使用橘色圓形背景與播放圖示，點擊後執行外部傳入的 action
 struct WordPlayButton: View {
     
-    let image: Image                                            // 外部傳入的圖示
-    @Binding var isAutoReading: Bool                            // 翻頁自動跟讀單字
+    let image: Image
+    @Binding var isAutoReading: Bool
     
-    let action: () -> Void                                      // 按鈕點擊時要執行的動作
+    var onTap: (() -> Void)?
     
     var body: some View {
-        Button(action: action) {
+        
+        Button {
+            onTap?()
+        } label: {
             Circle()
-                .fill(!isAutoReading ? .orange : .red)          // 按鈕背景色
-                .frame(width: 72, height: 72)                   // 固定圓形尺寸
+                .fill(!isAutoReading ? .orange : .red)
+                .frame(width: 72, height: 72)
                 .overlay(
-                    image                                       // 在圓形中置中顯示播放圖示
+                    image
                         .font(.system(size: 28, weight: .bold))
                         .foregroundStyle(.white)
                 )
         }
-        .buttonStyle(.plain)                                    // 使用 plain 樣式，避免系統自動加上多餘外觀
-        .padding(.top, 8)                                       // 與上方其他元件保持一點距離
+        .buttonStyle(.plain)
+        .padding(.top, 8)
+    }
+    
+    /// 初始化WordPlayButton
+    /// - Parameters:
+    ///   - image: 外部傳入的圖示
+    ///   - isAutoReading: 翻頁自動跟讀單字
+    init(image: Image, isAutoReading: Binding<Bool>) {
+        self.image = image
+        _isAutoReading = isAutoReading
+    }
+}
+
+// MARK: - 公開API (Modifier Style)
+extension WordPlayButton {
+    
+    /// 按鈕點擊時要執行的動作
+    func onTap(_ action: @escaping () -> Void) -> Self {
+        var copy = self
+        copy.onTap = action
+        return copy
     }
 }

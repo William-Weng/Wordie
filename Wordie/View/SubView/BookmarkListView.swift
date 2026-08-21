@@ -34,12 +34,14 @@ struct BookmarkListView: View {
                 List {
                     ForEach(viewModel.bookmarks, id: \.id) { bookmark in
                         
-                        BookmarkRow(bookmark: bookmark) {
-                            guard let url = URL(string: bookmark.url) else { selectedURL = nil; return }
-                            selectedURL = .init(url: url)
-                        } onFavoriteTap: { bookmark in
-                            try? viewModel.updateBookmark(id: bookmark.id, isFavorite: !bookmark.isFavorite)
-                        }
+                        BookmarkRow(bookmark: bookmark)
+                            .onItemTap {
+                                guard let url = URL(string: bookmark.url) else { selectedURL = nil; return }
+                                selectedURL = .init(url: url)
+                            }
+                            .onFavoriteTap { bookmark in
+                                try? viewModel.updateBookmark(id: bookmark.id, isFavorite: !bookmark.isFavorite)
+                            }
                         .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                             trailingSwipeActions(for: bookmark)
                         }

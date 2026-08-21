@@ -13,8 +13,9 @@ import SwiftUI
 struct CachedWebImage<Content: View, Placeholder: View>: View {
     
     let url: URL?                                   // 要載入的遠端圖片網址
-    let content: (Image) -> Content                 // 圖片載入成功後，用來建立顯示內容的閉包
-    let placeholder: () -> Placeholder              // 圖片尚未載入完成時顯示的預設內容
+    
+    private var content: ((Image) -> Content)?
+    private var placeholder: (() -> Placeholder)?
     
     @State private var loader = WebImageLoader()    // 負責下載與快取圖片資料的載入器
     
@@ -22,13 +23,40 @@ struct CachedWebImage<Content: View, Placeholder: View>: View {
         
         Group {
             if let image = loader.image {
-                content(Image(uiImage: image))
+                content?(Image(uiImage: image))
             } else {
-                placeholder()
+                placeholder?()
             }
         }
         .task(id: url) {
             await loader.load(from: url)
         }
     }
+    
+    init(url: URL?) {
+        self.url = url
+    }
+}
+
+// MARK: - 公開API (Modifier Style)
+extension CachedWebImage {
+    
+    /// 圖片載入成功後，用來建立顯示的內容
+    /// - Parameter action: (圖示) -> Content
+    /// - Returns: Self
+    func content(_ action: @escaping ((Image) -> Content)) -> Self {
+        var copy = self
+        copy.content = action
+        return copy
+    }
+    
+    /// 圖片尚未載入完成時顯示的預設內容
+    /// - Parameter action: () -> Placeholder
+    /// - Returns: Self
+    func placeholder(_ action: @escaping (() -> Placeholder)) -> Self {
+        var copy = self
+        copy.placeholder = action
+        return copy
+    }
+
 }

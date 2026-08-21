@@ -18,7 +18,7 @@ extension WordLevel {
     
     /// 快速轉成 ["名稱": "顏色"]
     /// - Returns: [String: Color]
-    static func dictionary() -> [String: Color] {
+    static var dictionary: [String: Color] {
         Dictionary(uniqueKeysWithValues: Self.allCases.map { ($0.title, $0.background) })
     }
 }

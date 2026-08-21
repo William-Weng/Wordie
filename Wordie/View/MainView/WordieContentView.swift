@@ -14,20 +14,20 @@ import WWFlipWordCardUI
 /// 負責顯示單字卡片、翻牌、左右切換與發音按鈕
 struct WordieContentView: View {
     
-    let words: [WordCard]                                           // 單字資料來源
-    let configure: Configure                                        // 一般初始化設定
+    let words: [WordCard]
+    let configure: Configure
     
-    @Binding var currentIndex: Int                                  // 目前顯示綁定的單字索引
-    @Binding var currnetTable: String                               // 選到的資料表名稱
-    @Binding var tableNames: [String]                               // 資料表名稱
-    @Binding var useHistory: Bool                                   // 是否選到的使用歷史資料
-    @Binding var path: NavigationPath                               // 導覽路徑
-    
-    let onTableMenuTap: (String) -> Void                            // 選擇資料表名稱後的動作 (單字, 是否看歷史記錄)
-    let onDifficultyMenuTap: (WordCard?, WordDifficulty?) -> Void   // 選擇資料表名稱後的動作 (單字, 單字難度)
+    @Binding var currentIndex: Int
+    @Binding var currnetTable: String
+    @Binding var tableNames: [String]
+    @Binding var useHistory: Bool
+    @Binding var path: NavigationPath
     
     @State private var isAutoReading = false                        // 翻頁自動跟讀單字
     @State private var difficulty: WordDifficulty?                  // 單字記憶難度
+    
+    private var onTableMenuTap: ((String) -> Void)?
+    private var onDifficultyMenuTap: ((WordCard?, WordDifficulty?) -> Void)?
     
     var body: some View {
         
@@ -75,12 +75,53 @@ struct WordieContentView: View {
         }.onChange(of: words.count) {
             clampCurrentIndex()
         }.onChange(of: currnetTable) {
-            onTableMenuTap(currnetTable)
+            onTableMenuTap?(currnetTable)
         }.onChange(of: useHistory) {
-            onTableMenuTap(currnetTable)
+            onTableMenuTap?(currnetTable)
         }.onChange(of: difficulty) {
-            onDifficultyMenuTap(words[currentIndex], difficulty)
+            onDifficultyMenuTap?(words[currentIndex], difficulty)
         }
+    }
+    
+    /// 初始化 WordieContentView
+    /// - Parameters:
+    ///   - words: 單字資料來源
+    ///   - configure: 一般初始化設定
+    ///   - currentIndex: 目前顯示綁定的單字索引
+    ///   - currnetTable: 選到的資料表名稱
+    ///   - tableNames: 資料表名稱
+    ///   - useHistory: 是否選到的使用歷史資料
+    ///   - path: 導覽路徑
+    init(words: [WordCard], configure: Configure, currentIndex: Binding<Int>, currnetTable: Binding<String>, tableNames: Binding<[String]>, useHistory: Binding<Bool>, path: Binding<NavigationPath>) {
+        self.words = words
+        self.configure = configure
+        _currentIndex = currentIndex
+        _currnetTable = currnetTable
+        _tableNames = tableNames
+        _useHistory = useHistory
+        _path = path
+    }
+}
+
+// MARK: - 公開API (Modifier Style)
+extension WordieContentView {
+    
+    /// 選擇資料表名稱後的動作
+    /// - Parameter action: (所選的資料表名稱) -> Void
+    /// - Returns: Self
+    func onTableMenuTap(_ action: @escaping (String) -> Void) -> Self {
+        var copy = self
+        copy.onTableMenuTap = action
+        return copy
+    }
+    
+    /// 選擇單字難度後的動作
+    /// - Parameter action: (所選的單字, 單字難度) -> Void
+    /// - Returns: Self
+    func onDifficultyMenuTap(_ action: @escaping (WordCard?, WordDifficulty?) -> Void) -> Self {
+        var copy = self
+        copy.onDifficultyMenuTap = action
+        return copy
     }
 }
 
@@ -90,7 +131,7 @@ private extension WordieContentView {
     /// 翻頁用的設定
     var flipWordConfigure: WWFlipWordCardUI.Configure {
         
-        .init(levelColors: WordLevel.dictionary(),
+        .init(levelColors: WordLevel.dictionary,
               categoryColors: WordCategory.dictionary,
               wordFont: FontResolver.shared.word,
               readingFont: FontResolver.shared.reading,
@@ -225,14 +266,15 @@ private extension WordieContentView {
     /// 單字跟讀功能 (isAutoReading 變為 true / false)
     var playButton: some View {
         
-        WordPlayButton(image: Image(systemName: "play.fill"), isAutoReading: $isAutoReading) {
-            speakWord(words[safe: currentIndex])
-        }.contextMenu {
-            Picker("跟讀模式", selection: $isAutoReading) {
-                Label("手動跟讀", systemImage: "hand.tap.fill").tag(false)
-                Label("自動跟讀", systemImage: "speaker.wave.3.fill").tag(true)
+        WordPlayButton(image: Image(systemName: "play.fill"), isAutoReading: $isAutoReading)
+            .onTap {
+                speakWord(words[safe: currentIndex])
+            }.contextMenu {
+                Picker("跟讀模式", selection: $isAutoReading) {
+                    Label("手動跟讀", systemImage: "hand.tap.fill").tag(false)
+                    Label("自動跟讀", systemImage: "speaker.wave.3.fill").tag(true)
+                }
             }
-        }
     }
 }
 

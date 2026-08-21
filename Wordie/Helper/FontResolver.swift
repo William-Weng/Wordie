@@ -17,7 +17,7 @@ import WWFontLoader
 /// - 自動解析配置（`FontConfig`）
 /// - 支援預設大小（如果 config 沒有 size）
 /// - 錯誤處理（`throws`）
-class FontResolver {
+final class FontResolver {
     
     static let shared = FontResolver()
     

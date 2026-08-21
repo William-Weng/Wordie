@@ -14,27 +14,25 @@ import SwiftUI
 /// - 切換最愛狀態
 struct BookmarkRow: View {
     
-    var bookmark: Bookmark      // 要顯示的書籤資料
+    var bookmark: Bookmark
     
-    let onItemTap: () -> Void   // 點擊整列項目時執行的動作
+    private var onItemTap: (() -> Void)?
+    private var onFavoriteTap: ((Bookmark) -> Void)?
     
-    /// 點擊最愛按鈕時執行的動作
-    ///
-    /// - Parameter bookmark: 目前列項目的書籤資料
-    let onFavoriteTap: (Bookmark) -> Void
-        
     var body: some View {
         
         HStack(spacing: 20) {
             
             Button {
-                onFavoriteTap(bookmark)
+                onFavoriteTap?(bookmark)
             } label: {
                 favoriteIcon
             }
             .buttonStyle(.plain)
 
-            Button(action: onItemTap) {
+            Button {
+                onItemTap?()
+            } label: {
                 HStack(spacing: 20) {
                     coverImage
                     titleView
@@ -48,6 +46,33 @@ struct BookmarkRow: View {
         .padding(.vertical, 22)
         .contentShape(Rectangle())
     }
+    
+    /// 初始化 BookmarkRow
+    /// - Parameter bookmark: 要顯示的書籤資料
+    init(bookmark: Bookmark) {
+        self.bookmark = bookmark
+    }
+}
+
+// MARK: - 公開API (Modifier Style)
+extension BookmarkRow {
+    
+    /// 點擊整列項目時執行的動作
+    func onItemTap(_ action: @escaping () -> Void) -> Self {
+        var copy = self
+        copy.onItemTap = action
+        return copy
+    }
+    
+    /// 點擊最愛按鈕時執行的動作
+    /// 
+    /// - Parameter action: (目前列項目的書籤資料) -> Void
+    /// - Returns: Self
+    func onFavoriteTap(_ action: @escaping (Bookmark) -> Void) -> Self {
+        var copy = self
+        copy.onFavoriteTap = action
+        return copy
+    }
 }
 
 // MARK: - 小工具
@@ -60,17 +85,18 @@ private extension BookmarkRow {
         
         let width: CGFloat = 56
         
-        return CachedWebImage(url: URL(string: bookmark.icon)) { image in
-            image
-                .resizable()
-                .scaledToFill()
-        } placeholder: {
-            ZStack {
-                RoundedRectangle(cornerRadius: 18)
-                    .fill(.white.opacity(0.45))
-                ProgressView()
+        return CachedWebImage(url: URL(string: bookmark.icon))
+            .content { image in
+                image
+                    .resizable()
+                    .scaledToFill()
+            }.placeholder {
+                ZStack {
+                    RoundedRectangle(cornerRadius: 18)
+                        .fill(.white.opacity(0.45))
+                    ProgressView()
+                }
             }
-        }
         .frame(width: width, height: width)
         .clipShape(RoundedRectangle(cornerRadius: width * 0.5))
     }

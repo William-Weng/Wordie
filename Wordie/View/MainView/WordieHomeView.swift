@@ -40,14 +40,12 @@ struct WordieHomeView: View {
         
         NavigationStack(path: $path) {
             
-            WordieContentView(words: viewModel.words, configure: configure, currentIndex: $currentIndex, currnetTable: $currnetTable, tableNames: $tableNames, useHistory: $useHistory, path: $path) { tablename in
-                
-                displayHUD {
-                    resetWords(with: tablename, useHistory: useHistory)
-                }
-                
-            } onDifficultyMenuTap: { wordCard, difficulty in
+            WordieContentView(words: viewModel.words, configure: configure, currentIndex: $currentIndex, currnetTable: $currnetTable, tableNames: $tableNames, useHistory: $useHistory, path: $path)
+            .onDifficultyMenuTap { wordCard, difficulty in
                 try? updateWordDifficulty(wordCard?.word, difficulty: difficulty)
+            }
+            .onTableMenuTap { tablename in
+                displayHUD { resetWords(with: tablename, useHistory: useHistory) }
             }
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
