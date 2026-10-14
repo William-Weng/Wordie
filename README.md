@@ -25,7 +25,7 @@ Wordie 是一款使用 SwiftUI 製作的英文單字學習 App，提供單字的
 
 <img width="256" alt="Kirie-2" src="https://github.com/user-attachments/assets/8d23c1e6-e8d6-4194-9b05-b7c71e9b9870" />
 
-https://github.com/user-attachments/assets/2e944fc4-d705-414d-9cd1-b88529862e17
+https://github.com/user-attachments/assets/b2eeec4a-9077-489f-b6a4-75eb2d1a4af2
 
 ### [首頁](https://medium.com/在程式與旅行的路上/widget-extension-等到-ios-14-才姍姍來遲的-widget-小工具-7b269d9b2253)
 - 顯示目前單字內容。
