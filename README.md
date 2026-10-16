@@ -13,19 +13,9 @@ Wordie 是一款使用 SwiftUI 製作的英文單字學習 App，提供單字的
 
 ## [畫面功能](https://peterpanswift.github.io/iphone-bezels/)
 
-<img width="256" alt="Wordie" src="https://github.com/user-attachments/assets/9ade8dd8-bf22-4d21-a40e-323c9e702fc6" />
+https://github.com/user-attachments/assets/edecf539-2e42-499b-9412-7b5dbfad40c6
 
-<img width="256" alt="Wordie-AI" src="https://github.com/user-attachments/assets/79824c3e-04ec-4bfb-8030-a59e5ec2f690" />
-
-<img width="256" alt="Wordie-2" src="https://github.com/user-attachments/assets/60cbae05-d4bd-4412-b9f5-ac2fcf1d1d53" />
-
-<img width="256" alt="Kirie" src="https://github.com/user-attachments/assets/5ffa1a79-f8b6-496f-b036-9f86f711bdf8" />
-
-<img width="256" alt="Kirie-AI" src="https://github.com/user-attachments/assets/83246189-0c98-4eb6-92f6-2106458a1947" />
-
-<img width="256" alt="Kirie-2" src="https://github.com/user-attachments/assets/8d23c1e6-e8d6-4194-9b05-b7c71e9b9870" />
-
-https://github.com/user-attachments/assets/b2eeec4a-9077-489f-b6a4-75eb2d1a4af2
+https://github.com/user-attachments/assets/c92b3e7d-c260-4467-b752-b2e2407fc19e
 
 ### [首頁](https://medium.com/在程式與旅行的路上/widget-extension-等到-ios-14-才姍姍來遲的-widget-小工具-7b269d9b2253)
 - 顯示目前單字內容。
